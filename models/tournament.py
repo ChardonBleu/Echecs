@@ -8,7 +8,7 @@ class Tournament:
     """[summary]
     """
 
-    def __init__(self, *list_param, index_time_control, number_rounds=4):
+    def __init__(self, name, site, date_begin, date_end, description, index_time_control, number_rounds=4):
         """[summary]
         """
 
