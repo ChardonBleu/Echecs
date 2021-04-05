@@ -6,16 +6,16 @@ class Player:
         """[summary]
         """
 
-        self.first_name = None  # string
-        self.last_name = None  # string
-        self.birth_date = None  # date
-        self.sexe = None  # string
-        self.ranking = None  # int > 0
+        self.first_name = first_name  # string
+        self.last_name = last_name  # string
+        self.birth_date = birth_date  # date
+        self.sexe = sexe  # string
+        self.ranking = ranking  # int > 0
 
     def full_name(self):
         """[summary]
         """
-        return (self.first_name + self.last_name)
+        return (self.first_name + " " + self.last_name)
 
     def update_ranking(self, new_ranking):
         """[summary]

@@ -16,7 +16,7 @@ class Tournament:
         self.site = None  # string
         self.date_begin = None  # date
         self.date_end = None  # date
-        self.description = None  # string
+        self.description = None  # stringNew
         self.time_control = TIME_CONTROL[index_time_control]  # string
         self.number_rounds = number_rounds  # int
         
