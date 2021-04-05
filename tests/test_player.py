@@ -24,5 +24,6 @@ class TestPlayer(unittest.TestCase):
         player.update_ranking(new_ranking)
         self.assertEqual(player.ranking, "2740")
 
+
 if __name__ == "__main__":
     unittest.main() 
