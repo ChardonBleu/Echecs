@@ -1,2 +1,7 @@
+from controllers.controller import TournamentController
+
+
 if __name__ == "__main__":
-    pass
+    
+    tournois_controller =  TournamentController()
+

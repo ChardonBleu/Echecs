@@ -21,7 +21,6 @@ class Tournament:
         self.number_rounds = number_rounds  # int
         
         self.rounds = []  # list of instances of Round()
-        for index in range(number_rounds):
-            self.rounds[index] = Round()
-      
-        self.players = []  # list of index of instances of players           
+        
+        self.players = []  # list of index of instances of players
+              

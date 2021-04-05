@@ -41,13 +41,12 @@ class ManagerTournamentView:
     
     def prompt_time_control(self):
         print("Choix du contrôle du temps.")
-        index_time_control = input("Pour un bullet entrez: 1, pour un blitz entrez: 2, pour un coup rapide entrez: 3")
+        index_time_control = int(input("Pour un bullet entrez: 1, pour un blitz entrez: 2, pour un coup rapide entrez: 3\n"))
         return index_time_control
     
     def prompt_number_rounds(self):
-        number_rounds = input("Entrez le nombre de rounds si vous voulez qu'il soit supèrieur à 4.")
-        if number_rounds != "":
-            return number_rounds
+        number_rounds = int(input("Entrez le nombre de rounds si vous voulez qu'il soit supèrieur à 4."))
+        return int(number_rounds)
             
         
     
