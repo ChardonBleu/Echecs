@@ -19,8 +19,7 @@ class Tournament:
         self.description = None  # string
         self.time_control = TIME_CONTROL[index_time_control]  # string
         self.number_rounds = number_rounds  # int
-        
+
         self.rounds = []  # list of instances of Round()
-        
+
         self.players = []  # list of index of instances of players
-              

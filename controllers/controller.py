@@ -1,5 +1,5 @@
 from models.player import Player
-from views.view import ManagerTournamentView
+from views.tournamentview import TournamentView
 from models.tournament import Tournament
 
 
@@ -7,11 +7,11 @@ class TournamentController:
     """
     Instancie un tournois avec 8 joueurs
     """
-    
+
     def __init__(self):
         """[summary]
         """
-        
+
         self.players = [Player("Sebag", "Marie", "1986", "F", "2438"),
                         Player("Victor", "Stephan", "1991", "M", "2430"),
                         Player("Pauline", "Guichard", "1988", "F", "2415"),
@@ -21,9 +21,9 @@ class TournamentController:
                         Player("Judit", "Polgar", "1976", "F", "2735"),
                         Player("Anatoli", "Karpov", "1951", "M", "2617")
                         ]
-        
-        self.views = ManagerTournamentView()
-        
+
+        self.views = TournamentView()
+
         self.tournament = Tournament(self.views.prompt_name_tournament(),
                                      self.views.prompt_site_tournament(),
                                      self.views.prompt_date_debut_tournament(),
@@ -35,5 +35,5 @@ class TournamentController:
     def run(self):
         """[summary]
         """
-        
+
         pass
