@@ -1,6 +1,6 @@
 import unittest
 
-from models.player import Player
+from application.models.player import Player
 
 
 class TestPlayer(unittest.TestCase):

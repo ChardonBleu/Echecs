@@ -1,14 +1,12 @@
-from models.round import Round
-
-
-TIME_CONTROL = ["bullet", "blitz", "coup-rapide"]
+from .round import Round
+from ..utils.constants import TIME_CONTROL
 
 
 class Tournament:
     """[summary]
     """
 
-    def __init__(self, *list_param, index_time_control, number_rounds=4):
+    def __init__(self, name, site, date_begin, date_end, description, index_time_control, number_rounds=4):
         """[summary]
         """
 
@@ -19,9 +17,7 @@ class Tournament:
         self.description = None  # stringNew
         self.time_control = TIME_CONTROL[index_time_control]  # string
         self.number_rounds = number_rounds  # int
-        
+
         self.rounds = []  # list of instances of Round()
-        for index in range(number_rounds):
-            self.rounds[index] = Round()
-      
-        self.players = []  # list of index of instances of players           
+
+        self.players = []  # list of index of instances of players
