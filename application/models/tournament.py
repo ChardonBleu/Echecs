@@ -1,7 +1,5 @@
-from models.round import Round
-
-
-TIME_CONTROL = ["bullet", "blitz", "coup-rapide"]
+from .round import Round
+from ..utils.constants import TIME_CONTROL
 
 
 class Tournament:

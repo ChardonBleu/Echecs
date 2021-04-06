@@ -1,6 +1,6 @@
-from models.player import Player
-from views.tournamentview import TournamentView
-from models.tournament import Tournament
+from ..models.player import Player
+from ..views.tournamentview import TournamentView
+from ..models.tournament import Tournament
 
 
 class TournamentController:
