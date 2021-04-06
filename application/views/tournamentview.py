@@ -111,3 +111,4 @@ class TournamentView:
                     else:
                         return False
                 return number_rounds
+    

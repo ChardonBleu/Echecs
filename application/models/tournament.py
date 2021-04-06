@@ -1,5 +1,5 @@
 from .round import Round
-from ..utils.constants import TIME_CONTROL
+from utils.constants import TIME_CONTROL
 
 
 class Tournament:
@@ -16,7 +16,7 @@ class Tournament:
         self.date_end = None  # date
         self.description = None  # string
         self.time_control = TIME_CONTROL[index_time_control]  # string
-        self.number_rounds = number_rounds  # int
+        self.number_rounds = None  # int
 
         self.rounds = []  # list of instances of Round()
 
