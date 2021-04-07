@@ -22,14 +22,15 @@ class TournamentController:
         """
         self.tournament = Tournament(self.views.prompt_name_tournament(),
                                      self.views.prompt_site_tournament(),
-                                     self.views.prompt_date_debut_tournament(),
-                                     self.views.prompt_date_fin_tournament(),
+                                     self.views.prompt_date_begin_tournament(),
+                                     self.views.prompt_date_end_tournament(),
                                      self.views.prompt_description_tournament(),
                                      self.views.prompt_time_control(),
                                      self.views.prompt_number_rounds())
 
     def run(self):
         """Lance la création d'un nouveau tournoi
+        
         """
         self.players.load_players_from_bdd()
         self.new_tournament()

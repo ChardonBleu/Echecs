@@ -28,7 +28,7 @@ class PromptTournamentView:
             return None
         return site_tournament
 
-    def prompt_date_debut_tournament(self):
+    def prompt_date_begin_tournament(self):
         """Date of the begining of the tournament.
 
         Returns:
@@ -39,7 +39,7 @@ class PromptTournamentView:
             return None
         return date_debut_tournament
 
-    def prompt_date_fin_tournament(self):
+    def prompt_date_end_tournament(self):
         """Date of the end of the tournament.
 
         Returns:

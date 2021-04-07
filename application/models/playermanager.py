@@ -25,7 +25,7 @@ class PlayerManager:
                         Player("Judit", "Polgar", "1976", "F", "2735"),
                         Player("Anatoli", "Karpov", "1951", "M", "2617")
                         ]
-        return self.players
+        
 
     def liste_index_players(self):
         """construction of the list of index players for tournament attribute players
