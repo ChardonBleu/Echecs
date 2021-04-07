@@ -34,4 +34,5 @@ class TournamentController:
         """
         self.players.load_players_from_bdd()
         self.new_tournament()
+        self.tournament.tournament_players(self.players.liste_index_players())
         

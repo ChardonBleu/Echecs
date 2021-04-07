@@ -28,4 +28,12 @@ class PlayerManager:
         return self.players
     
     def liste_index_players(self):
-        pass
+        """construction of the list of index players for tournament attribute players
+
+        Returns:
+            list -- 
+        """
+        liste_index_players = []
+        for player in self.players:
+            liste_index_players.append(self.players.index(player))
+        return liste_index_players

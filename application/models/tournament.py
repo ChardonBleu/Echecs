@@ -21,3 +21,8 @@ class Tournament:
         self.rounds = []  # list of instances of Round()
 
         self.players = []  # list of index of instances of players
+        
+    def tournament_players(self, liste_index_players):
+        self.players = liste_index_players
+        
+    
