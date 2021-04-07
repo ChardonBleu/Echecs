@@ -10,19 +10,19 @@ class Tournament:
         """[summary]
         """
 
-        self.name = None  # string
-        self.site = None  # string
-        self.date_begin = None  # date
-        self.date_end = None  # date
-        self.description = None  # string
+        self.name = name  # string
+        self.site = site  # string
+        self.date_begin = date_begin  # date
+        self.date_end = date_end  # date
+        self.description = description  # string
         self.time_control = TIME_CONTROL[index_time_control]  # string
-        self.number_rounds = None  # int
+        self.number_rounds = number_rounds  # int
 
-        self.rounds = []  # list of instances of Round()
+        self.rounds = []
+        for index_round in range(number_rounds):
+            self.rounds[index_round] = Round()  # list of instances of Round()
 
         self.players = []  # list of index of instances of players
-        
+
     def tournament_players(self, liste_index_players):
         self.players = liste_index_players
-        
-    

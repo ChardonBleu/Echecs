@@ -1,4 +1,4 @@
-class TournamentView:
+class PromptTournamentView:
     """
         Interface destinée à la gestion du tournois:
         Choix paramètres tournois: nom, site, dates début et fin, description
@@ -111,4 +111,3 @@ class TournamentView:
                     else:
                         return False
                 return number_rounds
-    

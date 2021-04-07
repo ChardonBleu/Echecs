@@ -4,13 +4,13 @@ from .player import Player
 class PlayerManager:
     """[summary]
     """
-    
+
     def __init__(self):
         self.players = []
-    
+
     def load_players_from_bdd(self):
         """Create a list of 8 players
-        
+
         A terme cette fonction doit aller chercher ces instances de joueurs dans la bdd
 
         Returns:
@@ -26,12 +26,12 @@ class PlayerManager:
                         Player("Anatoli", "Karpov", "1951", "M", "2617")
                         ]
         return self.players
-    
+
     def liste_index_players(self):
         """construction of the list of index players for tournament attribute players
 
         Returns:
-            list -- 
+            list --
         """
         liste_index_players = []
         for player in self.players:

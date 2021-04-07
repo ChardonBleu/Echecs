@@ -1,7 +1,6 @@
-from models.player import Player
-from views.tournamentview import TournamentView
-from models.tournament import Tournament
 from models.playermanager import PlayerManager
+from views.tournamentview import PromptTournamentView
+from models.tournament import Tournament
 
 
 class TournamentController:
@@ -13,13 +12,13 @@ class TournamentController:
         """[summary]
         """
         self.players = PlayerManager()
-        self.views = TournamentView()
+        self.views = PromptTournamentView()
         self.tournament = None
 
-
     def new_tournament(self):
-        """Crée instance de Tournament avec saisie utilisateur des caractéristique du tournois
-        sauf attribut players et attibut rounds
+        """Crée instance de Tournament avec saisie utilisateur des caractéristique du tournois,
+        sauf attribut players
+        L'attribut round se renseigne à l'instanciation à partir du nombre de rounds donné par l'utilisateur
         """
         self.tournament = Tournament(self.views.prompt_name_tournament(),
                                      self.views.prompt_site_tournament(),
@@ -35,4 +34,3 @@ class TournamentController:
         self.players.load_players_from_bdd()
         self.new_tournament()
         self.tournament.tournament_players(self.players.liste_index_players())
-        
