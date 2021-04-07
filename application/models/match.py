@@ -7,3 +7,8 @@ class Match:
         """
 
         self.pairs = [(player1, score1), (player2, score2)]  # list of two tupples
+
+    def __str__(self):
+        """[summary]
+        """
+        pass

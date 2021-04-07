@@ -1,4 +1,7 @@
-class PromptTournamentView:
+from utils.constants import NUMBER_ROUNDS
+
+
+class TournamentView:
     """
         Interface destinée à la gestion du tournois:
         Choix paramètres tournois: nom, site, dates début et fin, description
@@ -81,8 +84,8 @@ class PromptTournamentView:
             except ValueError:
                 print("Il faut saisir un entier !")
             else:
-                return False
-        return index_time_control
+                break
+        return index_time_control - 1
 
     def prompt_number_rounds(self):
         """
@@ -94,13 +97,14 @@ class PromptTournamentView:
         Returns:
             integer -- number of rounds. Is used for tournament instantiation
         """
-
-        while True:
+        boucle = True
+        while boucle:
             prompt = input("Voulez vous un nombre de rounds supèrieur à 4? Y/N: ")
             if prompt == "N":
-                return False
+                number_rounds = NUMBER_ROUNDS
+                boucle = False
             if prompt == "Y":
-                while True:
+                while boucle:
                     number_rounds = input("Entrez le nombre de rounds.\n")
                     try:
                         number_rounds = int(number_rounds)
@@ -109,5 +113,20 @@ class PromptTournamentView:
                     except ValueError:
                         print("Il faut saisir un entier supèrieur à zéro.")
                     else:
-                        return False
-                return number_rounds
+                        boucle = False
+        print("number_rounds: {}".format(number_rounds))
+        return number_rounds
+
+    def show_tournament(self, tournament, players):
+        """Affiche les attribut du tournois et la liste des joueurs de ce tournois avec leurs attribut
+        """
+        print()
+        print(tournament)
+        print("Rounds:")
+        for tour in tournament.rounds:
+            index = tournament.rounds.index(tour) + 1
+            print("round {}: {}".format(index, tour))
+        print("Joueurs:")
+        for player in players.players:
+            print(player)
+        

@@ -1,5 +1,5 @@
 from models.playermanager import PlayerManager
-from views.tournamentview import PromptTournamentView
+from views.tournamentview import TournamentView
 from models.tournament import Tournament
 
 
@@ -12,7 +12,7 @@ class TournamentController:
         """[summary]
         """
         self.players = PlayerManager()
-        self.views = PromptTournamentView()
+        self.views = TournamentView()
         self.tournament = None
 
     def new_tournament(self):
@@ -35,3 +35,5 @@ class TournamentController:
         self.players.load_players_from_bdd()
         self.new_tournament()
         self.tournament.tournament_players(self.players.liste_index_players())
+        self.tournament.tournament_rounds()
+        self.views.show_tournament(self.tournament, self.players)
