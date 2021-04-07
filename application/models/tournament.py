@@ -6,7 +6,7 @@ class Tournament:
     """[summary]
     """
 
-    def __init__(self, name, site, date_begin, date_end, description, index_time_control, number_rounds):
+    def __init__(self, name, site, date_begin, date_end, description, index_time_control, number_rounds=4):
         """[summary]
         """
 
@@ -27,7 +27,7 @@ class Tournament:
         """
         resume_tournament = ("Tournois {} à {}\ndu {} au {}\nObservation: {}\n"
                              .format(self.name, self.site, self.date_begin,
-                                     self.date_end, self.description, )  +
+                                     self.date_end, self.description, ) +
                              "Time control: {} - Nombre de rounds: {}\n"
                              .format(self.time_control, self.number_rounds) +
                              "Index des joueurs: {}".format(self.players))
@@ -42,7 +42,7 @@ class Tournament:
         self.players = liste_index_players
 
     def tournament_rounds(self):
-        """Rempli l'attribut self.rounds de Tournament avec autant d'isntances
+        """Rempli l'attribut self.rounds de Tournament avec autant d'instances
         vides de Round() qu'il y a de rounds indiqués par l'utilisateur
         """
         i = 0

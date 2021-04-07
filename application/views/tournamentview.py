@@ -97,14 +97,14 @@ class TournamentView:
         Returns:
             integer -- number of rounds. Is used for tournament instantiation
         """
-        boucle = True
-        while boucle:
+        loop = True
+        while loop:
             prompt = input("Voulez vous un nombre de rounds supèrieur à 4? Y/N: ")
             if prompt == "N":
                 number_rounds = NUMBER_ROUNDS
-                boucle = False
+                loop = False
             if prompt == "Y":
-                while boucle:
+                while loop:
                     number_rounds = input("Entrez le nombre de rounds.\n")
                     try:
                         number_rounds = int(number_rounds)
@@ -113,8 +113,7 @@ class TournamentView:
                     except ValueError:
                         print("Il faut saisir un entier supèrieur à zéro.")
                     else:
-                        boucle = False
-        print("number_rounds: {}".format(number_rounds))
+                        loop = False
         return number_rounds
 
     def show_tournament(self, tournament, players):
@@ -122,11 +121,9 @@ class TournamentView:
         """
         print()
         print(tournament)
-        print("Rounds:")
-        for tour in tournament.rounds:
-            index = tournament.rounds.index(tour) + 1
-            print("round {}: {}".format(index, tour))
         print("Joueurs:")
         for player in players.players:
             print(player)
-        
+        print("Rounds:")
+        for tour in tournament.rounds:
+            print("round {}: {}".format(tournament.rounds.index(tour) + 1, tour))

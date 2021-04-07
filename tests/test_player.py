@@ -28,7 +28,6 @@ class TestPlayer(unittest.TestCase):
     def test_list_players(self):
         """Create a PlayerManager instance and edit a list of index of players list
         """
-
         my_players = PlayerManager()
         my_players.load_players_from_bdd()
         players_list = my_players.liste_index_players()

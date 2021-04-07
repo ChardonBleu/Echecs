@@ -7,7 +7,7 @@ class Round:
         """
 
         self.match = []  # list of 4 instances of match
-    
+
     def __str__(self):
         """[summary]
         """

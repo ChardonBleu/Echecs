@@ -24,11 +24,10 @@ class Player:
             new_ranking {int} -- [description]
         """
         self.ranking = new_ranking
-        
+
     def __str__(self):
         """Permet d'afficher un joueur avec tous ses attributs
         """
         resume_player = (self.full_name() + " " + self.sexe + " " +
                          "né en: " + self.birth_date + " - classement: " + self.ranking)
         return resume_player
-        

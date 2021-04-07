@@ -30,7 +30,7 @@ class TournamentController:
 
     def run(self):
         """Lance la création d'un nouveau tournoi
-        
+
         """
         self.players.load_players_from_bdd()
         self.new_tournament()
