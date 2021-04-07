@@ -1,8 +1,8 @@
-class TournamentView:
+class PromptTournamentView:
     """
         Interface destinée à la gestion du tournois:
-            * choix paramètres tournois: nom, site, dates début et fin, description
-            timecontrol et number of rounds
+        Choix paramètres tournois: nom, site, dates début et fin, description
+        timecontrol et number of rounds
 
     """
 
