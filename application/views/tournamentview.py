@@ -1,4 +1,4 @@
-from utils.constants import NUMBER_ROUNDS
+from ..utils.constants import NUMBER_ROUNDS
 
 
 class TournamentView:
@@ -121,9 +121,6 @@ class TournamentView:
         """
         print()
         print(tournament)
-        print("Joueurs:")
-        for player in players.players:
-            print(player)
-        print("Rounds:")
+        print(players)
         for tour in tournament.rounds:
             print("round {}: {}".format(tournament.rounds.index(tour) + 1, tour))

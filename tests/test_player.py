@@ -29,7 +29,7 @@ class TestPlayer(unittest.TestCase):
         """Create a PlayerManager instance and edit a list of index of players list
         """
         my_players = PlayerManager()
-        my_players.load_players_from_bdd()
+        my_players.add_players()
         players_list = my_players.liste_index_players()
         self.assertEqual(players_list, [0, 1, 2, 3, 4, 5, 6, 7])
 

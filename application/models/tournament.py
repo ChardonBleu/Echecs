@@ -1,5 +1,5 @@
 from .round import Round
-from utils.constants import TIME_CONTROL
+from ..utils.constants import TIME_CONTROL
 
 
 class Tournament:
@@ -29,8 +29,8 @@ class Tournament:
                              .format(self.name, self.site, self.date_begin,
                                      self.date_end, self.description, ) +
                              "Time control: {} - Nombre de rounds: {}\n"
-                             .format(self.time_control, self.number_rounds) +
-                             "Index des joueurs: {}".format(self.players))
+                             .format(self.time_control, self.number_rounds)
+                             )
         return resume_tournament
 
     def tournament_players(self, liste_index_players):

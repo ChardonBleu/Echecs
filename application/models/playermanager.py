@@ -1,4 +1,4 @@
-from models.player import Player
+from ..models.player import Player
 from tinydb import TinyDB
 
 
@@ -10,6 +10,27 @@ class PlayerManager:
 
     def __init__(self):
         self.players = []
+        self.indice = []
+
+    def __str__(self):
+        """[summary]
+        """
+        liste_joueur = ""
+        for index in range(len(self.players)):
+            liste_joueur += str(self.indice[index]) + ": " + self.players[index].full_name() + "\n"            
+        return str(liste_joueur)
+
+
+    def __getitem__(self, key):
+        """Renvoie la valeur de self.players[index] correspondant à la valeur de
+        self.indice[index] pour le même index
+        
+        Returns:
+            instance de Players
+        """
+        index_a_afficher = self.indice.index(key)
+        return self.players[index_a_afficher]
+
 
     def add_players(self):
         """Create a list of 8 players
@@ -28,6 +49,7 @@ class PlayerManager:
                         Player("Judit", "Polgar", "1976", "F", "2735"),
                         Player("Anatoli", "Karpov", "1951", "M", "2617")
                         ]
+        self.indice = ['joueur1', 'joueur2', 'joueur3', 'joueur4', 'joueur5', 'joueur6', 'joueur7', 'joueur8']
 
     def liste_index_players(self):
         """construction of the list of index players for tournament attribute players
@@ -35,10 +57,7 @@ class PlayerManager:
         Returns:
             list --
         """
-        liste_index_players = []
-        for player in self.players:
-            liste_index_players.append(self.players.index(player))
-        return liste_index_players
+        return self.indice
 
     def save_players_BDD(self, player_table):
         """Sauvegarde le dictionnaire des joueurs dans la table players de la base de données.
@@ -47,7 +66,7 @@ class PlayerManager:
         for player in self.players:
             serialized_players.append(player.serialize_player())
         db = TinyDB('db.json')
-        players_table = db.table('players')
+        players_table = db.table(player_table)
         players_table.truncate()
         players_table.insert_multiple(serialized_players)
        
@@ -56,9 +75,8 @@ class PlayerManager:
         de dictionnaires de joueurs en liste d'instances de joueurs
         """
         db = TinyDB('db.json')
-        players_table = db.table('players')
+        players_table = db.table(player_table)
         serialized_players = players_table.all()
-
         self.players = []
         for player in serialized_players:
             first_name = player['first_name']

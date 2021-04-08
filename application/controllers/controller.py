@@ -1,6 +1,6 @@
-from models.playermanager import PlayerManager
-from views.tournamentview import TournamentView
-from models.tournament import Tournament
+from ..models.playermanager import PlayerManager
+from ..views.tournamentview import TournamentView
+from ..models.tournament import Tournament
 
 
 class TournamentController:
@@ -35,16 +35,21 @@ class TournamentController:
         """
         # Ajoute des joueurs
         self.players.add_players()
+
         # Instancie un nouveau tournoi
         self.new_tournament()
-        self.tournament.tournament_players(self.players.liste_index_players())
+        # lie les joueurs ajoutés à ce tournois
+        self.tournament.tournament_players(self.players.liste_index_players())        
         # instancie les rounds vides
         self.tournament.tournament_rounds()
         # Affiche le résumé des données du tournois
         self.views.show_tournament(self.tournament, self.players)
+        
         # Sauvegarde les joueurs dans la BDD dans la table mise en paramètre
         self.players.save_players_BDD('player_table1')
         # Charge les joueurs de la table de la BDD mise en paramètre
         self.players.load_players_from_bdd('player_table1')
         
-        self.views.show_tournament(self.tournament, self.players)
+        
+
+        
