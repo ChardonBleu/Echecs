@@ -21,13 +21,13 @@ class PlayerManager:
         """
         liste_joueur = ""
         for index in range(len(self.players)):
-            liste_joueur += self.indice[index] + ": " + self.players[index].full_name() + "\n"            
+            liste_joueur += self.indice[index] + ": " + self.players[index].full_name() + "\n"
         return liste_joueur
 
     def __getitem__(self, key):
         """Renvoie la valeur de self.players[index] correspondant à la valeur de
         self.indice[index] pour le même index
-        
+
         Returns:
             instance de Players
         """
@@ -36,14 +36,13 @@ class PlayerManager:
 
     def add_players(self, indice, player):
         """Ajout manuel de joueurs.
-        
+
         Arguments;
             string -- indice correspond à la valeur de self.indice du joueur : joueur x
             objet Player  -- player correspond à une instance de Player avec ces attributs renseignés
 
         """
         self.players[indice] = player
-        
 
     def liste_index_players(self):
         """Construction of the list of index players for tournament attribute players.
@@ -55,7 +54,7 @@ class PlayerManager:
 
     def save_players_BDD(self, player_table):
         """Sauvegarde le dictionnaire des joueurs dans la table player_table de la base de données.
-        
+
         Le nom de la table est construit par la méthode name_tournament_players() de la classe Tournament.
         """
         serialized_players = []
@@ -65,11 +64,11 @@ class PlayerManager:
         players_table = db.table(player_table)
         players_table.truncate()
         players_table.insert_multiple(serialized_players)
-       
+
     def load_players_from_bdd(self, player_table):
         """Charge des joueurs depuis la base de données puis transforme la liste
         de dictionnaires de joueurs en liste d'instances de joueurs.
-        
+
         Le nom de la table a été construit par la méthode name_tournament_players() de la classe Tournament et
         correspond à la liste des joueurs d'un tournoi déjà créé.
         """
@@ -84,4 +83,3 @@ class PlayerManager:
             sexe = player['sexe']
             ranking = player['ranking']
             self.players.append(Player(first_name, last_name, birth_date, sexe, ranking))
-        

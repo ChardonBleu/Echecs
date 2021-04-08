@@ -12,6 +12,13 @@ class Player:
         self.sexe = sexe  # string
         self.ranking = ranking  # int > 0
 
+    def __str__(self):
+        """Permet d'afficher un joueur avec tous ses attributs
+        """
+        resume_player = (self.full_name() + " " + self.sexe + " " +
+                         "né en: " + self.birth_date + " - classement: " + self.ranking)
+        return resume_player
+
     def full_name(self):
         """[summary]
         """
@@ -24,13 +31,6 @@ class Player:
             new_ranking {int} -- [description]
         """
         self.ranking = new_ranking
-
-    def __str__(self):
-        """Permet d'afficher un joueur avec tous ses attributs
-        """
-        resume_player = (self.full_name() + " " + self.sexe + " " +
-                         "né en: " + self.birth_date + " - classement: " + self.ranking)
-        return resume_player
 
     def serialize_player(self):
         """Transforme une instance de joueurs en dictionnaire avant sauvegarde dans la BDD.
@@ -46,4 +46,3 @@ class Player:
             'ranking': self.ranking
         }
         return serialized_player
-        
