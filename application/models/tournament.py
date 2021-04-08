@@ -49,3 +49,13 @@ class Tournament:
         while i < self.number_rounds:
             self.rounds.append(Round())
             i = i + 1
+            
+    def name_tournament_players(self):
+        """Crée un nom unique pour identifier la liste des joueurs d'un tournois et la stocker dans la bdd
+
+        Returns:
+            string -- pour identifiant des joueurs d'un tournoi
+        """
+        name_tournament_players = "players_" + self.name + "_" + self.date_begin
+        return name_tournament_players
+    

@@ -13,13 +13,16 @@ class PlayerManager:
         self.indice = []
 
     def __str__(self):
-        """[summary]
+        """Permet d'afficher la liste des joueurs sous la forme:
+        joueur x : nom prénom
+
+        Returns:
+            string -- [description]
         """
         liste_joueur = ""
         for index in range(len(self.players)):
-            liste_joueur += str(self.indice[index]) + ": " + self.players[index].full_name() + "\n"            
-        return str(liste_joueur)
-
+            liste_joueur += self.indice[index] + ": " + self.players[index].full_name() + "\n"            
+        return liste_joueur
 
     def __getitem__(self, key):
         """Renvoie la valeur de self.players[index] correspondant à la valeur de
@@ -31,9 +34,8 @@ class PlayerManager:
         index_a_afficher = self.indice.index(key)
         return self.players[index_a_afficher]
 
-
     def add_players(self):
-        """Create a list of 8 players
+        """Create a list of 8 players.
 
         A terme cette fonction doit aller chercher ces instances de joueurs dans la bdd
 
@@ -49,7 +51,7 @@ class PlayerManager:
                         Player("Judit", "Polgar", "1976", "F", "2735"),
                         Player("Anatoli", "Karpov", "1951", "M", "2617")
                         ]
-        self.indice = ['joueur1', 'joueur2', 'joueur3', 'joueur4', 'joueur5', 'joueur6', 'joueur7', 'joueur8']
+        self.indice = ['joueur 1', 'joueur 2', 'joueur 3', 'joueur 4', 'joueur 5', 'joueur 6', 'joueur 7', 'joueur 8']
 
     def liste_index_players(self):
         """construction of the list of index players for tournament attribute players
@@ -60,7 +62,8 @@ class PlayerManager:
         return self.indice
 
     def save_players_BDD(self, player_table):
-        """Sauvegarde le dictionnaire des joueurs dans la table players de la base de données.
+        """Sauvegarde le dictionnaire des joueurs dans la table player_table de la base de données.
+        Le nom de la table est construit par la méthode name_tournament_players() de la classe Tournament.
         """
         serialized_players = []
         for player in self.players:
@@ -72,7 +75,9 @@ class PlayerManager:
        
     def load_players_from_bdd(self, player_table):
         """Charge des joueurs depuis la base de données puis transforme la liste
-        de dictionnaires de joueurs en liste d'instances de joueurs
+        de dictionnaires de joueurs en liste d'instances de joueurs.
+        Le nom de la table a été construit par la méthode name_tournament_players() de la classe Tournament et
+        correspond à la liste des joueurs d'un tournoi déjà créé.
         """
         db = TinyDB('db.json')
         players_table = db.table(player_table)

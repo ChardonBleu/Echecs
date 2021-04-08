@@ -35,7 +35,6 @@ class TournamentController:
         """
         # Ajoute des joueurs
         self.players.add_players()
-
         # Instancie un nouveau tournoi
         self.new_tournament()
         # lie les joueurs ajoutés à ce tournois
@@ -46,10 +45,6 @@ class TournamentController:
         self.views.show_tournament(self.tournament, self.players)
         
         # Sauvegarde les joueurs dans la BDD dans la table mise en paramètre
-        self.players.save_players_BDD('player_table1')
+        self.players.save_players_BDD(self.tournament.name_tournament_players())
         # Charge les joueurs de la table de la BDD mise en paramètre
-        self.players.load_players_from_bdd('player_table1')
-        
-        
-
-        
+        self.players.load_players_from_bdd(self.tournament.name_tournament_players())
