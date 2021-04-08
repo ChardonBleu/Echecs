@@ -29,11 +29,22 @@ class TournamentController:
                                      self.views.prompt_number_rounds())
 
     def run(self):
-        """Lance la création d'un nouveau tournoi
+        """Lance la création d'un nouveau tournoi.
+        Affiche le résumé des données du tournoi.
 
         """
-        self.players.load_players_from_bdd()
+        # Ajoute des joueurs
+        self.players.add_players()
+        # Instancie un nouveau tournoi
         self.new_tournament()
         self.tournament.tournament_players(self.players.liste_index_players())
+        # instancie les rounds vides
         self.tournament.tournament_rounds()
+        # Affiche le résumé des données du tournois
+        self.views.show_tournament(self.tournament, self.players)
+        # Sauvegarde les joueurs dans la BDD dans la table mise en paramètre
+        self.players.save_players_BDD('player_table1')
+        # Charge les joueurs de la table de la BDD mise en paramètre
+        self.players.load_players_from_bdd('player_table1')
+        
         self.views.show_tournament(self.tournament, self.players)
