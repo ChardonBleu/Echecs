@@ -3,7 +3,6 @@ from ..models.player import Player
 from ..views.playerview import PlayerView
 
 
-
 class PlayerController:
     """
     Instancie un tournois avec 8 joueurs
@@ -16,7 +15,7 @@ class PlayerController:
 
     def new_player(self):
         """Crée instance de Player avec saisie utilisateur des caractéristique du joueur,
-        
+
         Returns:
             object Player
         """

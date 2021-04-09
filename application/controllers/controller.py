@@ -2,7 +2,6 @@ from .playercontroller import PlayerController
 from .tournamentcontroller import TournamentController
 
 from ..models.playermanager import PlayerManager
-from ..models.tournament import Tournament
 from ..utils.constants import PLAYERS_LISTE_INDICES
 
 
@@ -26,7 +25,7 @@ class Controller:
 
     def save_players(self):
         """Charge depuis le BDD les joueurs ayant le nom du tournoi courant.
-        Le tournoi courant est identifié par son nom et sa date de début. 
+        Le tournoi courant est identifié par son nom et sa date de début.
         """
         self.players.save_players_BDD(self.tournament.current_tournament.name_date_tournament())
 
@@ -46,19 +45,18 @@ class Controller:
         """
         # Instancie un nouveau tournoi
         self.tournament.new_tournament()
-        
+
         # Charge les joueurs du tournoi courant dans la BDD
         # self.load_players()
-                
+
         # Ajoute 8 joueurs au tournoi courant
         for indice in PLAYERS_LISTE_INDICES:
             self.players.add_one_player(indice, self.player_controller.new_player())
-            
+
         # Affiche le résumé des données du tournois
         self.show_tournament_summary()
         # Affiche la liste des joueurs avec leur classement
         self.player_controller.view.show_player(self.players)
-        
+
         # Sauvegarde les joueurs du tournoi courant dans la BDD
         self.save_players()
-        

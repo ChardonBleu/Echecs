@@ -60,4 +60,3 @@ class Tournament:
         while i < self.number_rounds:
             self.rounds.append(Round())
             i = i + 1
-    

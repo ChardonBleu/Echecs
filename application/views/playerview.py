@@ -53,7 +53,7 @@ class PlayerView:
         Pour ajouter un nouveau joueur ou pour mettre à jour le classement
 
         Returns:
-            int --  
+            int --
         """
         while True:
             try:
@@ -65,7 +65,7 @@ class PlayerView:
             else:
                 break
         return ranking_player
-    
+
     def show_player(self, players):
         """Affiche la liste des joueurs de ce tournois.
         """

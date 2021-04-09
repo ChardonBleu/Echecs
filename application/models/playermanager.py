@@ -3,7 +3,6 @@ from tinydb import TinyDB
 from ..models.player import Player
 
 
-
 class PlayerManager:
     """Sert à créer une liste d'instances de joueurs pour un tournoi.
     Charges les joueurs à partir de la BDD.
@@ -35,7 +34,7 @@ class PlayerManager:
         """
         index_a_afficher = self.indice.index(key)
         return self.players[index_a_afficher]
-    
+
     def __setitem__(self, key, value):
         """Permet d'ajouter ou de modifier la valeur d'un joueur
 
@@ -49,7 +48,7 @@ class PlayerManager:
         else:
             self.indice.append(key)
             self.players.append(value)
-    
+
     @property
     def liste_index_players(self):
         """Construction of the list of index players for tournament attribute players.
@@ -67,7 +66,7 @@ class PlayerManager:
             objet Player  -- player correspond à une instance de Player avec ces attributs renseignés
 
         """
-        
+
         self[indice] = player
 
     def save_players_BDD(self, player_table):
