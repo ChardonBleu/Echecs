@@ -1,5 +1,7 @@
 from .round import Round
+
 from ..utils.constants import TIME_CONTROL
+from ..utils.constants import PLAYERS_LISTE_INDICES
 
 
 class Tournament:
@@ -20,7 +22,7 @@ class Tournament:
 
         self.rounds = []  # list of instances of Round()
 
-        self.players = []  # list of index of instances of players
+        self.players = PLAYERS_LISTE_INDICES
 
     def __str__(self):
         """Permet d'afficher un résumé des caractéristique du tournois
@@ -32,6 +34,15 @@ class Tournament:
                              .format(self.time_control, self.number_rounds)
                              )
         return resume_tournament
+
+    def name_date_tournament(self):
+        """Crée un nom unique pour identifier la liste des joueurs d'un tournois et la stocker dans la bdd
+
+        Returns:
+            string -- pour identifiant des joueurs d'un tournoi
+        """
+        name_tournament_players = self.name + "_" + self.date_begin
+        return name_tournament_players
 
     def tournament_players(self, liste_index_players):
         """Met dans l'attribut self.players de Tournament la liste des indices des instances des joueurs de ce tournois
@@ -49,12 +60,4 @@ class Tournament:
         while i < self.number_rounds:
             self.rounds.append(Round())
             i = i + 1
-
-    def name_date_tournament(self):
-        """Crée un nom unique pour identifier la liste des joueurs d'un tournois et la stocker dans la bdd
-
-        Returns:
-            string -- pour identifiant des joueurs d'un tournoi
-        """
-        name_tournament_players = self.name + "_" + self.date_begin
-        return name_tournament_players
+    

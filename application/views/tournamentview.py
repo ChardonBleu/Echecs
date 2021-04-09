@@ -16,8 +16,6 @@ class TournamentView:
             string -- Is used for tournament instantiation.
         """
         name_tournament = input("Nom du tournoi: ")
-        if name_tournament == "":
-            return None
         return name_tournament
 
     def prompt_site_tournament(self):
@@ -27,8 +25,6 @@ class TournamentView:
             string -- Is used for tournament instantiation.
         """
         site_tournament = input("Lieu du tournoi: ")
-        if site_tournament == "":
-            return None
         return site_tournament
 
     def prompt_date_begin_tournament(self):
@@ -38,8 +34,6 @@ class TournamentView:
             string -- Is used for tournament instantiation.
         """
         date_debut_tournament = input("Date de début: ")
-        if date_debut_tournament == "":
-            return None
         return date_debut_tournament
 
     def prompt_date_end_tournament(self):
@@ -48,9 +42,7 @@ class TournamentView:
         Returns:
             string -- Is used for tournament instantiation.
         """
-        date_debut_tournament = input("Date de début: ")
-        if date_debut_tournament == "":
-            return None
+        date_debut_tournament = input("Date de fin: ")
         return date_debut_tournament
 
     def prompt_description_tournament(self):
@@ -60,8 +52,6 @@ class TournamentView:
             string -- Is used for tournament instantiation.
         """
         description_tournament = input("Description du tournoi: ")
-        if description_tournament == "":
-            return None
         return description_tournament
 
     def prompt_time_control(self):
@@ -116,11 +106,10 @@ class TournamentView:
                         loop = False
         return number_rounds
 
-    def show_tournament(self, tournament, players):
-        """Affiche les attribut du tournois et la liste des joueurs de ce tournois avec leurs attribut
+    def show_tournament(self, tournament):
+        """Affiche les caractéristiques du tournois.
         """
         print()
         print(tournament)
-        print(players)
         for tour in tournament.rounds:
             print("round {}: {}".format(tournament.rounds.index(tour) + 1, tour))

@@ -1,5 +1,7 @@
-from ..models.player import Player
 from tinydb import TinyDB
+
+from ..models.player import Player
+
 
 
 class PlayerManager:
@@ -10,7 +12,7 @@ class PlayerManager:
 
     def __init__(self):
         self.players = []
-        self.indice = ['joueur 1', 'joueur 2', 'joueur 3', 'joueur 4', 'joueur 5', 'joueur 6', 'joueur 7', 'joueur 8']
+        self.indice = []
 
     def __str__(self):
         """Permet d'afficher la liste des joueurs sous la forme:
@@ -21,7 +23,7 @@ class PlayerManager:
         """
         liste_joueur = ""
         for index in range(len(self.players)):
-            liste_joueur += self.indice[index] + ": " + self.players[index].full_name() + "\n"
+            liste_joueur += self.indice[index] + ": " + str(self.players[index]) + "\n"
         return liste_joueur
 
     def __getitem__(self, key):
@@ -33,17 +35,22 @@ class PlayerManager:
         """
         index_a_afficher = self.indice.index(key)
         return self.players[index_a_afficher]
+    
+    def __setitem__(self, key, value):
+        """Permet d'ajouter ou de modifier la valeur d'un joueur
 
-    def add_players(self, indice, player):
-        """Ajout manuel de joueurs.
-
-        Arguments;
-            string -- indice correspond à la valeur de self.indice du joueur : joueur x
-            objet Player  -- player correspond à une instance de Player avec ces attributs renseignés
-
+        Arguments:
+            key {string} -- joueur x
+            value {objet Player} -- instance de la classe Player
         """
-        self.players[indice] = player
-
+        if key in self.indice:
+            indice_a_modifier = self.indice.index(key)
+            self.players[indice_a_modifier] = value
+        else:
+            self.indice.append(key)
+            self.players.append(value)
+    
+    @property
     def liste_index_players(self):
         """Construction of the list of index players for tournament attribute players.
 
@@ -51,6 +58,17 @@ class PlayerManager:
             list --
         """
         return self.indice
+
+    def add_one_player(self, indice, player):
+        """Ajout manuel de 8 joueurs.
+
+        Arguments;
+            string -- indice correspond à la valeur de self.indice du joueur : joueur x
+            objet Player  -- player correspond à une instance de Player avec ces attributs renseignés
+
+        """
+        
+        self[indice] = player
 
     def save_players_BDD(self, player_table):
         """Sauvegarde le dictionnaire des joueurs dans la table player_table de la base de données.
@@ -76,6 +94,7 @@ class PlayerManager:
         players_table = db.table(player_table)
         serialized_players = players_table.all()
         self.players = []
+        num_joueur = 1
         for player in serialized_players:
             first_name = player['first_name']
             last_name = player['last_name']
@@ -83,3 +102,5 @@ class PlayerManager:
             sexe = player['sexe']
             ranking = player['ranking']
             self.players.append(Player(first_name, last_name, birth_date, sexe, ranking))
+            self.indice.append("joueur" + str(num_joueur))
+            num_joueur += 1

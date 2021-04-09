@@ -1,9 +1,12 @@
+from .playercontroller import PlayerController
+from .tournamentcontroller import TournamentController
+
 from ..models.playermanager import PlayerManager
-from ..views.tournamentview import TournamentView
 from ..models.tournament import Tournament
+from ..utils.constants import PLAYERS_LISTE_INDICES
 
 
-class TournamentController:
+class Controller:
     """
     Instancie un tournois avec 8 joueurs
     """
@@ -12,21 +15,25 @@ class TournamentController:
         """[summary]
         """
         self.players = PlayerManager()
-        self.views = TournamentView()
-        self.tournament = None
+        self.tournament = TournamentController()
+        self.player_controller = PlayerController()
 
-    def new_tournament(self):
-        """Crée instance de Tournament avec saisie utilisateur des caractéristique du tournois,
-        sauf attribut players
-        L'attribut round se renseigne à l'instanciation à partir du nombre de rounds donné par l'utilisateur
+    def load_players(self):
+        """Charge depuis la BDD les joueurs ayant le nom du tournoi courant.
+        Le tournoi courant est identifié par son nom et sa date de début.
         """
-        self.tournament = Tournament(self.views.prompt_name_tournament(),
-                                     self.views.prompt_site_tournament(),
-                                     self.views.prompt_date_begin_tournament(),
-                                     self.views.prompt_date_end_tournament(),
-                                     self.views.prompt_description_tournament(),
-                                     self.views.prompt_time_control(),
-                                     self.views.prompt_number_rounds())
+        self.players.load_players_from_bdd(self.tournament.current_tournament.name_date_tournament())
+
+    def save_players(self):
+        """Charge depuis le BDD les joueurs ayant le nom du tournoi courant.
+        Le tournoi courant est identifié par son nom et sa date de début. 
+        """
+        self.players.save_players_BDD(self.tournament.current_tournament.name_date_tournament())
+
+    def show_tournament_summary(self):
+        """[summary]
+        """
+        self.tournament.view.show_tournament(self.tournament.current_tournament)
 
     def run(self):
         """Lance la création d'un nouveau tournoi:
@@ -38,20 +45,20 @@ class TournamentController:
         Affiche le résumé des données du tournoi.
         """
         # Instancie un nouveau tournoi
-        self.new_tournament()
-
-        # Ajoute des joueurs
-        # self.players.add_players()
-        # Charge les joueurs de la table de la BDD mise en paramètre  - self.tournament.name_tournament_players()
-        self.players.load_players_from_bdd(self.tournament.name_date_tournament())
-
-        # lie les joueurs ajoutés à ce tournois
-        self.tournament.tournament_players(self.players.liste_index_players())
-        # instancie les rounds vides
-        self.tournament.tournament_rounds()
-
-        # Sauvegarde les joueurs dans la BDD dans la table mise en paramètre
-        self.players.save_players_BDD(self.tournament.name_date_tournament())
-
+        self.tournament.new_tournament()
+        
+        # Charge les joueurs du tournoi courant dans la BDD
+        # self.load_players()
+                
+        # Ajoute 8 joueurs au tournoi courant
+        for indice in PLAYERS_LISTE_INDICES:
+            self.players.add_one_player(indice, self.player_controller.new_player())
+            
         # Affiche le résumé des données du tournois
-        self.views.show_tournament(self.tournament, self.players)
+        self.show_tournament_summary()
+        # Affiche la liste des joueurs avec leur classement
+        self.player_controller.view.show_player(self.players)
+        
+        # Sauvegarde les joueurs du tournoi courant dans la BDD
+        self.save_players()
+        

@@ -15,10 +15,11 @@ class Player:
     def __str__(self):
         """Permet d'afficher un joueur avec tous ses attributs
         """
-        resume_player = (self.full_name() + " " + self.sexe + " " +
-                         "né en: " + self.birth_date + " - classement: " + self.ranking)
+        resume_player = (self.full_name + " " + self.sexe + " " +
+                         "né en: " + self.birth_date + " - classement: " + str(self.ranking))
         return resume_player
 
+    @property
     def full_name(self):
         """[summary]
         """
