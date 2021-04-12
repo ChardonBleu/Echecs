@@ -103,8 +103,8 @@ class PlayerManager:
             ranking = player['ranking']
             liste_tous_joueurs.append(Player(first_name, last_name, birth_date, sexe, ranking))
         return liste_tous_joueurs
-    
-    def load_8_first_players_from_bdd(self):
+
+    def load_8_players_from_bdd(self):
         """Chargement des 8 premiers joueurs de la bdd pour test déroulement application
         """
         db = TinyDB('db.json')
@@ -112,7 +112,7 @@ class PlayerManager:
         serialized_players = players_table.all()
         self.players = []
         self.indice = []
-        for index in range(8,17):            
+        for index in range(8, 17):
             first_name = serialized_players[index]['first_name']
             last_name = serialized_players[index]['last_name']
             birth_date = serialized_players[index]['birth_date']
@@ -120,5 +120,3 @@ class PlayerManager:
             ranking = serialized_players[index]['ranking']
             self.players.append(Player(first_name, last_name, birth_date, sexe, ranking))
             self.indice.append(serialized_players[index].doc_id)
-
-        

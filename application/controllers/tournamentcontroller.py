@@ -21,12 +21,12 @@ class TournamentController:
         On instancie les rounds vides.
         """
         self.tournament = Tournament(self.view.prompt_name_tournament(),
-                                             self.view.prompt_site_tournament(),
-                                             self.view.prompt_date_begin_tournament(),
-                                             self.view.prompt_date_end_tournament(),
-                                             self.view.prompt_description_tournament(),
-                                             self.view.prompt_time_control(),
-                                             self.view.prompt_number_rounds())
+                                     self.view.prompt_site_tournament(),
+                                     self.view.prompt_date_begin_tournament(),
+                                     self.view.prompt_date_end_tournament(),
+                                     self.view.prompt_description_tournament(),
+                                     self.view.prompt_time_control(),
+                                     self.view.prompt_number_rounds())
         self.tournament.tournament_rounds()
 
     def show_tournament_summary(self):

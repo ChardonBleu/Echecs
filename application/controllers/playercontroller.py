@@ -32,15 +32,20 @@ class PlayerController:
         """
         for index in range(8):
             self.players_manager.add_one_player(index + 1, self.new_player())
-            
+
     def show_players(self):
         """[summary]
         """
         self.view.show_player(self.players_manager)
-    
+
     def show_all_players(self):
         """[summary]
         """
         all_players = self.players_manager.load_all_players_from_bdd()
         for player in all_players:
             self.view.show_player(player)
+
+    def sort_players_by_ranking(self):
+        """[summary]
+        """
+        pass
