@@ -1,4 +1,3 @@
-from ..utils.constants import PLAYERS_LISTE_NUM
 from ..models.player import Player
 from ..models.playermanager import PlayerManager
 from ..views.playerview import PlayerView
@@ -31,8 +30,8 @@ class PlayerController:
     def add_8_players(self):
         """[summary]
         """
-        for indice in PLAYERS_LISTE_NUM:
-            self.players_manager.add_one_player(indice, self.new_player())
+        for index in range(8):
+            self.players_manager.add_one_player(index + 1, self.new_player())
             
     def show_players(self):
         """[summary]

@@ -19,7 +19,10 @@ class Controller:
 
     
     def link_players_with_tournament(self):
-        """[summary]
+        """Associe la liste des joueurs chargés au tournoi courant
+        en renseignant l'attribut self.players de la classe Tournament
+        avec la liste des id des joueurs.
+        Cet id est celui du joueur dans la BDD
         """
         id_list = self.players_controller.players_manager.liste_id_players
         self.tournament_controller.tournament.tournament_players(id_list)       
@@ -37,12 +40,12 @@ class Controller:
         self.tournament_controller.new_tournament()
 
         # Ajoute 8 joueurs au tournoi courant
-        # self.players_controller.add_8_players()
-        # Charge les 8 peremiers joueurs de la bdd pour test rapide appli
+        self.players_controller.add_8_players()
+        # Charge les 8 premiers joueurs de la bdd pour test rapide appli
         self.players_controller.players_manager.load_8_first_players_from_bdd()
         
         # Sauvegarde les joueurs entrés manuellement dans la BDD
-        # self.players_controller.players_manager.save_players_BDD()
+        self.players_controller.players_manager.save_players_BDD()
         # Lie les joueurs entrés manuellemetn et ajoutées à la BDD au tournoi courant
         self.link_players_with_tournament()
 
@@ -51,5 +54,5 @@ class Controller:
         # Affiche la liste des joueurs avec leur classement
         self.players_controller.show_players()
         
-        # Affiche la liste de tous les joueurs de le bdd
+        # Affiche la liste de tous les joueurs de la bdd
         # self.players_controller.show_all_players()

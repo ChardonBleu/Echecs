@@ -112,7 +112,7 @@ class PlayerManager:
         serialized_players = players_table.all()
         self.players = []
         self.indice = []
-        for index in range(8):            
+        for index in range(8,17):            
             first_name = serialized_players[index]['first_name']
             last_name = serialized_players[index]['last_name']
             birth_date = serialized_players[index]['birth_date']
