@@ -35,15 +35,6 @@ class Tournament:
                              )
         return resume_tournament
 
-    def name_date_tournament(self):
-        """Crée un nom unique pour identifier la liste des joueurs d'un tournois et la stocker dans la bdd
-
-        Returns:
-            string -- pour identifiant des joueurs d'un tournoi
-        """
-        name_tournament_players = self.name + "_" + self.date_begin
-        return name_tournament_players
-
     def tournament_players(self, liste_id_players):
         """Met dans l'attribut self.players de Tournament la liste des indices des instances des joueurs de ce tournois
 
