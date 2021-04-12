@@ -28,24 +28,24 @@ class PlayerController:
         return new_player
 
     def add_8_players(self):
-        """[summary]
+        """Permet la saisie de huits nouveaux joueurs pour un nouveau tournoi.
         """
         for index in range(8):
             self.players_manager.add_one_player(index + 1, self.new_player())
 
     def show_players(self):
-        """[summary]
+        """Appelle l'affichage des joueurs du tournoi courant
         """
         self.view.show_player(self.players_manager)
 
     def show_all_players(self):
-        """[summary]
+        """Appelle l'affichage de tous les joueur de la BDD
         """
         all_players = self.players_manager.load_all_players_from_bdd()
         for player in all_players:
             self.view.show_player(player)
 
     def sort_players_by_ranking(self):
-        """[summary]
+        """Permet le tri des joueurs selon leur classement ELO
         """
         pass
