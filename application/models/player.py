@@ -57,4 +57,3 @@ class Player:
         sexe = serialized_player['sexe']
         ranking = serialized_player['ranking']
         return Player(first_name, last_name, birth_date, sexe, ranking)
-            
