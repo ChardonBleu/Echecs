@@ -15,8 +15,7 @@ class Player:
     def __str__(self):
         """Permet d'afficher un joueur avec tous ses attributs
         """
-        resume_player = (self.full_name + " " + self.sexe + " " +
-                         "né en: " + self.birth_date + " - classement: " + str(self.ranking))
+        resume_player = ( "{:20} {:2} né(e) en: {:5} - classement: {:5}").format(self.full_name, self.sexe, self.birth_date, str(self.ranking))
         return resume_player
 
     @property
@@ -37,7 +36,7 @@ class Player:
         """Transforme une instance de joueurs en dictionnaire avant sauvegarde dans la BDD.
 
         Returns:
-            dict -- [description]
+            dict -- 
         """
         serialized_player = {
             'first_name': self.first_name,

@@ -12,7 +12,7 @@ class TournamentController:
         """
         # self.players = PlayerManager()
         self.view = TournamentView()
-        self.curent_tournament = None
+        self.curent = None
 
     def new_tournament(self):
         """Crée instance de Tournament avec saisie utilisateur des caractéristique du tournois,
@@ -20,11 +20,16 @@ class TournamentController:
         L'attribut round se renseigne à l'instanciation à partir du nombre de rounds donné par l'utilisateur
         On instancie les rounds vides.
         """
-        self.current_tournament = Tournament(self.view.prompt_name_tournament(),
+        self.tournament = Tournament(self.view.prompt_name_tournament(),
                                              self.view.prompt_site_tournament(),
                                              self.view.prompt_date_begin_tournament(),
                                              self.view.prompt_date_end_tournament(),
                                              self.view.prompt_description_tournament(),
                                              self.view.prompt_time_control(),
                                              self.view.prompt_number_rounds())
-        self.current_tournament.tournament_rounds()
+        self.tournament.tournament_rounds()
+
+    def show_tournament_summary(self):
+        """[summary]
+        """
+        self.view.show_tournament(self.tournament)

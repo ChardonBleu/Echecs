@@ -6,7 +6,7 @@ class Match:
         """[summary]
         """
 
-        self.pairs = [(player1, score1), (player2, score2)]  # list of two tupples
+        self.pairs = ([player1, score1], [player2, score2])  # tupple of two lists
 
     def __str__(self):
         """[summary]

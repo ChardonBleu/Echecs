@@ -2,7 +2,7 @@ from .playercontroller import PlayerController
 from .tournamentcontroller import TournamentController
 
 from ..models.playermanager import PlayerManager
-from ..utils.constants import PLAYERS_LISTE_INDICES
+
 
 
 class Controller:
@@ -13,50 +13,43 @@ class Controller:
     def __init__(self):
         """[summary]
         """
-        self.players = PlayerManager()
-        self.tournament = TournamentController()
-        self.player_controller = PlayerController()
+        
+        self.tournament_controller = TournamentController()
+        self.players_controller = PlayerController()
 
-    def load_players(self):
-        """Charge depuis la BDD les joueurs ayant le nom du tournoi courant.
-        Le tournoi courant est identifié par son nom et sa date de début.
-        """
-        self.players.load_players_from_bdd(self.tournament.current_tournament.name_date_tournament())
-
-    def save_players(self):
-        """Charge depuis le BDD les joueurs ayant le nom du tournoi courant.
-        Le tournoi courant est identifié par son nom et sa date de début.
-        """
-        self.players.save_players_BDD(self.tournament.current_tournament.name_date_tournament())
-
-    def show_tournament_summary(self):
+    
+    def link_players_with_tournament(self):
         """[summary]
         """
-        self.tournament.view.show_tournament(self.tournament.current_tournament)
-
+        id_list = self.players_controller.players_manager.liste_id_players
+        self.tournament_controller.tournament.tournament_players(id_list)       
+    
     def run(self):
         """Lance la création d'un nouveau tournoi:
                 Instancier nouveau tournoi
-                charger joueurs ou les ajouter à la main
-                associer joueurs et tounoi
-                afficher résumé tournoi
-                sauvegarder joueurs
-        Affiche le résumé des données du tournoi.
+                Ajouter 8 joueurs à la main
+                Sauvegarder ces 8 joueurs dans la bdd
+                Associer joueurs et tournoi
+                Afficher résumé tournoi
+                Afficher tous les joueurs de la bdd
         """
         # Instancie un nouveau tournoi
-        self.tournament.new_tournament()
-
-        # Charge les joueurs du tournoi courant dans la BDD
-        # self.load_players()
+        self.tournament_controller.new_tournament()
 
         # Ajoute 8 joueurs au tournoi courant
-        for indice in PLAYERS_LISTE_INDICES:
-            self.players.add_one_player(indice, self.player_controller.new_player())
+        # self.players_controller.add_8_players()
+        # Charge les 8 peremiers joueurs de la bdd pour test rapide appli
+        self.players_controller.players_manager.load_8_first_players_from_bdd()
+        
+        # Sauvegarde les joueurs entrés manuellement dans la BDD
+        # self.players_controller.players_manager.save_players_BDD()
+        # Lie les joueurs entrés manuellemetn et ajoutées à la BDD au tournoi courant
+        self.link_players_with_tournament()
 
         # Affiche le résumé des données du tournois
-        self.show_tournament_summary()
+        self.tournament_controller.show_tournament_summary()
         # Affiche la liste des joueurs avec leur classement
-        self.player_controller.view.show_player(self.players)
-
-        # Sauvegarde les joueurs du tournoi courant dans la BDD
-        self.save_players()
+        self.players_controller.show_players()
+        
+        # Affiche la liste de tous les joueurs de le bdd
+        # self.players_controller.show_all_players()

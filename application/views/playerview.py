@@ -10,6 +10,7 @@ class PlayerView:
         Returns:
             string -- Is used for adding new player.
         """
+        print()
         first_name_player = input("Prénom du joueur: ")
         return first_name_player
 
@@ -69,5 +70,4 @@ class PlayerView:
     def show_player(self, players):
         """Affiche la liste des joueurs de ce tournois.
         """
-        print()
         print(players)

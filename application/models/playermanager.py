@@ -22,7 +22,7 @@ class PlayerManager:
         """
         liste_joueur = ""
         for index in range(len(self.players)):
-            liste_joueur += self.indice[index] + ": " + str(self.players[index]) + "\n"
+            liste_joueur += "joueur " + str(self.indice[index]) + ": " + str(self.players[index]) + "\n"
         return liste_joueur
 
     def __getitem__(self, key):
@@ -50,7 +50,7 @@ class PlayerManager:
             self.players.append(value)
 
     @property
-    def liste_index_players(self):
+    def liste_id_players(self):
         """Construction of the list of index players for tournament attribute players.
 
         Returns:
@@ -66,40 +66,59 @@ class PlayerManager:
             objet Player  -- player correspond à une instance de Player avec ces attributs renseignés
 
         """
-
         self[indice] = player
 
-    def save_players_BDD(self, player_table):
+    def save_players_BDD(self):
         """Sauvegarde le dictionnaire des joueurs dans la table player_table de la base de données.
 
         Le nom de la table est construit par la méthode name_tournament_players() de la classe Tournament.
+
+        Returns:
+            list -- liste des id des joueurs sauvegardés dans la base de données
         """
         serialized_players = []
         for player in self.players:
             serialized_players.append(player.serialize_player())
-        db = TinyDB('db_players.json')
-        players_table = db.table(player_table)
-        players_table.truncate()
-        players_table.insert_multiple(serialized_players)
+        db = TinyDB('db.json')
+        players_table = db.table('players')
+        self.indice = players_table.insert_multiple(serialized_players)
 
-    def load_players_from_bdd(self, player_table):
+    def load_all_players_from_bdd(self):
         """Charge des joueurs depuis la base de données puis transforme la liste
         de dictionnaires de joueurs en liste d'instances de joueurs.
+        Peut servir pour affichage de tous les joueurs.
 
-        Le nom de la table a été construit par la méthode name_tournament_players() de la classe Tournament et
-        correspond à la liste des joueurs d'un tournoi déjà créé.
+        Returns:
+            list -- liste des instances de classe Player de tous les joueurs de la BDD
         """
-        db = TinyDB('db_players.json')
-        players_table = db.table(player_table)
+        db = TinyDB('db.json')
+        players_table = db.table('players')
         serialized_players = players_table.all()
-        self.players = []
-        num_joueur = 1
+        liste_tous_joueurs = []
         for player in serialized_players:
             first_name = player['first_name']
             last_name = player['last_name']
             birth_date = player['birth_date']
             sexe = player['sexe']
             ranking = player['ranking']
+            liste_tous_joueurs.append(Player(first_name, last_name, birth_date, sexe, ranking))
+        return liste_tous_joueurs
+    
+    def load_8_first_players_from_bdd(self):
+        """Chargement des 8 premiers joueurs de la bdd pour test déroulement application
+        """
+        db = TinyDB('db.json')
+        players_table = db.table('players')
+        serialized_players = players_table.all()
+        self.players = []
+        self.indice = []
+        for index in range(8):            
+            first_name = serialized_players[index]['first_name']
+            last_name = serialized_players[index]['last_name']
+            birth_date = serialized_players[index]['birth_date']
+            sexe = serialized_players[index]['sexe']
+            ranking = serialized_players[index]['ranking']
             self.players.append(Player(first_name, last_name, birth_date, sexe, ranking))
-            self.indice.append("joueur" + str(num_joueur))
-            num_joueur += 1
+            self.indice.append(serialized_players[index].doc_id)
+
+        
