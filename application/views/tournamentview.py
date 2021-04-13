@@ -117,6 +117,7 @@ class TournamentView:
         """Affiche les caractéristiques des round.
         """
         for tour in tournament.rounds:
+            print(tour)
             for match in tour.match:
                 print(match)
         print()

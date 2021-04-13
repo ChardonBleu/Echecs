@@ -31,7 +31,8 @@ class Controller:
         while index_joueur < 8:
             self.tournament_controller.tournament.add_match_to_last_round(
                 self.players_controller.players_manager.players[index_joueur],
-                self.players_controller.players_manager.players[index_joueur + 1])
+                self.players_controller.players_manager.players[index_joueur + 1],
+                0,0)
             index_joueur += 2
 
     def run(self):

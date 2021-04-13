@@ -51,13 +51,15 @@ class Tournament:
         if len(self.rounds) < self.number_rounds:
             self.rounds.append(Round(len(self.rounds) + 1))
 
-    def add_match_to_last_round(self, player1, player2):
+    def add_match_to_last_round(self, player1, player2, score1, score2):
         """Sélectionne le dernier round créé puis y ajoute un match avec les joueurs donnés en argument
 
         Arguments:
             player1 {instance de Player} --
             player2 {instance de Player} --
+
+            score1 {int} -- score en début de round
+            score2 {int} -- score ne début de round
         """
         index = len(self.rounds) - 1
-        self.rounds[index].add_match(player1, player2)
-        
+        self.rounds[index].add_match(player1, player2, score1, score2)
