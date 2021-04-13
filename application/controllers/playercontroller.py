@@ -1,5 +1,3 @@
-from operator import itemgetter, attrgetter
-
 from ..models.player import Player
 from ..models.playermanager import PlayerManager
 from ..views.playerview import PlayerView
@@ -35,28 +33,22 @@ class PlayerController:
         for index in range(8):
             self.players_manager.add_one_player(index + 1, self.new_player())
 
-    def show_players(self):
+    def show_players(self, player_manager):
         """Appelle l'affichage des joueurs du tournoi courant.
-        
-        """
-        self.view.show_player(self.players_manager)
-        
-    def show_all_players(self):
-        """Appelle l'affichage de tous les joueur de la BDD
-        show_player() reçoit en argument un objet PlayerManager()
-        """
-        self.view.show_player(self.players_manager.load_all_players_from_bdd())
 
-    def sort_players_by_ranking(self):
+        """
+        self.view.show_player(player_manager)
+
+    def sort_players_by_ranking(self, player_manager):
         """Permet le tri des joueurs du tournoi courant selon leur classement ELO (ordre décroissant des rangs).
 
         """
-        sorted_player_list = sorted(self.players_manager.couple_items(), key=lambda couple : couple[1].ranking,  reverse=True)
-        self.players_manager.decouple_items(sorted_player_list)
+        sorted_player_list = sorted(player_manager.couple_items(), key=lambda couple : couple[1].ranking,  reverse=True)
+        player_manager.decouple_items(sorted_player_list)
 
-    def sort_players_by_name(self):
+    def sort_players_by_name(self, player_manager):
         """Permet le tri des joueurs du tournoi courant selon leur nom (ordre alphabétique croissant).
 
         """
-        sorted_player_list = sorted(self.players_manager.couple_items(), key=lambda couple : couple[1].full_name)
-        self.players_manager.decouple_items(sorted_player_list)
+        sorted_player_list = sorted(player_manager.couple_items(), key=lambda couple : couple[1].full_name)
+        player_manager.decouple_items(sorted_player_list)

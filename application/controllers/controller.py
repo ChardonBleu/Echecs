@@ -50,19 +50,27 @@ class Controller:
         self.tournament_controller.show_tournament_summary()
         
         # Affiche la liste des joueurs avec leur classement
-        self.players_controller.show_players()
+        self.players_controller.show_players(self.players_controller.players_manager)
 
+        """# Charger tous les joueurs de la bdd dans une variable
+        all_players = self.players_controller.players_manager.load_all_players_from_bdd()
         # Affiche la liste de tous les joueurs de la bdd
-        # self.players_controller.show_all_players()
+        self.players_controller.show_players(all_players)
+        # Tri des TOUS les joueurs par classement élo décroissant
+        self.players_controller.sort_players_by_ranking(all_players)
+        # Affiche la liste de tous les joueurs de la bdd
+        self.players_controller.show_players(all_players)
+        # Tri des TOUS les joueurs par ordre alphabétique croissant
+        self.players_controller.sort_players_by_name(all_players)
+        # Affiche la liste de tous les joueurs de la bdd
+        self.players_controller.show_players(all_players)"""
         
-        # Tri des joueurs courants et les mets dans une liste. Ne contient pas l'id de la bdd
-        self.players_controller.sort_players_by_ranking()
         
+        # Tri des joueurs courants par classement élo décroissant
+        self.players_controller.sort_players_by_ranking(self.players_controller.players_manager)        
         # Affiche la liste des joueurs avec leur classement
-        self.players_controller.show_players()
-        
-        # Tri des joueurs courants et les mets dans une liste. Ne contient pas l'id de la bdd
-        self.players_controller.sort_players_by_name()
-        
+        self.players_controller.show_players(self.players_controller.players_manager)        
+        # Tri des joueurs courants par ordre alphabétique croissant
+        self.players_controller.sort_players_by_name(self.players_controller.players_manager)        
         # Affiche la liste des joueurs avec leur classement
-        self.players_controller.show_players()
+        self.players_controller.show_players(self.players_controller.players_manager)
