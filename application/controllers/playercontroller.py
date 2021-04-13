@@ -43,16 +43,20 @@ class PlayerController:
         
     def show_all_players(self):
         """Appelle l'affichage de tous les joueur de la BDD
-        show_player() reçoiten argument un objet PlayerManager()
+        show_player() reçoit en argument un objet PlayerManager()
         """
         self.view.show_player(self.players_manager.load_all_players_from_bdd())
 
     def sort_players_by_ranking(self):
         """Permet le tri des joueurs du tournoi courant selon leur classement ELO (ordre décroissant des rangs).
-        Ne modifie pas la liste créée au lancement du tournoi        
-        
-        Returns:
-            list -- liste triée
+
         """
         sorted_player_list = sorted(self.players_manager.couple_items(), key=lambda couple : couple[1].ranking,  reverse=True)
+        self.players_manager.decouple_items(sorted_player_list)
+
+    def sort_players_by_name(self):
+        """Permet le tri des joueurs du tournoi courant selon leur nom (ordre alphabétique croissant).
+
+        """
+        sorted_player_list = sorted(self.players_manager.couple_items(), key=lambda couple : couple[1].full_name)
         self.players_manager.decouple_items(sorted_player_list)

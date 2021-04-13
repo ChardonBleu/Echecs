@@ -60,3 +60,9 @@ class Controller:
         
         # Affiche la liste des joueurs avec leur classement
         self.players_controller.show_players()
+        
+        # Tri des joueurs courants et les mets dans une liste. Ne contient pas l'id de la bdd
+        self.players_controller.sort_players_by_name()
+        
+        # Affiche la liste des joueurs avec leur classement
+        self.players_controller.show_players()

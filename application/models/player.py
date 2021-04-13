@@ -25,7 +25,7 @@ class Player:
     def full_name(self):
         """[summary]
         """
-        return (self.first_name + " " + self.last_name)
+        return (self.last_name + " " + self.first_name)
 
     def update_ranking(self, new_ranking):
         """[summary]
