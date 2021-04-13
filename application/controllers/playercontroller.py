@@ -43,12 +43,14 @@ class PlayerController:
         """Permet le tri des joueurs du tournoi courant selon leur classement ELO (ordre décroissant des rangs).
 
         """
-        sorted_player_list = sorted(player_manager.couple_items(), key=lambda couple : couple[1].ranking,  reverse=True)
+        sorted_player_list = sorted(player_manager.couple_items(),
+                                    key=lambda couple : couple[1].ranking,  reverse=True)
         player_manager.decouple_items(sorted_player_list)
 
     def sort_players_by_name(self, player_manager):
-        """Permet le tri des joueurs du tournoi courant selon leur nom (ordre alphabétique croissant).
+        """Permet le tri des joueurs du tournoi courant selon leur nom complet : 'nom_de_famille prénom'
+        (ordre alphabétique croissant - insensibilité à la casse).
 
         """
-        sorted_player_list = sorted(player_manager.couple_items(), key=lambda couple : couple[1].full_name)
+        sorted_player_list = sorted(player_manager.couple_items(), key=lambda couple : couple[1].full_name.lower())
         player_manager.decouple_items(sorted_player_list)
