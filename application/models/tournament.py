@@ -43,11 +43,21 @@ class Tournament:
         """
         self.players = liste_id_players
 
-    def tournament_rounds(self):
+    def add_round(self):
         """Rempli l'attribut self.rounds de Tournament avec autant d'instances
-        vides de Round() qu'il y a de rounds indiqués par l'utilisateur
+        vides de Round() qu'il y a de rounds indiqués par l'utilisateur.
+        Puis renpli chaque round avec un match
         """
-        i = 0
-        while i < self.number_rounds:
-            self.rounds.append(Round())
-            i = i + 1
+        if len(self.rounds) < self.number_rounds:
+            self.rounds.append(Round(len(self.rounds) + 1))
+
+    def add_match_to_last_round(self, player1, player2):
+        """Sélectionne le dernier round créé puis y ajoute un match avec les joueurs donnés en argument
+
+        Arguments:
+            player1 {instance de Player} --
+            player2 {instance de Player} --
+        """
+        index = len(self.rounds) - 1
+        self.rounds[index].add_match(player1, player2)
+        

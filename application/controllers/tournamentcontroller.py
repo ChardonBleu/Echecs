@@ -27,9 +27,8 @@ class TournamentController:
                                      self.view.prompt_description_tournament(),
                                      self.view.prompt_time_control(),
                                      self.view.prompt_number_rounds())
-        self.tournament.tournament_rounds()
-
-    def show_tournament_summary(self):
+        
+    def next_round(self):
         """[summary]
         """
-        self.view.show_tournament(self.tournament)
+        

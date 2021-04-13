@@ -111,6 +111,12 @@ class TournamentView:
         """
         print()
         print(tournament)
+        print()
+        
+    def show_rounds_with_match(self, tournament):
+        """Affiche les caractéristiques des round.
+        """
         for tour in tournament.rounds:
-            print("round {}: {}".format(tournament.rounds.index(tour) + 1, tour))
+            for match in tour.match:
+                print(match)
         print()

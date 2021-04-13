@@ -22,6 +22,17 @@ class Controller:
         """
         id_list = self.players_controller.players_manager.liste_id_players
         self.tournament_controller.tournament.tournament_players(id_list)
+        
+    def start_first_round(self):
+        """Créée un round rempli de match avec les joueurs triés de self.players de PlayerManager
+        """
+        self.tournament_controller.tournament.add_round() # Création du premier round
+        index_joueur = 0
+        while index_joueur < 8:
+            self.tournament_controller.tournament.add_match_to_last_round(
+                self.players_controller.players_manager.players[index_joueur],
+                self.players_controller.players_manager.players[index_joueur + 1])
+            index_joueur += 2
 
     def run(self):
         """Lance la création d'un nouveau tournoi:
@@ -46,9 +57,8 @@ class Controller:
         # Lie les joueurs entrés manuellemetn et ajoutées à la BDD au tournoi courant
         self.link_players_with_tournament()
         # Affiche le résumé des données du tournois
-        self.tournament_controller.show_tournament_summary()
-        # Affiche la liste des joueurs avec leur classement
-        self.players_controller.show_players(self.players_controller.players_manager)
+        self.tournament_controller.view.show_tournament(self.tournament_controller.tournament)
+        
 
         """# Charger tous les joueurs de la bdd dans une variable
         all_players = self.players_controller.players_manager.load_all_players_from_bdd()
@@ -67,7 +77,12 @@ class Controller:
         self.players_controller.sort_players_by_ranking(self.players_controller.players_manager)
         # Affiche la liste des joueurs avec leur classement
         self.players_controller.show_players(self.players_controller.players_manager)
-        # Tri des joueurs courants par ordre alphabétique croissant
+        
+        self.start_first_round()
+        self.tournament_controller.view.show_rounds_with_match(self.tournament_controller.tournament)
+        
+        
+        """# Tri des joueurs courants par ordre alphabétique croissant
         self.players_controller.sort_players_by_name(self.players_controller.players_manager)        
         # Affiche la liste des joueurs avec leur classement
-        self.players_controller.show_players(self.players_controller.players_manager)
+        self.players_controller.show_players(self.players_controller.players_manager)"""
