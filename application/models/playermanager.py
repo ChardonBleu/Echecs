@@ -49,6 +49,29 @@ class PlayerManager:
             self.indice.append(key)
             self.players.append(value)
 
+    def couple_items(self):
+        """Crée une liste de tupples de couples (id de la bdd, joueur correspondant à cet id).
+        Sert à pouvoir trier simultanémant self.players et self.indice afin que l'id du joueur
+        suive le joueur au cours du tri.
+
+        Returns:
+            list -- liste de tupples (id, player)
+        """
+        couples_id_player = []
+        for index in range(len(self.players)):
+            couples_id_player.append((self.indice[index], self.players[index]))
+        return couples_id_player
+
+    def decouple_items(self, couples_id_player):
+        """Utilisé aprés le tri des joueurs pour reconstruire les listes self.players et self.indice triées
+
+        Arguments:
+            couples_id_player {list} -- liste de tupples (id, player) 
+        """
+        for index in range(len(couples_id_player)):
+            self.indice[index] = couples_id_player[index][0]
+            self.players[index] = couples_id_player[index][1]        
+
     @property
     def liste_id_players(self):
         """Construction of the list of index players for tournament attribute players.
