@@ -12,7 +12,7 @@ class TournamentController:
         """
         # self.players = PlayerManager()
         self.view = TournamentView()
-        self.curent = None
+        self.tournament = None
 
     def new_tournament(self):
         """Crée instance de Tournament avec saisie utilisateur des caractéristique du tournois,

@@ -4,7 +4,7 @@ from ..models.player import Player
 
 
 class PlayerManager:
-    """Sert à créer une liste d'instances de joueurs pour un tournoi.
+    """Sert à créer une liste d'instances de joueurs pour un tournoi, avec sa liste d'id de la bdd associée.
     Charges les joueurs à partir de la BDD.
     Sauvegarde les joueurs dans la BDD.
     """
@@ -22,7 +22,7 @@ class PlayerManager:
         """
         liste_joueur = ""
         for index in range(len(self.players)):
-            liste_joueur += "joueur " + str(self.indice[index]) + ": " + str(self.players[index]) + "\n"
+            liste_joueur += "joueur " + "{:3}".format(self.indice[index]) + ": " + str(self.players[index]) + "\n"
         return liste_joueur
 
     def __getitem__(self, key):
@@ -94,25 +94,32 @@ class PlayerManager:
         db = TinyDB('db.json')
         players_table = db.table('players')
         serialized_players = players_table.all()
-        liste_tous_joueurs = []
-        for player in serialized_players:
-            first_name = player['first_name']
-            last_name = player['last_name']
-            birth_date = player['birth_date']
-            sexe = player['sexe']
-            ranking = player['ranking']
-            liste_tous_joueurs.append(Player(first_name, last_name, birth_date, sexe, ranking))
+        liste_tous_joueurs = PlayerManager()
+        for index in range(len(serialized_players)):
+            first_name = serialized_players[index]['first_name']
+            last_name = serialized_players[index]['last_name']
+            birth_date = serialized_players[index]['birth_date']
+            sexe = serialized_players[index]['sexe']
+            ranking = serialized_players[index]['ranking']
+            liste_tous_joueurs.players.append(Player(first_name, last_name, birth_date, sexe, ranking))
+            liste_tous_joueurs.indice.append(serialized_players[index].doc_id)
         return liste_tous_joueurs
 
-    def load_8_players_from_bdd(self):
-        """Chargement des 8 premiers joueurs de la bdd pour test déroulement application
+    def load_8_players_from_bdd(self, id_first_player=9):
+        """Chargement de 8 joueurs consécutifs de la bdd à partir du joueur dont l'id est passé en paramètre
+        pour test déroulement application.
+        
+        Pour des joueurs non consécutifs passer en paramètre une liste d'id de joueurs 
+        puis itérer sur cette liste:
+        for id in liste_id: 
+        et récupérer le bon joueur à l'aide de .doc_id ...
         """
         db = TinyDB('db.json')
         players_table = db.table('players')
         serialized_players = players_table.all()
         self.players = []
         self.indice = []
-        for index in range(8, 17):
+        for index in range(id_first_player - 1, id_first_player + 7):
             first_name = serialized_players[index]['first_name']
             last_name = serialized_players[index]['last_name']
             birth_date = serialized_players[index]['birth_date']

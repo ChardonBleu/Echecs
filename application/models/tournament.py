@@ -31,7 +31,7 @@ class Tournament:
                                      self.date_end, self.description, ) +
                              "Time control: {} - Nombre de rounds: {}\n"
                              .format(self.time_control, self.number_rounds) +
-                             "Id joueurs: {}\n\n".format(self.players)
+                             "Id joueurs: {}\n".format(self.players)
                              )
         return resume_tournament
 
