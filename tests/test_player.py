@@ -23,7 +23,7 @@ class TestPlayer(unittest.TestCase):
     def test_full_name(self):
         """Set a full name for this player
         """
-        self.assertEqual(self.player.full_name, "Judit Polgar")
+        self.assertEqual(self.player.full_name, "Polgar Judit")
 
     def test_update_ranking(self):
         """update ranking's player

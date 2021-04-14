@@ -1,5 +1,6 @@
 from ..views.tournamentview import TournamentView
 from ..models.tournament import Tournament
+from ..controllers.roundcontroller import RoundController
 
 
 class TournamentController:
@@ -14,6 +15,7 @@ class TournamentController:
         """
         # self.players = PlayerManager()
         self.view = TournamentView()
+        self.round_controller = RoundController()
         self.tournament = None
 
     def new_tournament(self):
@@ -29,8 +31,18 @@ class TournamentController:
                                      self.view.prompt_description_tournament(),
                                      self.view.prompt_time_control(),
                                      self.view.prompt_number_rounds())
-        
-    def next_round(self):
-        """[summary]
+
+    def close_last_round_with_scores(self):
+        """Ferme le dernier round créé avec saisie des scores des matchs
         """
-        
+        index_last_round = len(self.tournament.rounds) - 1
+        last_round_matches = self.tournament.rounds[index_last_round].matches
+        for match in last_round_matches:
+            winner = self.round_controller.view.prompt_score_match(match)
+            if winner == "j1":
+                match.update_score(1,0)
+            if winner == 'j2':
+                match.update_score(0,1)
+            if winner == "=":
+                match.update_score(0.5,0.5)
+        self.tournament.rounds[index_last_round].close_round()

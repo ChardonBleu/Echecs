@@ -28,11 +28,6 @@ class TestTournament(unittest.TestCase):
         self.tournament.tournament_players(liste_id_players)
         self.assertListEqual(self.tournament.players, [9, 10, 11, 12, 13, 14, 15, 16])
 
-    def test_tournament_rounds(self):
-        """Vérifie que la méthode met bien dans l'attribut self.rounds
-        le nombre d'objets contenu dans l'attribut self.number_rounds
-        """
-        self.assertEqual(len(self.tournament.tournament_rounds()), self.tournament.number_rounds)
 
 
 if __name__ == "__main__":

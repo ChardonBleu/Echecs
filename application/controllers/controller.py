@@ -35,7 +35,7 @@ class Controller:
                 self.players_controller.players_manager.players[index_joueur + 1],
                 0,0)
             index_joueur += 2
-
+            
     def run(self):
         """Test de séquences d'évènements
         Lance la création d'un nouveau tournoi:
@@ -86,7 +86,13 @@ class Controller:
         self.players_controller.sort_players_by_ranking(self.players_controller.players_manager)        
         # Démarre le premier round en affectant les joueurs aux match à partir de la liste triée juste précédement
         self.start_first_round()
-        self.round_controller.view.show_rounds_with_match(self.tournament_controller.tournament)
+        # Affiche les match des rounds
+        self.round_controller.view.show_rounds_with_matches(self.tournament_controller.tournament)
+        
+        # Clos le premier round avec saisie des scores:
+        self.tournament_controller.close_last_round_with_scores()
+        self.round_controller.view.show_rounds_with_matches(self.tournament_controller.tournament)
+        
         
         
         """# Tri des joueurs courants par ordre alphabétique croissant
