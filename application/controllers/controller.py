@@ -31,9 +31,16 @@ class Controller:
         index_joueur = 0
         while index_joueur < 8:
             self.tournament_controller.tournament.add_match_to_last_round(
-                self.players_controller.players_manager.players[index_joueur],
-                self.players_controller.players_manager.players[index_joueur + 1], 0, 0)
+                self.players_controller.players_manager.bdd_id[index_joueur],
+                self.players_controller.players_manager.bdd_id[index_joueur + 1], 0, 0)
             index_joueur += 2
+            
+    def resume_first_round_score(self, results_round):
+        """[summary]
+        """
+        for id_players, round_score in results_round.items():
+            player = self.players_controller.players_manager[id_players]
+            player.update_score(round_score)
 
     def run(self):
         """Test de séquences d'évènements
@@ -89,8 +96,10 @@ class Controller:
         self.round_controller.view.show_rounds_with_matches(self.tournament_controller.tournament)
 
         # Clos le premier round avec saisie des scores:
-        self.tournament_controller.close_last_round_with_scores()
+        results_round = self.tournament_controller.close_last_round_with_scores()
         self.round_controller.view.show_rounds_with_matches(self.tournament_controller.tournament)
+        self.resume_first_round_score(results_round)
+        self.players_controller.show_players(self.players_controller.players_manager)
 
         """# Tri des joueurs courants par ordre alphabétique croissant
         self.players_controller.sort_players_by_name(self.players_controller.players_manager)

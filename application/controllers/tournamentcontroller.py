@@ -37,12 +37,20 @@ class TournamentController:
         """
         index_last_round = len(self.tournament.rounds) - 1
         last_round_matches = self.tournament.rounds[index_last_round].matches
+        score_round = {}
         for match in last_round_matches:
             winner = self.round_controller.view.prompt_score_match(match)
-            if winner == "j1":
+            if winner == "j" + str(match.pairs[0][0]):
                 match.update_score(1, 0)
-            if winner == 'j2':
+                score_round[match.pairs[0][0]] = 1
+                score_round[match.pairs[1][0]] = 0
+            if winner == 'j' + str(match.pairs[1][0]):
                 match.update_score(0, 1)
+                score_round[match.pairs[0][0]] = 0
+                score_round[match.pairs[1][0]] = 1
             if winner == "=":
                 match.update_score(0.5, 0.5)
+                score_round[match.pairs[0][0]] = 0.5
+                score_round[match.pairs[1][0]] = 0.5        
         self.tournament.rounds[index_last_round].close_round()
+        return score_round

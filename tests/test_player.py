@@ -31,7 +31,7 @@ class TestPlayer(unittest.TestCase):
                                        Player("garance", "", "", "", 567),
                                        Player("wallace", "", "", "", 973)]
         [4, 1, 6, 7, 3, 5, 8, 2]
-        self.player_manager.indice = [1, 2, 3, 4, 5, 6, 7, 8]
+        self.player_manager.bdd_id = [1, 2, 3, 4, 5, 6, 7, 8]
         self.player_controller = PlayerController()
 
     def test_full_name(self):
@@ -68,7 +68,7 @@ class TestPlayer(unittest.TestCase):
                                          Player("bérénice", "", "", "", 451),
                                          Player("anatole", "", "", "", 256),
                                          Player("zoé", "", "", "", 120)]
-        sorted_player_manager.indice = [5, 8, 6, 3, 7, 1, 4, 2]
+        sorted_player_manager.bdd_id = [5, 8, 6, 3, 7, 1, 4, 2]
         self.player_controller.sort_players_by_ranking(self.player_manager)
         self.assertEqual(str(self.player_manager), str(sorted_player_manager))
 
@@ -84,7 +84,7 @@ class TestPlayer(unittest.TestCase):
                                          Player("jules", "", "", "", 1200),
                                          Player("wallace", "", "", "", 973),
                                          Player("zoé", "", "", "", 120)]
-        sorted_player_manager.indice = [4, 1, 6, 7, 3, 5, 8, 2]
+        sorted_player_manager.bdd_id = [4, 1, 6, 7, 3, 5, 8, 2]
         self.player_controller.sort_players_by_name(self.player_manager)
         self.assertEqual(str(self.player_manager), str(sorted_player_manager))
 
