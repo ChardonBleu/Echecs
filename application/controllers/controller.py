@@ -100,6 +100,10 @@ class Controller:
         self.round_controller.view.show_rounds_with_matches(self.tournament_controller.tournament)
         self.resume_first_round_score(results_round)
         self.players_controller.show_players(self.players_controller.players_manager)
+        
+        # Tri des joueurs du tournoi courant par classement ELO décroissant
+        self.players_controller.sort_players_by_score_and_ranking(self.players_controller.players_manager)
+        self.players_controller.show_players(self.players_controller.players_manager)
 
         """# Tri des joueurs courants par ordre alphabétique croissant
         self.players_controller.sort_players_by_name(self.players_controller.players_manager)
