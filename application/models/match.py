@@ -1,7 +1,3 @@
-
-
-
-
 class Match:
     """Modélise un match d'un round du tournoi d'échecs.
     Les données sont stockées sous la forme d'un tupple contenant deux listes [instance de Player, score].

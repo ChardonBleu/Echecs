@@ -51,6 +51,6 @@ class TournamentController:
             if winner == "=":
                 match.update_score(0.5, 0.5)
                 score_round[match.pairs[0][0]] = 0.5
-                score_round[match.pairs[1][0]] = 0.5        
+                score_round[match.pairs[1][0]] = 0.5
         self.tournament.rounds[index_last_round].close_round()
         return score_round

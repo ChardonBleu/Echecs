@@ -16,13 +16,17 @@ class RoundView:
         loop = True
         while loop:
             try:
-                winner = input("Résultalt du match: j" + str(match.pairs[0][0]) + " ou j" +  str(match.pairs[1][0]) + " ou = :  ")
+                winner = input("Résultalt du match: j" +
+                               str(match.pairs[0][0]) +
+                               " ou j" +
+                               str(match.pairs[1][0]) +
+                               " ou = :  ")
                 if winner == "j" + str(match.pairs[0][0]) or winner == "j" + str(match.pairs[1][0]) or winner == "=":
                     loop = False
                 else:
                     raise ValueError
-            except ValueError:               
-                print("Vous devez saisir j" + str(match.pairs[0][0]) + " ou j" +  str(match.pairs[1][0]) + " ou =")
+            except ValueError:
+                print("Vous devez saisir j" + str(match.pairs[0][0]) + " ou j" + str(match.pairs[1][0]) + " ou =")
         print()
         return winner
 

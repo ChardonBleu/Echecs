@@ -34,7 +34,7 @@ class Controller:
                 self.players_controller.players_manager.bdd_id[index_joueur],
                 self.players_controller.players_manager.bdd_id[index_joueur + 1], 0, 0)
             index_joueur += 2
-            
+
     def resume_first_round_score(self, results_round):
         """[summary]
         """
@@ -100,11 +100,10 @@ class Controller:
         self.round_controller.view.show_rounds_with_matches(self.tournament_controller.tournament)
         self.resume_first_round_score(results_round)
         self.players_controller.show_players(self.players_controller.players_manager)
-        
+
         # Tri des joueurs du tournoi courant par score à l'issu du round 1
         self.players_controller.sort_players_by_score_and_ranking(self.players_controller.players_manager)
         self.players_controller.show_players(self.players_controller.players_manager)
-        
 
         """# Tri des joueurs courants par ordre alphabétique croissant
         self.players_controller.sort_players_by_name(self.players_controller.players_manager)

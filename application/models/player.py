@@ -16,11 +16,12 @@ class Player:
     def __str__(self):
         """Permet d'afficher un joueur avec tous ses attributs
         """
-        resume_player = ("{:20} {:2} né(e) en: {:5} - classement: {:5} - score tournoi: {}").format(self.full_name,
-                                                                                self.sexe,
-                                                                                self.birth_date,
-                                                                                str(self.ranking),
-                                                                                self.tournament_score)
+        resume_player = ("{:20} {:2} né(e) en: {:5} - classement: {:5} - score tournoi: {}").format(
+                self.full_name,
+                self.sexe,
+                self.birth_date,
+                str(self.ranking),
+                self.tournament_score)
         return resume_player
 
     @property
@@ -36,7 +37,7 @@ class Player:
             new_ranking {int} -- nouvelle valeur du classement ELO
         """
         self.ranking = new_ranking
-        
+
     def update_score(self, new_score):
         """Permet de mettre à jour le score du joueur an y rajoutant le score du dernier round terminé
 
