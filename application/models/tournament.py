@@ -1,15 +1,24 @@
 from .round import Round
 
 from ..utils.constants import TIME_CONTROL
-from ..utils.constants import PLAYERS_LISTE_INDICES
 
 
 class Tournament:
-    """[summary]
+    """Modélise un tournoi d'échecs.
     """
 
     def __init__(self, name, site, date_begin, date_end, description, index_time_control, number_rounds=4):
-        """[summary]
+        """
+        Arguments:
+            name {string} --
+            site {string} --
+            date_begin {string} --
+            date_end {string} --
+            description {string} --
+            index_time_control {int} --
+
+        Keyword Arguments:
+            number_rounds {int} -- (default: {4})
         """
 
         self.name = name  # string
@@ -22,7 +31,7 @@ class Tournament:
 
         self.rounds = []  # list of instances of Round()
 
-        self.players = PLAYERS_LISTE_INDICES
+        self.players = []  # list of players's bdd id
 
     def __str__(self):
         """Permet d'afficher un résumé des caractéristique du tournois
@@ -31,32 +40,36 @@ class Tournament:
                              .format(self.name, self.site, self.date_begin,
                                      self.date_end, self.description, ) +
                              "Time control: {} - Nombre de rounds: {}\n"
-                             .format(self.time_control, self.number_rounds)
+                             .format(self.time_control, self.number_rounds) +
+                             "Id joueurs: {}\n".format(self.players)
                              )
         return resume_tournament
 
-    def name_date_tournament(self):
-        """Crée un nom unique pour identifier la liste des joueurs d'un tournois et la stocker dans la bdd
-
-        Returns:
-            string -- pour identifiant des joueurs d'un tournoi
-        """
-        name_tournament_players = self.name + "_" + self.date_begin
-        return name_tournament_players
-
-    def tournament_players(self, liste_index_players):
+    def tournament_players(self, liste_id_players):
         """Met dans l'attribut self.players de Tournament la liste des indices des instances des joueurs de ce tournois
 
         Arguments:
             liste_index_players {list} --
         """
-        self.players = liste_index_players
+        self.players = liste_id_players
 
-    def tournament_rounds(self):
+    def add_round(self):
         """Rempli l'attribut self.rounds de Tournament avec autant d'instances
-        vides de Round() qu'il y a de rounds indiqués par l'utilisateur
+        vides de Round() qu'il y a de rounds indiqués par l'utilisateur.
+        Puis renpli chaque round avec un match
         """
-        i = 0
-        while i < self.number_rounds:
-            self.rounds.append(Round())
-            i = i + 1
+        if len(self.rounds) < self.number_rounds:
+            self.rounds.append(Round(len(self.rounds) + 1))
+
+    def add_match_to_last_round(self, player1, player2, score1, score2):
+        """Sélectionne le dernier round créé puis y ajoute un match avec les joueurs donnés en argument
+
+        Arguments:
+            player1 {instance de Player} --
+            player2 {instance de Player} --
+
+            score1 {int} -- score en début de round
+            score2 {int} -- score ne début de round
+        """
+        index = len(self.rounds) - 1
+        self.rounds[index].add_match(player1, player2, score1, score2)

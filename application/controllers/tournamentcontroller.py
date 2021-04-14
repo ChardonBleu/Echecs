@@ -1,10 +1,13 @@
 from ..views.tournamentview import TournamentView
 from ..models.tournament import Tournament
+from ..controllers.roundcontroller import RoundController
 
 
 class TournamentController:
     """
-    Instancie un tournois avec 8 joueurs
+    Modélise le controller du tournoi.
+    Assure le lien entre utilisateur et modèles en appelant la vue du tournoi
+        pour la saisie d'un nouveau tournoi
     """
 
     def __init__(self):
@@ -12,7 +15,8 @@ class TournamentController:
         """
         # self.players = PlayerManager()
         self.view = TournamentView()
-        self.curent_tournament = None
+        self.round_controller = RoundController()
+        self.tournament = None
 
     def new_tournament(self):
         """Crée instance de Tournament avec saisie utilisateur des caractéristique du tournois,
@@ -20,11 +24,25 @@ class TournamentController:
         L'attribut round se renseigne à l'instanciation à partir du nombre de rounds donné par l'utilisateur
         On instancie les rounds vides.
         """
-        self.current_tournament = Tournament(self.view.prompt_name_tournament(),
-                                             self.view.prompt_site_tournament(),
-                                             self.view.prompt_date_begin_tournament(),
-                                             self.view.prompt_date_end_tournament(),
-                                             self.view.prompt_description_tournament(),
-                                             self.view.prompt_time_control(),
-                                             self.view.prompt_number_rounds())
-        self.current_tournament.tournament_rounds()
+        self.tournament = Tournament(self.view.prompt_name_tournament(),
+                                     self.view.prompt_site_tournament(),
+                                     self.view.prompt_date_begin_tournament(),
+                                     self.view.prompt_date_end_tournament(),
+                                     self.view.prompt_description_tournament(),
+                                     self.view.prompt_time_control(),
+                                     self.view.prompt_number_rounds())
+
+    def close_last_round_with_scores(self):
+        """Ferme le dernier round créé avec saisie des scores des matchs
+        """
+        index_last_round = len(self.tournament.rounds) - 1
+        last_round_matches = self.tournament.rounds[index_last_round].matches
+        for match in last_round_matches:
+            winner = self.round_controller.view.prompt_score_match(match)
+            if winner == "j1":
+                match.update_score(1, 0)
+            if winner == 'j2':
+                match.update_score(0, 1)
+            if winner == "=":
+                match.update_score(0.5, 0.5)
+        self.tournament.rounds[index_last_round].close_round()

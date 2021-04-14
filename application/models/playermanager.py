@@ -4,9 +4,13 @@ from ..models.player import Player
 
 
 class PlayerManager:
-    """Sert à créer une liste d'instances de joueurs pour un tournoi.
-    Charges les joueurs à partir de la BDD.
-    Sauvegarde les joueurs dans la BDD.
+    """Sert à créer une liste d'instances de joueurs pour un tournoi, avec sa liste d'id de la bdd associée.
+    Une instance de PlayerManager simule un dictionaire ordonné: si on trie les joueur dans la liste self.players,
+    la liste associée self.indice se trie également.
+    Permet également de :
+        Importer des joueurs en les saisissant à la console
+        Sauvegarder ces joueurs dans la BDD.
+        Charger des joueurs à partir de la BDD.
     """
 
     def __init__(self):
@@ -22,7 +26,7 @@ class PlayerManager:
         """
         liste_joueur = ""
         for index in range(len(self.players)):
-            liste_joueur += self.indice[index] + ": " + str(self.players[index]) + "\n"
+            liste_joueur += "joueur " + "{:3}".format(self.indice[index]) + ": " + str(self.players[index]) + "\n"
         return liste_joueur
 
     def __getitem__(self, key):
@@ -49,8 +53,31 @@ class PlayerManager:
             self.indice.append(key)
             self.players.append(value)
 
+    def couple_items(self):
+        """Crée une liste de tupples de couples (id de la bdd, joueur correspondant à cet id).
+        Sert à pouvoir trier simultanémant self.players et self.indice afin que l'id du joueur
+        suive le joueur au cours du tri.
+
+        Returns:
+            list -- liste de tupples (id, player)
+        """
+        couples_id_player = []
+        for index in range(len(self.players)):
+            couples_id_player.append((self.indice[index], self.players[index]))
+        return couples_id_player
+
+    def decouple_items(self, couples_id_player):
+        """Utilisé aprés le tri des joueurs pour reconstruire les listes self.players et self.indice triées
+
+        Arguments:
+            couples_id_player {list} -- liste de tupples (id, player)
+        """
+        for index in range(len(couples_id_player)):
+            self.indice[index] = couples_id_player[index][0]
+            self.players[index] = couples_id_player[index][1]
+
     @property
-    def liste_index_players(self):
+    def liste_id_players(self):
         """Construction of the list of index players for tournament attribute players.
 
         Returns:
@@ -66,40 +93,64 @@ class PlayerManager:
             objet Player  -- player correspond à une instance de Player avec ces attributs renseignés
 
         """
-
         self[indice] = player
 
-    def save_players_BDD(self, player_table):
+    def save_players_BDD(self):
         """Sauvegarde le dictionnaire des joueurs dans la table player_table de la base de données.
 
         Le nom de la table est construit par la méthode name_tournament_players() de la classe Tournament.
+
+        Returns:
+            list -- liste des id des joueurs sauvegardés dans la base de données
         """
         serialized_players = []
         for player in self.players:
             serialized_players.append(player.serialize_player())
-        db = TinyDB('db_players.json')
-        players_table = db.table(player_table)
-        players_table.truncate()
-        players_table.insert_multiple(serialized_players)
+        db = TinyDB('db.json')
+        players_table = db.table('players')
+        self.indice = players_table.insert_multiple(serialized_players)
 
-    def load_players_from_bdd(self, player_table):
+    def load_all_players_from_bdd(self):
         """Charge des joueurs depuis la base de données puis transforme la liste
         de dictionnaires de joueurs en liste d'instances de joueurs.
+        Peut servir pour affichage de tous les joueurs.
 
-        Le nom de la table a été construit par la méthode name_tournament_players() de la classe Tournament et
-        correspond à la liste des joueurs d'un tournoi déjà créé.
+        Returns:
+            list -- liste des instances de classe Player de tous les joueurs de la BDD
         """
-        db = TinyDB('db_players.json')
-        players_table = db.table(player_table)
+        db = TinyDB('db.json')
+        players_table = db.table('players')
+        serialized_players = players_table.all()
+        liste_tous_joueurs = PlayerManager()
+        for index in range(len(serialized_players)):
+            first_name = serialized_players[index]['first_name']
+            last_name = serialized_players[index]['last_name']
+            birth_date = serialized_players[index]['birth_date']
+            sexe = serialized_players[index]['sexe']
+            ranking = serialized_players[index]['ranking']
+            liste_tous_joueurs.players.append(Player(first_name, last_name, birth_date, sexe, ranking))
+            liste_tous_joueurs.indice.append(serialized_players[index].doc_id)
+        return liste_tous_joueurs
+
+    def load_8_players_from_bdd(self, id_first_player=9):
+        """Chargement de 8 joueurs consécutifs de la bdd à partir du joueur dont l'id est passé en paramètre
+        pour test déroulement application.
+
+        Pour des joueurs non consécutifs passer en paramètre une liste d'id de joueurs
+        puis itérer sur cette liste:
+        for id in liste_id:
+        et récupérer le bon joueur à l'aide de .doc_id ...
+        """
+        db = TinyDB('db.json')
+        players_table = db.table('players')
         serialized_players = players_table.all()
         self.players = []
-        num_joueur = 1
-        for player in serialized_players:
-            first_name = player['first_name']
-            last_name = player['last_name']
-            birth_date = player['birth_date']
-            sexe = player['sexe']
-            ranking = player['ranking']
+        self.indice = []
+        for index in range(id_first_player - 1, id_first_player + 7):
+            first_name = serialized_players[index]['first_name']
+            last_name = serialized_players[index]['last_name']
+            birth_date = serialized_players[index]['birth_date']
+            sexe = serialized_players[index]['sexe']
+            ranking = serialized_players[index]['ranking']
             self.players.append(Player(first_name, last_name, birth_date, sexe, ranking))
-            self.indice.append("joueur" + str(num_joueur))
-            num_joueur += 1
+            self.indice.append(serialized_players[index].doc_id)

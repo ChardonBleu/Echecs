@@ -1,5 +1,5 @@
 class Player:
-    """[summary]
+    """Modélise un joueur du tournoi d'échec
     """
 
     def __init__(self, first_name, last_name, birth_date, sexe, ranking):
@@ -15,21 +15,23 @@ class Player:
     def __str__(self):
         """Permet d'afficher un joueur avec tous ses attributs
         """
-        resume_player = (self.full_name + " " + self.sexe + " " +
-                         "né en: " + self.birth_date + " - classement: " + str(self.ranking))
+        resume_player = ("{:20} {:2} né(e) en: {:5} - classement: {:5}").format(self.full_name,
+                                                                                self.sexe,
+                                                                                self.birth_date,
+                                                                                str(self.ranking))
         return resume_player
 
     @property
     def full_name(self):
-        """[summary]
+        """Construit le nom complet du joueur au format: 'nom_de_famille prénom'
         """
-        return (self.first_name + " " + self.last_name)
+        return (self.last_name + " " + self.first_name)
 
     def update_ranking(self, new_ranking):
-        """[summary]
+        """Permet de mettre à jour le classement ELO du joueur
 
         Arguments:
-            new_ranking {int} -- [description]
+            new_ranking {int} -- nouvelle valeur du classement ELO
         """
         self.ranking = new_ranking
 
@@ -37,13 +39,29 @@ class Player:
         """Transforme une instance de joueurs en dictionnaire avant sauvegarde dans la BDD.
 
         Returns:
-            dict -- [description]
+            dict -- dictionnaire représentant un joueur
         """
         serialized_player = {
             'first_name': self.first_name,
             'last_name': self.last_name,
             'birth_date': self.birth_date,
             'sexe': self.sexe,
-            'ranking': self.ranking
-        }
+            'ranking': self.ranking}
         return serialized_player
+
+    def deserialize_player(self, serialized_player):
+        """Permet de créer une instance de classe d'un joueur à partir d'un dictionnaire
+        représentant un joueur.
+
+        Arguments:
+            serialized_player {dict} -- dictionnaire représentant un joueur
+
+        Returns:
+            instance de Player
+        """
+        first_name = serialized_player['first_name']
+        last_name = serialized_player['last_name']
+        birth_date = serialized_player['birth_date']
+        sexe = serialized_player['sexe']
+        ranking = serialized_player['ranking']
+        return Player(first_name, last_name, birth_date, sexe, ranking)
