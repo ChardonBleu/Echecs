@@ -46,7 +46,7 @@ class Tournament:
         return resume_tournament
 
     def tournament_players(self, liste_id_players):
-        """Met dans l'attribut self.players de Tournament la liste des indices des instances des joueurs de ce tournois
+        """Met dans l'attribut self.players de Tournament la liste des id de la bdd des joueurs de ce tournois
 
         Arguments:
             liste_index_players {list} --

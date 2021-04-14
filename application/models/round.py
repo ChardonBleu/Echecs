@@ -27,8 +27,8 @@ class Round:
         """Rajoute un match au round courant avec les joueurs et les scores passés en argument
 
         Arguments:
-            player1 {instance de Player} --
-            player2 {instance de Player} --
+            player1 {int} -- bdd_id du joueur 1
+            player2 {int} -- bdd id du joueur 2
 
             score1 {int} -- score en début de round
             score2 {int} -- score ne début de round

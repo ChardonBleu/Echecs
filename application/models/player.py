@@ -2,7 +2,7 @@ class Player:
     """Modélise un joueur du tournoi d'échec
     """
 
-    def __init__(self, first_name, last_name, birth_date, sexe, ranking):
+    def __init__(self, first_name, last_name, birth_date, sexe, ranking, score=0):
         """[summary]
         """
 
@@ -11,14 +11,17 @@ class Player:
         self.birth_date = birth_date  # date
         self.sexe = sexe  # string
         self.ranking = ranking  # int > 0
+        self.tournament_score = score  # int > 0
 
     def __str__(self):
         """Permet d'afficher un joueur avec tous ses attributs
         """
-        resume_player = ("{:20} {:2} né(e) en: {:5} - classement: {:5}").format(self.full_name,
-                                                                                self.sexe,
-                                                                                self.birth_date,
-                                                                                str(self.ranking))
+        resume_player = ("{:20} {:2} né(e) en: {:5} - classement: {:5} - score tournoi: {}").format(
+                self.full_name,
+                self.sexe,
+                self.birth_date,
+                str(self.ranking),
+                self.tournament_score)
         return resume_player
 
     @property
@@ -34,6 +37,14 @@ class Player:
             new_ranking {int} -- nouvelle valeur du classement ELO
         """
         self.ranking = new_ranking
+
+    def update_score(self, new_score):
+        """Permet de mettre à jour le score du joueur an y rajoutant le score du dernier round terminé
+
+        Arguments:
+            new_ranking {int} -- nouvelle valeur du classement ELO
+        """
+        self.tournament_score += new_score
 
     def serialize_player(self):
         """Transforme une instance de joueurs en dictionnaire avant sauvegarde dans la BDD.

@@ -22,16 +22,16 @@ class TestPlayer(unittest.TestCase):
                                   'sexe': 'F',
                                   'ranking': 2735}
         self.player_manager = PlayerManager()
-        self.player_manager.players = [Player("bérénice", "", "", "", 451),
-                                       Player("zoé", "",  "", "", 120),
-                                       Player("hector", "", "", "", 630),
-                                       Player("anatole", "", "", "", 256),
-                                       Player("jules", "", "", "", 1200),
-                                       Player("doris", "", "", "", 820),
-                                       Player("garance", "", "", "", 567),
-                                       Player("wallace", "", "", "", 973)]
-        [4, 1, 6, 7, 3, 5, 8, 2]
-        self.player_manager.indice = [1, 2, 3, 4, 5, 6, 7, 8]
+        self.player_manager.players = [Player("bérénice", "", "", "", 451, 0),
+                                       Player("zoé", "",  "", "", 120, 1),
+                                       Player("hector", "", "", "", 630, 0),
+                                       Player("anatole", "", "", "", 256, 0.5),
+                                       Player("jules", "", "", "", 1200, 0),
+                                       Player("doris", "", "", "", 820, 1),
+                                       Player("garance", "", "", "", 567, 1),
+                                       Player("wallace", "", "", "", 973, 0.5)]
+        [6, 7, 2, 8, 4, 5, 3, 1]
+        self.player_manager.bdd_id = [1, 2, 3, 4, 5, 6, 7, 8]
         self.player_controller = PlayerController()
 
     def test_full_name(self):
@@ -56,35 +56,35 @@ class TestPlayer(unittest.TestCase):
         """
         self.assertEqual(str(self.player.deserialize_player(self.serialized_player)), str(self.player))
 
-    def test_sort_players_by_ranking(self):
+    def test_sort_players_by_score_and_ranking(self):
         """sort players of PlayerManager object by ranking
         """
         sorted_player_manager = PlayerManager()
-        sorted_player_manager.players = [Player("jules", "", "", "", 1200),
-                                         Player("wallace", "", "", "", 973),
-                                         Player("doris", "", "", "", 820),
-                                         Player("hector", "", "", "", 630),
-                                         Player("garance", "", "", "", 567),
-                                         Player("bérénice", "", "", "", 451),
-                                         Player("anatole", "", "", "", 256),
-                                         Player("zoé", "", "", "", 120)]
-        sorted_player_manager.indice = [5, 8, 6, 3, 7, 1, 4, 2]
-        self.player_controller.sort_players_by_ranking(self.player_manager)
+        sorted_player_manager.players = [Player("doris", "", "", "", 820, 1),
+                                         Player("garance", "", "", "", 567, 1),
+                                         Player("zoé", "", "", "", 120, 1),
+                                         Player("wallace", "", "", "", 973, 0.5),
+                                         Player("anatole", "", "", "", 256, 0.5),
+                                         Player("jules", "", "", "", 1200, 0),
+                                         Player("hector", "", "", "", 630, 0),
+                                         Player("bérénice", "", "", "", 451, 0)]
+        sorted_player_manager.bdd_id = [6, 7, 2, 8, 4, 5, 3, 1]
+        self.player_controller.sort_players_by_score_and_ranking(self.player_manager)
         self.assertEqual(str(self.player_manager), str(sorted_player_manager))
 
     def test_sort_players_by_name(self):
         """sort players of PlayerManager object by ranking
         """
         sorted_player_manager = PlayerManager()
-        sorted_player_manager.players = [Player("anatole", "", "", "", 256),
-                                         Player("bérénice", "", "", "", 451),
-                                         Player("doris", "", "", "", 820),
-                                         Player("garance", "", "", "", 567),
-                                         Player("hector", "", "", "", 630),
-                                         Player("jules", "", "", "", 1200),
-                                         Player("wallace", "", "", "", 973),
-                                         Player("zoé", "", "", "", 120)]
-        sorted_player_manager.indice = [4, 1, 6, 7, 3, 5, 8, 2]
+        sorted_player_manager.players = [Player("anatole", "", "", "", 256, 0.5),
+                                         Player("bérénice", "", "", "", 451, 0),
+                                         Player("doris", "", "", "", 820, 1),
+                                         Player("garance", "", "", "", 567, 1),
+                                         Player("hector", "", "", "", 630, 0),
+                                         Player("jules", "", "", "", 1200, 0),
+                                         Player("wallace", "", "", "", 973, 0.5),
+                                         Player("zoé", "", "", "", 120, 1)]
+        sorted_player_manager.bdd_id = [4, 1, 6, 7, 3, 5, 8, 2]
         self.player_controller.sort_players_by_name(self.player_manager)
         self.assertEqual(str(self.player_manager), str(sorted_player_manager))
 
