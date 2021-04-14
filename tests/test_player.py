@@ -69,7 +69,7 @@ class TestPlayer(unittest.TestCase):
                                          Player("anatole", "", "", "", 256),
                                          Player("zoé", "", "", "", 120)]
         sorted_player_manager.bdd_id = [5, 8, 6, 3, 7, 1, 4, 2]
-        self.player_controller.sort_players_by_ranking(self.player_manager)
+        self.player_controller.sort_players_by_score_and_ranking(self.player_manager)
         self.assertEqual(str(self.player_manager), str(sorted_player_manager))
 
     def test_sort_players_by_name(self):

@@ -2,7 +2,7 @@ class Player:
     """Modélise un joueur du tournoi d'échec
     """
 
-    def __init__(self, first_name, last_name, birth_date, sexe, ranking):
+    def __init__(self, first_name, last_name, birth_date, sexe, ranking, score=0):
         """[summary]
         """
 
@@ -11,7 +11,7 @@ class Player:
         self.birth_date = birth_date  # date
         self.sexe = sexe  # string
         self.ranking = ranking  # int > 0
-        self.tournament_score = 0  # int > 0
+        self.tournament_score = score  # int > 0
 
     def __str__(self):
         """Permet d'afficher un joueur avec tous ses attributs
