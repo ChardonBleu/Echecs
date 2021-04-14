@@ -1,5 +1,6 @@
 class Match:
-    """Modélise un match d'un round du tournoi d'échecs
+    """Modélise un match d'un round du tournoi d'échecs.
+    Les données sont stockées sous la forme d'un tupple contenant deux listes [instance de Player, score].
     """
 
     def __init__(self, player1, player2, score1, score2):
@@ -18,6 +19,13 @@ class Match:
         """Pour affichage des joueurs et des scores d'un match
         """
         return("{:20} contre {:20} - score {:2} / {:2}".format(str(self.pairs[0][0].full_name), str(self.pairs[1][0].full_name), str(self.pairs[0][1]), str(self.pairs[1][1])))
+    
+    @property
+    def pair_of_players(self):
+        """Permet de n'afficher que les joueurs du match sans le score.
+        Utilisé au moment de la saisie des scores.
+        """
+        return ("j1: {:20} / j2: {:20}".format(str(self.pairs[0][0].full_name), str(self.pairs[1][0].full_name)))
 
     def update_score(self, new_score1, new_score2):
         """Mise à jour des scores à l'issu d'un match

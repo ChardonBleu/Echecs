@@ -14,7 +14,7 @@ class Round:
         """
                 
         self.round_name = "round " + str(num_round) # string
-        self.match = []  # list of 4 instances of match
+        self.matches = []  # list of 4 instances of match
         self.horodatage_begin = datetime.now().strftime("%d/%m/%Y-%H:%M") # date et heure de début
         self.horodatage_end = "" # date et heure de fin
 
@@ -33,4 +33,9 @@ class Round:
             score1 {int} -- score en début de round
             score2 {int} -- score ne début de round
         """
-        self.match.append(Match(player1, player2, score1, score2))
+        self.matches.append(Match(player1, player2, score1, score2))
+
+    def close_round(self):
+        """[summary]
+        """
+        self.horodatage_end = datetime.now().strftime("%d/%m/%Y-%H:%M")
