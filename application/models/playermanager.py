@@ -70,11 +70,11 @@ class PlayerManager:
         """Utilisé aprés le tri des joueurs pour reconstruire les listes self.players et self.indice triées
 
         Arguments:
-            couples_id_player {list} -- liste de tupples (id, player) 
+            couples_id_player {list} -- liste de tupples (id, player)
         """
         for index in range(len(couples_id_player)):
             self.indice[index] = couples_id_player[index][0]
-            self.players[index] = couples_id_player[index][1]        
+            self.players[index] = couples_id_player[index][1]
 
     @property
     def liste_id_players(self):
@@ -135,10 +135,10 @@ class PlayerManager:
     def load_8_players_from_bdd(self, id_first_player=9):
         """Chargement de 8 joueurs consécutifs de la bdd à partir du joueur dont l'id est passé en paramètre
         pour test déroulement application.
-        
-        Pour des joueurs non consécutifs passer en paramètre une liste d'id de joueurs 
+
+        Pour des joueurs non consécutifs passer en paramètre une liste d'id de joueurs
         puis itérer sur cette liste:
-        for id in liste_id: 
+        for id in liste_id:
         et récupérer le bon joueur à l'aide de .doc_id ...
         """
         db = TinyDB('db.json')

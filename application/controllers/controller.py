@@ -27,15 +27,14 @@ class Controller:
     def start_first_round(self):
         """Créée un round rempli de match avec les joueurs triés de self.players de PlayerManager
         """
-        self.tournament_controller.tournament.add_round() # Création du premier round
+        self.tournament_controller.tournament.add_round()
         index_joueur = 0
         while index_joueur < 8:
             self.tournament_controller.tournament.add_match_to_last_round(
                 self.players_controller.players_manager.players[index_joueur],
-                self.players_controller.players_manager.players[index_joueur + 1],
-                0,0)
+                self.players_controller.players_manager.players[index_joueur + 1], 0, 0)
             index_joueur += 2
-            
+
     def run(self):
         """Test de séquences d'évènements
         Lance la création d'un nouveau tournoi:
@@ -45,12 +44,12 @@ class Controller:
                 Associer joueurs et tournoi
                 Afficher résumé tournoi
                 Afficher tous les joueurs de la bdd
-                
+
         A partir d'un tournoi avec ses 8 joueurs associés:
             Trier les joueurs par ordre décroissant de leur classement ELO
             Lancer le premier round avec les matchs
         """
-        
+
         # Instancie un nouveau tournoi
         self.tournament_controller.new_tournament()
 
@@ -81,21 +80,19 @@ class Controller:
         self.players_controller.sort_players_by_name(all_players)
         # Affiche la liste de tous les joueurs de la bdd
         self.players_controller.show_players(all_players)"""
-    
+
         # Tri des joueurs du tournoi courant par classement ELO décroissant
-        self.players_controller.sort_players_by_ranking(self.players_controller.players_manager)        
+        self.players_controller.sort_players_by_ranking(self.players_controller.players_manager)
         # Démarre le premier round en affectant les joueurs aux match à partir de la liste triée juste précédement
         self.start_first_round()
         # Affiche les match des rounds
         self.round_controller.view.show_rounds_with_matches(self.tournament_controller.tournament)
-        
+
         # Clos le premier round avec saisie des scores:
         self.tournament_controller.close_last_round_with_scores()
         self.round_controller.view.show_rounds_with_matches(self.tournament_controller.tournament)
-        
-        
-        
+
         """# Tri des joueurs courants par ordre alphabétique croissant
-        self.players_controller.sort_players_by_name(self.players_controller.players_manager)        
+        self.players_controller.sort_players_by_name(self.players_controller.players_manager)
         # Affiche la liste des joueurs avec leur classement
         self.players_controller.show_players(self.players_controller.players_manager)"""

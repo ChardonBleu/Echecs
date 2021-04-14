@@ -1,7 +1,6 @@
 import unittest
 
 from application.models.tournament import Tournament
-from application.models.round import Round
 from application.models.round import Match
 from application.models.player import Player
 
@@ -17,14 +16,14 @@ class TestTournament(unittest.TestCase):
         """Create an instance of Player
         """
         self.tournament = Tournament("Mon tournoi",
-                                 "Ici",
-                                 "Aujourd'hui",
-                                 "demain",
-                                 "Quel beau tournoi!", 2, 4)
+                                     "Ici",
+                                     "Aujourd'hui",
+                                     "demain",
+                                     "Quel beau tournoi!", 2, 4)
         self.tournament.rounds = []
         self.player1 = Player("joueur1", "", "", "", 2000)
         self.player2 = Player("joueur2", "", "", "", 2100)
-        self.match = Match(self.player1, self.player2, 0,0)
+        self.match = Match(self.player1, self.player2, 0, 0)
 
     def test_tournament_players(self):
         """teste que la méthode met bien dans l'attribut self.players de Tournament
@@ -52,8 +51,8 @@ class TestTournament(unittest.TestCase):
     def test_update_scores(self):
         """[summary]
         """
-        self.match.update_score(1,3)
-        self.assertEqual(str(self.match), str(Match(self.player1, self.player2, 1,3)))
+        self.match.update_score(1, 3)
+        self.assertEqual(str(self.match), str(Match(self.player1, self.player2, 1, 3)))
 
 
 if __name__ == "__main__":

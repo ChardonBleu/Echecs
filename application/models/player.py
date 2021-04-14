@@ -48,7 +48,7 @@ class Player:
             'sexe': self.sexe,
             'ranking': self.ranking}
         return serialized_player
-    
+
     def deserialize_player(self, serialized_player):
         """Permet de créer une instance de classe d'un joueur à partir d'un dictionnaire
         représentant un joueur.

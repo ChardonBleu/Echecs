@@ -108,8 +108,8 @@ class TournamentView:
 
     def show_tournament(self, tournament):
         """Affiche les caractéristiques du tournois.
-        
-        Args: 
+
+        Args:
             tournament {instance de Tournament}
         """
         print()

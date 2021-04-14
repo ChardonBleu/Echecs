@@ -69,8 +69,9 @@ class PlayerView:
 
     def show_player(self, players):
         """Affiche la liste des joueurs de ce tournois.
-        
-        Args: 
-            objet de PlayerManager() ou bien objet de Player() -- Utilise les méthodes __str__ de chacune de ces classes
+
+        Args:
+            objet de PlayerManager()
+            ou bien objet de Player() -- Utilise les méthodes __str__ de chacune de ces classes
         """
         print(players)

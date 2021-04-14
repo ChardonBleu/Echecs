@@ -8,13 +8,13 @@ class RoundView:
 
         Args:
             match {instance de Match}
-        
+
         Returns:
             string -- Résultat du match
         """
         print(match.pair_of_players)
         loop = True
-        while loop:            
+        while loop:
             try:
                 winner = input("Résultalt du match: j1/j2/= :  ")
                 if winner == "j1" or winner == "j2" or winner == "=":
@@ -25,10 +25,10 @@ class RoundView:
                 print('Vous devez saisir j1 ou j2 ou =')
         print()
         return winner
-        
+
     def show_rounds_with_matches(self, tournament):
         """Affiche les caractéristiques des rounds du tournoi courant passé en paramètre.
-        
+
         Args:
             tournament {instance de Tournament}
         """

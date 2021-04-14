@@ -40,9 +40,9 @@ class TournamentController:
         for match in last_round_matches:
             winner = self.round_controller.view.prompt_score_match(match)
             if winner == "j1":
-                match.update_score(1,0)
+                match.update_score(1, 0)
             if winner == 'j2':
-                match.update_score(0,1)
+                match.update_score(0, 1)
             if winner == "=":
-                match.update_score(0.5,0.5)
+                match.update_score(0.5, 0.5)
         self.tournament.rounds[index_last_round].close_round()
