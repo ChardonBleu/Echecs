@@ -108,16 +108,10 @@ class TournamentView:
 
     def show_tournament(self, tournament):
         """Affiche les caractéristiques du tournois.
+        
+        Args: 
+            tournament {instance de Tournament}
         """
         print()
         print(tournament)
-        print()
-        
-    def show_rounds_with_match(self, tournament):
-        """Affiche les caractéristiques des round.
-        """
-        for tour in tournament.rounds:
-            print(tour)
-            for match in tour.match:
-                print(match)
         print()

@@ -5,8 +5,12 @@ from ..models.player import Player
 
 class PlayerManager:
     """Sert à créer une liste d'instances de joueurs pour un tournoi, avec sa liste d'id de la bdd associée.
-    Charges les joueurs à partir de la BDD.
-    Sauvegarde les joueurs dans la BDD.
+    Une instance de PlayerManager simule un dictionaire ordonné: si on trie les joueur dans la liste self.players,
+    la liste associée self.indice se trie également.
+    Permet également de :
+        Importer des joueurs en les saisissant à la console
+        Sauvegarder ces joueurs dans la BDD.
+        Charger des joueurs à partir de la BDD.
     """
 
     def __init__(self):

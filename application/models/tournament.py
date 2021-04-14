@@ -4,11 +4,21 @@ from ..utils.constants import TIME_CONTROL
 
 
 class Tournament:
-    """[summary]
+    """Modélise un tournoi d'échecs.
     """
 
     def __init__(self, name, site, date_begin, date_end, description, index_time_control, number_rounds=4):
-        """[summary]
+        """
+        Arguments:
+            name {string} --
+            site {string} --
+            date_begin {string} --
+            date_end {string} --
+            description {string} --
+            index_time_control {int} --
+
+        Keyword Arguments:
+            number_rounds {int} -- (default: {4})
         """
 
         self.name = name  # string
@@ -21,7 +31,7 @@ class Tournament:
 
         self.rounds = []  # list of instances of Round()
 
-        self.players = []
+        self.players = []  # list of players's bdd id
 
     def __str__(self):
         """Permet d'afficher un résumé des caractéristique du tournois

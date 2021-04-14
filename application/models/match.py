@@ -1,10 +1,9 @@
 class Match:
-    """[summary]
+    """Modélise un match d'un round du tournoi d'échecs
     """
 
     def __init__(self, player1, player2, score1, score2):
-        """[summary]
-
+        """
         Arguments:
             player1 {instance de Player} --
             player2 {instance de Player} --

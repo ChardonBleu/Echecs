@@ -4,7 +4,9 @@ from ..models.tournament import Tournament
 
 class TournamentController:
     """
-    Instancie un tournois avec 8 joueurs
+    Modélise le controller du tournoi.
+    Assure le lien entre utilisateur et modèles en appelant la vue du tournoi
+        pour la saisie d'un nouveau tournoi
     """
 
     def __init__(self):

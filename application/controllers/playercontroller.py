@@ -5,7 +5,11 @@ from ..views.playerview import PlayerView
 
 class PlayerController:
     """
-    Instancie un tournois avec 8 joueurs
+    Modélise le controller des joueurs.
+    Assure le lien entre utilisateur et modèles en appelant la vue des joueurs
+        pour la saisie de nouveaux joueurs
+        pour l'affichage des joueurs du tournoi courant
+    Se charge du tri des joueurs.
     """
 
     def __init__(self):
@@ -35,11 +39,17 @@ class PlayerController:
 
     def show_players(self, player_manager):
         """Appelle l'affichage des joueurs du tournoi courant.
+        
+        Args: 
+            player_manager {instance de PlayerManager} -- Contient la liste des 8 joueurs du tournoi courant
         """
         self.view.show_player(player_manager)
 
     def sort_players_by_ranking(self, player_manager):
         """Permet le tri des joueurs du tournoi courant selon leur classement ELO (ordre décroissant des rangs).
+                
+        Args: 
+            player_manager {instance de PlayerManager} -- Contient la liste des 8 joueurs du tournoi courant
         """
         sorted_player_list = sorted(player_manager.couple_items(),
                                     key=lambda couple : couple[1].ranking,  reverse=True)
@@ -48,6 +58,9 @@ class PlayerController:
     def sort_players_by_name(self, player_manager):
         """Permet le tri des joueurs du tournoi courant selon leur nom complet : 'nom_de_famille prénom'
         (ordre alphabétique croissant - insensibilité à la casse).
+                
+        Args: 
+            player_manager {instance de PlayerManager} -- Contient la liste des 8 joueurs du tournoi courant
         """
         sorted_player_list = sorted(player_manager.couple_items(), key=lambda couple : couple[1].full_name.lower())
         player_manager.decouple_items(sorted_player_list)

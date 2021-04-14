@@ -4,12 +4,15 @@ from .match import Match
 
 
 class Round:
-    """[summary]
+    """Modélise un round du tournoi d'échec
     """
 
     def __init__(self, num_round):
-        """[summary]
-        """        
+        """
+        Arguments:
+            num_round {int} -- Permet de nommer le round
+        """
+                
         self.round_name = "round " + str(num_round) # string
         self.match = []  # list of 4 instances of match
         self.horodatage_begin = datetime.now().strftime("%d/%m/%Y-%H:%M") # date et heure de début
