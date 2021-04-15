@@ -39,7 +39,8 @@ class Round:
         """Mise à jour autoùatique de l'heure de fin de round lors de la saisie des scores 
         """
         self.horodatage_end = datetime.now().strftime("%d/%m/%Y-%H:%M")
-    
+        
+    @property
     def len_matches_list(self):
         """[summary]
 
