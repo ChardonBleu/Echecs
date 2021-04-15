@@ -74,4 +74,5 @@ class PlayerView:
             objet de PlayerManager()
             ou bien objet de Player() -- Utilise les méthodes __str__ de chacune de ces classes
         """
+        print()
         print(players)
