@@ -21,7 +21,7 @@ class Round:
     def __str__(self):
         """Pour affichage des données d'un round
         """
-        return("{}:\ndébut: {:10} - fin: {:10}\n".format(self.round_name, self.horodatage_begin, self.horodatage_end))
+        return("\n{}:\ndébut: {:10} - fin: {:10}\n".format(self.round_name, self.horodatage_begin, self.horodatage_end))
 
     def add_match(self, player1, player2, score1, score2):
         """Rajoute un match au round courant avec les joueurs et les scores passés en argument

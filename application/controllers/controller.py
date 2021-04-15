@@ -23,20 +23,6 @@ class Controller:
         """
         id_list = self.players_controller.players_manager.liste_id_players
         self.tournament_controller.tournament.tournament_players(id_list)
-
-    def start_first_round(self):
-        """Créée un round rempli de match avec les joueurs de self.players de PlayerManager
-        triés selon classement et score        
-        """
-        self.tournament_controller.tournament.add_round()
-        index_joueur = 0
-        while index_joueur < 8:
-            self.tournament_controller.tournament.add_match_to_last_round(
-                self.players_controller.players_manager.bdd_id[index_joueur],
-                self.players_controller.players_manager.bdd_id[index_joueur + 1], 0, 0)
-            
-            self.memorise_match_historical(index_joueur, index_joueur + 1)
-            index_joueur += 2
     
     def start_round_with_control(self):
         """Créée un nouveau round en veillant à ce que les joueurs ne se soient pas déjà affrontés
@@ -51,7 +37,6 @@ class Controller:
         liste_index_joueur = [0, 1, 2, 3, 4, 5, 6 , 7]
         while len(liste_index_joueur) >= 2:
             liste_index_joueur = self.search_couple_for_first_player(liste_index_joueur)
-        
 
     def search_couple_for_first_player(self, liste_index_joueur):
         """[summary]
@@ -76,7 +61,6 @@ class Controller:
         """
         other_player = liste_index_joueur[saut]
         couple = (self.players_controller.players_manager.bdd_id[player_to_pair], self.players_controller.players_manager.bdd_id[other_player])
-        self.round_controller.view.show_round_controller(self.round_controller.memo_match)
         if couple not in self.round_controller.memo_match:
             self.add_match_with_control(player_to_pair, other_player)
         else:
@@ -87,7 +71,6 @@ class Controller:
                 # si on a toujours pas associé le 1er joueur avec un autre on le met avec le dernier, qu'ils aient déjà joués ensemble ou pas
                 self.add_match_with_control(player_to_pair, other_player)
         return saut
-        
 
     def add_match_with_control(self, index_joueur, other_player):
         """[summary]
@@ -173,7 +156,7 @@ class Controller:
         self.players_controller.show_players(all_players)"""
 
         nb_rounds = 1
-        while nb_rounds <= self.tournament_controller.tournament.number_rounds:
+        while nb_rounds < self.tournament_controller.tournament.number_rounds:
             # Tri des joueurs du tournoi courant par classement ELO décroissant
             self.players_controller.sort_players_by_score_and_ranking(self.players_controller.players_manager)
             # Démarre le premier round en affectant les joueurs aux match à partir de la liste triée juste précédement
@@ -185,9 +168,8 @@ class Controller:
             results_round = self.tournament_controller.close_last_round_with_scores()
             self.round_controller.view.show_rounds_with_matches(self.tournament_controller.tournament)
             self.resume_round_score(results_round)
-            self.players_controller.show_players(self.players_controller.players_manager)
 
-            # Tri des joueurs du tournoi courant par score à l'issu du round 1
+            # Tri des joueurs du tournoi courant par score à l'issu du round
             self.players_controller.sort_players_by_score_and_ranking(self.players_controller.players_manager)
             self.players_controller.show_players(self.players_controller.players_manager)
             nb_rounds += 1
