@@ -27,9 +27,12 @@ class Controller:
     def start_round_with_control(self, nb_rounds):
         """Créée un nouveau round en veillant à ce que les joueurs ne se soient pas déjà affrontés
         Méthode appelée aprés nouveau tri des joueurs par classement et score.
+        
+        Arguments:
+            nb_rounds (int) -- transporté de méthode en méthode pour évaluer le nombre de match déjà créés
         """
         self.tournament_controller.tournament.add_round()
-        liste_index_joueur = [0, 1, 2, 3, 4, 5, 6 , 7]
+        liste_index_joueur = [0, 1, 2, 3, 4, 5, 6 , 7]  # Permet de décompter les joueurs disponibles pour appairage
         while len(liste_index_joueur) >= 2:
             liste_index_joueur = self.search_couple_for_first_player(liste_index_joueur, nb_rounds)
 
@@ -39,24 +42,21 @@ class Controller:
 
         Arguments:
             liste_index_joueur {list} -- liste des index des joueurs disponibles pour appairage
+            nb_rounds (int) -- transporté de méthode en méthode pour évaluer le nombre de match déjà créés
             
         Returns:
             liste_index_joueur {list} -- liste modifiée des index des joueurs disponibles pour appairage
         """
         player_to_pair = liste_index_joueur[0]
-        number_matches = self.tournament_controller.tournament.rounds[nb_rounds - 1].len_matches_list()
+        number_matches = self.tournament_controller.tournament.rounds[nb_rounds - 1].len_matches_list
         saut = self.examine_other_players_as_candidate(liste_index_joueur, player_to_pair, 1)
-        print("saut retourné: ", str(saut))
         other_player = liste_index_joueur[saut]
-        print("other player: " + str(other_player))
         # si le saut mène au dernier joueur de la liste et qu'aucun match n'a été encore ajouté, on le rajoute    
-        if saut == len(liste_index_joueur) - 1 and  number_matches ==  self.tournament_controller.tournament.rounds[nb_rounds - 1].len_matches_list():            
-            self.add_match_with_control(player_to_pair, other_player)
-            print("saut 2d if: " + str(saut))        
+        if saut == len(liste_index_joueur) - 1 and  number_matches ==  self.tournament_controller.tournament.rounds[nb_rounds - 1].len_matches_list:            
+            self.add_match_with_control(player_to_pair, other_player)    
         # On retire les joueurs mis en match de la liste des joueurs dispo pour appairage:
         liste_index_joueur.remove(player_to_pair)
         liste_index_joueur.remove(other_player)
-        print(liste_index_joueur)
         return liste_index_joueur
     
     def examine_other_players_as_candidate(self, liste_index_joueur, player_to_pair, saut):
@@ -70,16 +70,13 @@ class Controller:
         Returns:
             saut (int) -- correspond à index de other_player dans liste_index_joueur
         """
-        print("saut d'entrée: " + str(saut))
         other_player = liste_index_joueur[saut]
         couple = (self.players_controller.players_manager.bdd_id[player_to_pair], self.players_controller.players_manager.bdd_id[other_player])
-        print(couple)
         if couple not in self.round_controller.memo_match:
             self.add_match_with_control(player_to_pair, other_player)
-            print("saut direct: " + str(saut))
         else:            
             if saut < len(liste_index_joueur) - 1:
-                saut = self.examine_other_players_as_candidate(liste_index_joueur, player_to_pair, saut + 1)  # récursivité jusqu'à appairage ou épuisement liste
+                saut = self.examine_other_players_as_candidate(liste_index_joueur, player_to_pair, saut + 1)
         return saut
 
     def add_match_with_control(self, index_joueur, other_player):
@@ -115,7 +112,6 @@ class Controller:
         
         Args: 
             results_round {dict} -- dico des {id_player: score}
-
         """
         for id_players, round_score in results_round.items():
             player = self.players_controller.players_manager[id_players]
