@@ -27,10 +27,20 @@ class RoundView:
                     raise ValueError
             except ValueError:
                 print("Vous devez saisir j" + str(match.pairs[0][0]) + " ou j" + str(match.pairs[1][0]) + " ou =")
-        print()
         return winner
 
-    def show_rounds_with_matches(self, tournament):
+    def show_rounds_with_matches(self, tournament, nb_round):
+        """Affiche les caractéristiques des rounds du tournoi courant passé en paramètre.
+
+        Args:
+            tournament {instance de Tournament}
+        """
+        tour = tournament.rounds[nb_round - 1]
+        print(tour)
+        for match in tour.matches:
+            print(match)
+
+    def show_all_rounds(self, tournament):
         """Affiche les caractéristiques des rounds du tournoi courant passé en paramètre.
 
         Args:
@@ -38,6 +48,13 @@ class RoundView:
         """
         for tour in tournament.rounds:
             print(tour)
+            print()
             for match in tour.matches:
                 print(match)
-        print()
+
+    def show_round_controller(self, memo_match):
+        """Permet d'afficher les tupples mémorisés des couples de joueur ayant déjà joué ensemble
+        """
+        print("couples de joueurs ayant déjà joué ensemble")
+        for match in memo_match:
+            print(str(match))

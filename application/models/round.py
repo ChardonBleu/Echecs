@@ -21,7 +21,7 @@ class Round:
     def __str__(self):
         """Pour affichage des données d'un round
         """
-        return("{}:\ndébut: {:10} - fin: {:10}\n".format(self.round_name, self.horodatage_begin, self.horodatage_end))
+        return("{}:\ndébut: {:10} - fin: {:10}".format(self.round_name, self.horodatage_begin, self.horodatage_end))
 
     def add_match(self, player1, player2, score1, score2):
         """Rajoute un match au round courant avec les joueurs et les scores passés en argument
@@ -36,6 +36,15 @@ class Round:
         self.matches.append(Match(player1, player2, score1, score2))
 
     def close_round(self):
-        """[summary]
+        """Mise à jour autoùatique de l'heure de fin de round lors de la saisie des scores
         """
         self.horodatage_end = datetime.now().strftime("%d/%m/%Y-%H:%M")
+
+    @property
+    def len_matches_list(self):
+        """[summary]
+
+        Returns:
+            [type] -- [description]
+        """
+        return len(self.matches)
