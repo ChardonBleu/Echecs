@@ -27,37 +27,41 @@ class Controller:
     def start_round_with_control(self):
         """Créée un nouveau round en veillant à ce que les joueurs ne se soient pas déjà affrontés
         Méthode appelée aprés nouveau tri des joueurs par classement et score.
-        
-        Args:
-            saut {int} -- 
-
         """
         self.tournament_controller.tournament.add_round()
-        # ajouter contrôle nombre de rounds et avertissemet dernier round
         liste_index_joueur = [0, 1, 2, 3, 4, 5, 6 , 7]
         while len(liste_index_joueur) >= 2:
             liste_index_joueur = self.search_couple_for_first_player(liste_index_joueur)
 
     def search_couple_for_first_player(self, liste_index_joueur):
-        """[summary]
+        """Lance la méthode de recherche d'un joueur à appairer avec le premier joueur de la liste.
+        Un fois ce joueur trouvé supprime de la liste des index des joueurs ces deux joueurs
 
         Arguments:
-            liste_index_joueur {[type]} -- [description]
+            liste_index_joueur {list} -- liste des index des joueurs disponibles pour appairage
+            
+        Returns:
+            liste_index_joueur {list} -- liste modifiée des index des joueurs disponibles pour appairage
         """
         player_to_pair = liste_index_joueur[0]
-        saut = self.examine_other_players_as_candidate(liste_index_joueur, player_to_pair, 1)
-        # On retire les joueurs mis en match de la liste des joueurs dispo pour appairage
+        saut = self.examine_other_players_as_candidate(liste_index_joueur, player_to_pair, 1)        
         other_player = liste_index_joueur[saut]
         self.memorise_match_historical(player_to_pair, other_player)
+        # On retire les joueurs mis en match de la liste des joueurs dispo pour appairage:
         liste_index_joueur.remove(player_to_pair)
         liste_index_joueur.remove(other_player)
         return liste_index_joueur
     
     def examine_other_players_as_candidate(self, liste_index_joueur, player_to_pair, saut):
-        """[summary]
+        """Recherche un joueur à appairer avec le joueur d'index player_to_pair
 
         Arguments:
-            saut {[type]} -- [description]
+            liste_index_joueur {list} -- liste des index des joueurs disponibles pour appairage
+            player_to_pair {int} -- valeur du joueur à appairer dans liste_index_joueur (valeur de liste_index_joueur[0])
+            saut {int} -- correspond à index de other_player dans liste_index_joueur
+        
+        Returns:
+            saut (int) -- correspond à index de other_player dans liste_index_joueur
         """
         other_player = liste_index_joueur[saut]
         couple = (self.players_controller.players_manager.bdd_id[player_to_pair], self.players_controller.players_manager.bdd_id[other_player])
@@ -73,7 +77,8 @@ class Controller:
         return saut
 
     def add_match_with_control(self, index_joueur, other_player):
-        """[summary]
+        """Rajoute au tournoi un match entre les joueurs d'index index_joueur et other_player
+        dans l'attribut self.bdd_id de PlayerManager
 
         Arguments:
             index_joueur {[type]} -- [description]
