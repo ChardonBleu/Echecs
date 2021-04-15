@@ -30,16 +30,16 @@ class RoundView:
         print()
         return winner
 
-    def show_rounds_with_matches(self, tournament):
+    def show_rounds_with_matches(self, tournament, nb_round):
         """Affiche les caractéristiques des rounds du tournoi courant passé en paramètre.
 
         Args:
             tournament {instance de Tournament}
         """
-        for tour in tournament.rounds:
-            print(tour)
-            for match in tour.matches:
-                print(match)
+        tour = tournament.rounds[nb_round - 1]
+        print(tour)
+        for match in tour.matches:
+            print(match)
         print()
         
     def show_round_controller(self, memo_match):
