@@ -33,10 +33,19 @@ class Controller:
             self.tournament_controller.tournament.add_match_to_last_round(
                 self.players_controller.players_manager.bdd_id[index_joueur],
                 self.players_controller.players_manager.bdd_id[index_joueur + 1], 0, 0)
-            self.round_controller.memo_match.append(
-                (self.players_controller.players_manager.bdd_id[index_joueur],
-                self.players_controller.players_manager.bdd_id[index_joueur + 1]))
+            self.memorise_match_historical(index_joueur)
             index_joueur += 2
+    
+    def memorise_match_historical(self, index_joueur):
+        """Stocke dans une liste de tupples dans l'attribut self.memo_match de RoundController
+        les couples de joueurs s'étant déjà affrontés: (joueur1, joueur2) et (joueur2, joueur1)
+        """
+        self.round_controller.memo_match.append(
+            (self.players_controller.players_manager.bdd_id[index_joueur],
+            self.players_controller.players_manager.bdd_id[index_joueur + 1]))
+        self.round_controller.memo_match.append(
+            (self.players_controller.players_manager.bdd_id[index_joueur + 1],
+            self.players_controller.players_manager.bdd_id[index_joueur]))
 
     def resume_first_round_score(self, results_round):
         """[summary]
