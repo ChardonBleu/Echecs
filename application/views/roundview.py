@@ -42,6 +42,18 @@ class RoundView:
             print(match)
         print()
         
+    def show_all_rounds(self, tournament):
+        """Affiche les caractéristiques des rounds du tournoi courant passé en paramètre.
+
+        Args:
+            tournament {instance de Tournament}
+        """
+        for tour in tournament.rounds:
+            print(tour)
+            for match in tour.matches:
+                print(match)
+            print()
+        
     def show_round_controller(self, memo_match):
         """Permet d'afficher les tupples mémorisés des couples de joueur ayant déjà joué ensemble        
         """
