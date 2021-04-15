@@ -182,6 +182,8 @@ class Controller:
             self.players_controller.show_players(self.players_controller.players_manager)
             nb_rounds += 1
         
+        self.round_controller.view.show_all_rounds(self.tournament_controller.tournament)
+        
         """# Tri des joueurs courants par ordre alphabétique croissant
         self.players_controller.sort_players_by_name(self.players_controller.players_manager)
         # Affiche la liste des joueurs avec leur classement
