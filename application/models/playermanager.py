@@ -14,6 +14,8 @@ class PlayerManager:
     """
 
     def __init__(self):
+        """
+        """
         self.players = []
         self.bdd_id = []
 

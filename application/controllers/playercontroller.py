@@ -13,7 +13,7 @@ class PlayerController:
     """
 
     def __init__(self):
-        """[summary]
+        """
         """
         self.view = PlayerView()
         self.players_manager = PlayerManager()

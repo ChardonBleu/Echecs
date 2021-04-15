@@ -11,7 +11,7 @@ class TournamentController:
     """
 
     def __init__(self):
-        """[summary]
+        """
         """
         # self.players = PlayerManager()
         self.view = TournamentView()

@@ -7,7 +7,7 @@ class RoundController:
     """
 
     def __init__(self):
-        """[summary]
+        """
         """
         # self.players = PlayerManager()
         self.view = RoundView()
@@ -17,13 +17,3 @@ class RoundController:
         """Permet d'afficher les tupples mémorisés des couples de joueur ayant déjà joué ensemble        
         """
         pass
-
-    def memorise_match_historical(self, index_joueur):
-        """[summary]
-        """
-        self.memo_match.append(
-            (self.players_controller.players_manager.bdd_id[index_joueur],
-            self.players_controller.players_manager.bdd_id[index_joueur + 1]))
-        self.round_controller.memo_match.append(
-            (self.players_controller.players_manager.bdd_id[index_joueur + 1],
-            self.players_controller.players_manager.bdd_id[index_joueur]))
