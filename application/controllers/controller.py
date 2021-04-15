@@ -9,7 +9,7 @@ class Controller:
     """
 
     def __init__(self):
-        """[summary]
+        """
         """
         self.tournament_controller = TournamentController()
         self.players_controller = PlayerController()
@@ -25,7 +25,8 @@ class Controller:
         self.tournament_controller.tournament.tournament_players(id_list)
 
     def start_first_round(self):
-        """Créée un round rempli de match avec les joueurs triés de self.players de PlayerManager
+        """Créée un round rempli de match avec les joueurs de self.players de PlayerManager
+        triés selon classement et score        
         """
         self.tournament_controller.tournament.add_round()
         index_joueur = 0
@@ -33,22 +34,93 @@ class Controller:
             self.tournament_controller.tournament.add_match_to_last_round(
                 self.players_controller.players_manager.bdd_id[index_joueur],
                 self.players_controller.players_manager.bdd_id[index_joueur + 1], 0, 0)
-            self.memorise_match_historical(index_joueur)
+            
+            self.memorise_match_historical(index_joueur, index_joueur + 1)
             index_joueur += 2
     
-    def memorise_match_historical(self, index_joueur):
+    def start_round_with_control(self):
+        """Créée un nouveau round en veillant à ce que les joueurs ne se soient pas déjà affrontés
+        Méthode appelée aprés nouveau tri des joueurs par classement et score.
+        
+        Args:
+            saut {int} -- 
+
+        """
+        self.tournament_controller.tournament.add_round()
+        # ajouter contrôle nombre de rounds et avertissemet dernier round
+        liste_index_joueur = [0, 1, 2, 3, 4, 5, 6 , 7]
+        while len(liste_index_joueur) >= 2:
+            liste_index_joueur = self.search_couple_for_first_player(liste_index_joueur)
+        
+
+    def search_couple_for_first_player(self, liste_index_joueur):
+        """[summary]
+
+        Arguments:
+            liste_index_joueur {[type]} -- [description]
+        """
+        player_to_pair = liste_index_joueur[0]
+        saut = self.examine_other_players_as_candidate(liste_index_joueur, player_to_pair, 1)
+        # On retire les joueurs mis en match de la liste des joueurs dispo pour appairage
+        other_player = liste_index_joueur[saut]
+        self.memorise_match_historical(player_to_pair, other_player)
+        liste_index_joueur.remove(player_to_pair)
+        liste_index_joueur.remove(other_player)
+        return liste_index_joueur
+    
+    def examine_other_players_as_candidate(self, liste_index_joueur, player_to_pair, saut):
+        """[summary]
+
+        Arguments:
+            saut {[type]} -- [description]
+        """
+        other_player = liste_index_joueur[saut]
+        couple = (self.players_controller.players_manager.bdd_id[player_to_pair], self.players_controller.players_manager.bdd_id[other_player])
+        self.round_controller.view.show_round_controller(self.round_controller.memo_match)
+        if couple not in self.round_controller.memo_match:
+            self.add_match_with_control(player_to_pair, other_player)
+        else:
+            saut += 1
+            if saut < len(liste_index_joueur) - 1:
+                self.examine_other_players_as_candidate(liste_index_joueur, player_to_pair, saut)  # récursivité jusqu'à appairage ou épuisement liste
+            if saut == len(liste_index_joueur) - 1:
+                # si on a toujours pas associé le 1er joueur avec un autre on le met avec le dernier, qu'ils aient déjà joués ensemble ou pas
+                self.add_match_with_control(player_to_pair, other_player)
+        return saut
+        
+
+    def add_match_with_control(self, index_joueur, other_player):
+        """[summary]
+
+        Arguments:
+            index_joueur {[type]} -- [description]
+            saut {[type]} -- [description]
+        """
+        self.tournament_controller.tournament.add_match_to_last_round(
+            self.players_controller.players_manager.bdd_id[index_joueur],
+            self.players_controller.players_manager.bdd_id[other_player], 0, 0)
+
+    def memorise_match_historical(self, index_joueur, other_player):
         """Stocke dans une liste de tupples dans l'attribut self.memo_match de RoundController
         les couples de joueurs s'étant déjà affrontés: (joueur1, joueur2) et (joueur2, joueur1)
+        
+        Args:
+            index_joueur {int} -- index du joueuer dans la l'attribut self.bdd_id de PlayerManager
         """
         self.round_controller.memo_match.append(
             (self.players_controller.players_manager.bdd_id[index_joueur],
-            self.players_controller.players_manager.bdd_id[index_joueur + 1]))
+            self.players_controller.players_manager.bdd_id[other_player]))
         self.round_controller.memo_match.append(
-            (self.players_controller.players_manager.bdd_id[index_joueur + 1],
+            (self.players_controller.players_manager.bdd_id[other_player],
             self.players_controller.players_manager.bdd_id[index_joueur]))
 
-    def resume_first_round_score(self, results_round):
-        """[summary]
+    def resume_round_score(self, results_round):
+        """Récupère le dico des {id_player: score} pour mettre à jour les scores
+        des joueurs dans Player
+        
+        Args: 
+            results_round {dict} -- dico des {id_player: score}
+
         """
         for id_players, round_score in results_round.items():
             player = self.players_controller.players_manager[id_players]
@@ -100,26 +172,26 @@ class Controller:
         # Affiche la liste de tous les joueurs de la bdd
         self.players_controller.show_players(all_players)"""
 
-        # Tri des joueurs du tournoi courant par classement ELO décroissant
-        self.players_controller.sort_players_by_score_and_ranking(self.players_controller.players_manager)
-        # Démarre le premier round en affectant les joueurs aux match à partir de la liste triée juste précédement
-        self.start_first_round()
-        # Affiche les matchs des rounds
-        self.round_controller.view.show_rounds_with_matches(self.tournament_controller.tournament)
+        nb_rounds = 1
+        while nb_rounds <= self.tournament_controller.tournament.number_rounds:
+            # Tri des joueurs du tournoi courant par classement ELO décroissant
+            self.players_controller.sort_players_by_score_and_ranking(self.players_controller.players_manager)
+            # Démarre le premier round en affectant les joueurs aux match à partir de la liste triée juste précédement
+            self.start_round_with_control()
+            # Affiche les matchs des rounds
+            self.round_controller.view.show_rounds_with_matches(self.tournament_controller.tournament)
 
-        # Clos le premier round avec saisie des scores:
-        results_round = self.tournament_controller.close_last_round_with_scores()
-        self.round_controller.view.show_rounds_with_matches(self.tournament_controller.tournament)
-        self.resume_first_round_score(results_round)
-        self.players_controller.show_players(self.players_controller.players_manager)
+            # Clos le premier round avec saisie des scores:
+            results_round = self.tournament_controller.close_last_round_with_scores()
+            self.round_controller.view.show_rounds_with_matches(self.tournament_controller.tournament)
+            self.resume_round_score(results_round)
+            self.players_controller.show_players(self.players_controller.players_manager)
 
-        # Tri des joueurs du tournoi courant par score à l'issu du round 1
-        self.players_controller.sort_players_by_score_and_ranking(self.players_controller.players_manager)
-        self.players_controller.show_players(self.players_controller.players_manager)
+            # Tri des joueurs du tournoi courant par score à l'issu du round 1
+            self.players_controller.sort_players_by_score_and_ranking(self.players_controller.players_manager)
+            self.players_controller.show_players(self.players_controller.players_manager)
+            nb_rounds += 1
         
-        # Affichage des couples de joueurs ayant déjà joué ensemble
-        self.round_controller.view.show_round_controller(self.round_controller.memo_match)
-
         """# Tri des joueurs courants par ordre alphabétique croissant
         self.players_controller.sort_players_by_name(self.players_controller.players_manager)
         # Affiche la liste des joueurs avec leur classement

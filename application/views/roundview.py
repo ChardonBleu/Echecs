@@ -36,11 +36,11 @@ class RoundView:
         Args:
             tournament {instance de Tournament}
         """
+        print()
         for tour in tournament.rounds:
             print(tour)
             for match in tour.matches:
                 print(match)
-        print()
         
     def show_round_controller(self, memo_match):
         """Permet d'afficher les tupples mémorisés des couples de joueur ayant déjà joué ensemble        

@@ -3,7 +3,16 @@ class Player:
     """
 
     def __init__(self, first_name, last_name, birth_date, sexe, ranking, score=0):
-        """[summary]
+        """
+        Arguments:
+            first_name {string} --
+            last_name {string} --
+            birth_date {string} --
+            sexe {string} --
+            ranking {int} --
+
+        Keyword Arguments:
+            score {int} -- score du joueur au cours du tournoi (default: {0})
         """
 
         self.first_name = first_name  # string

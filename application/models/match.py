@@ -18,10 +18,10 @@ class Match:
     def __str__(self):
         """Pour affichage des joueurs et des scores d'un match
         """
-        return("joueur {:2} contre joueur {:2} - score {:2} / {:2}".format(str(self.pairs[0][0]),
-                                                                           str(self.pairs[1][0]),
-                                                                           str(self.pairs[0][1]),
-                                                                           str(self.pairs[1][1])))
+        return("joueur {:2}: contre joueur {:2}: - score {:2} / {:2}".format(str(self.pairs[0][0]),
+                                                                              str(self.pairs[1][0]),
+                                                                              str(self.pairs[0][1]),
+                                                                              str(self.pairs[1][1])))
 
     @property
     def pair_of_players(self):
