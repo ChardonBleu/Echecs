@@ -23,16 +23,16 @@ class Controller:
         """
         id_list = self.players_controller.players_manager.liste_id_players
         self.tournament_controller.tournament.tournament_players(id_list)
-    
+
     def start_round_with_control(self, nb_rounds):
         """Créée un nouveau round en veillant à ce que les joueurs ne se soient pas déjà affrontés
         Méthode appelée aprés nouveau tri des joueurs par classement et score.
-        
+
         Arguments:
             nb_rounds (int) -- transporté de méthode en méthode pour évaluer le nombre de match déjà créés
         """
         self.tournament_controller.tournament.add_round()
-        liste_index_joueur = [0, 1, 2, 3, 4, 5, 6 , 7]  # Permet de décompter les joueurs disponibles pour appairage
+        liste_index_joueur = [0, 1, 2, 3, 4, 5, 6, 7]  # Permet de décompter les joueurs disponibles pour appairage
         while len(liste_index_joueur) >= 2:
             liste_index_joueur = self.search_couple_for_first_player(liste_index_joueur, nb_rounds)
 
@@ -43,38 +43,41 @@ class Controller:
         Arguments:
             liste_index_joueur {list} -- liste des index des joueurs disponibles pour appairage
             nb_rounds (int) -- transporté de méthode en méthode pour évaluer le nombre de match déjà créés
-            
+
         Returns:
             liste_index_joueur {list} -- liste modifiée des index des joueurs disponibles pour appairage
         """
         player_to_pair = liste_index_joueur[0]
-        number_matches = self.tournament_controller.tournament.rounds[nb_rounds - 1].len_matches_list
+        number_matches_before = self.tournament_controller.tournament.rounds[nb_rounds - 1].len_matches_list
         saut = self.examine_other_players_as_candidate(liste_index_joueur, player_to_pair, 1)
         other_player = liste_index_joueur[saut]
-        # si le saut mène au dernier joueur de la liste et qu'aucun match n'a été encore ajouté, on le rajoute    
-        if saut == len(liste_index_joueur) - 1 and  number_matches ==  self.tournament_controller.tournament.rounds[nb_rounds - 1].len_matches_list:            
-            self.add_match_with_control(player_to_pair, other_player)    
+        # si le saut mène au dernier joueur de la liste et qu'aucun match n'a été encore ajouté, on le rajoute
+        number_matches_after = self.tournament_controller.tournament.rounds[nb_rounds - 1].len_matches_list
+        if saut == len(liste_index_joueur) - 1 and number_matches_before == number_matches_after:
+            self.add_match_with_control(player_to_pair, other_player)
         # On retire les joueurs mis en match de la liste des joueurs dispo pour appairage:
         liste_index_joueur.remove(player_to_pair)
         liste_index_joueur.remove(other_player)
         return liste_index_joueur
-    
+
     def examine_other_players_as_candidate(self, liste_index_joueur, player_to_pair, saut):
         """Recherche un joueur à appairer avec le joueur d'index player_to_pair
 
         Arguments:
             liste_index_joueur {list} -- liste des index des joueurs disponibles pour appairage
-            player_to_pair {int} -- valeur du joueur à appairer dans liste_index_joueur (valeur de liste_index_joueur[0])
+            player_to_pair {int} -- valeur du joueur à appairer dans liste_index_joueur
+                                    (valeur de liste_index_joueur[0])
             saut {int} -- correspond à index de other_player dans liste_index_joueur
-        
+
         Returns:
             saut (int) -- correspond à index de other_player dans liste_index_joueur
         """
         other_player = liste_index_joueur[saut]
-        couple = (self.players_controller.players_manager.bdd_id[player_to_pair], self.players_controller.players_manager.bdd_id[other_player])
+        couple = (self.players_controller.players_manager.bdd_id[player_to_pair],
+                  self.players_controller.players_manager.bdd_id[other_player])
         if couple not in self.round_controller.memo_match:
             self.add_match_with_control(player_to_pair, other_player)
-        else:            
+        else:
             if saut < len(liste_index_joueur) - 1:
                 saut = self.examine_other_players_as_candidate(liste_index_joueur, player_to_pair, saut + 1)
         return saut
@@ -95,22 +98,22 @@ class Controller:
     def memorise_match_historical(self, index_joueur, other_player):
         """Stocke dans une liste de tupples dans l'attribut self.memo_match de RoundController
         les couples de joueurs s'étant déjà affrontés: (joueur1, joueur2) et (joueur2, joueur1)
-        
+
         Args:
             index_joueur {int} -- index du joueuer dans la l'attribut self.bdd_id de PlayerManager
         """
         self.round_controller.memo_match.append(
             (self.players_controller.players_manager.bdd_id[index_joueur],
-            self.players_controller.players_manager.bdd_id[other_player]))
+             self.players_controller.players_manager.bdd_id[other_player]))
         self.round_controller.memo_match.append(
             (self.players_controller.players_manager.bdd_id[other_player],
-            self.players_controller.players_manager.bdd_id[index_joueur]))
+             self.players_controller.players_manager.bdd_id[index_joueur]))
 
     def resume_round_score(self, results_round):
         """Récupère le dico des {id_player: score} pour mettre à jour les scores
         des joueurs dans Player
-        
-        Args: 
+
+        Args:
             results_round {dict} -- dico des {id_player: score}
         """
         for id_players, round_score in results_round.items():
@@ -181,9 +184,9 @@ class Controller:
             self.players_controller.sort_players_by_score_and_ranking(self.players_controller.players_manager)
             self.players_controller.show_players(self.players_controller.players_manager)
             nb_rounds += 1
-        
+
         self.round_controller.view.show_all_rounds(self.tournament_controller.tournament)
-        
+
         """# Tri des joueurs courants par ordre alphabétique croissant
         self.players_controller.sort_players_by_name(self.players_controller.players_manager)
         # Affiche la liste des joueurs avec leur classement
