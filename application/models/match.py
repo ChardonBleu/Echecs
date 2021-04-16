@@ -6,11 +6,11 @@ class Match:
     def __init__(self, player1, player2, score1, score2):
         """
         Arguments:
-            player1 {int} -- bdd_id du joueur 1
-            player2 {int} -- bdd id du joueur 2
+            player1 (int) -- bdd_id du joueur 1
+            player2 (int) -- bdd id du joueur 2
 
-            score1 {int} -- score en début de round
-            score2 {int} -- score ne début de round
+            score1 (int) -- score en début de round
+            score2 (int) -- score ne début de round
         """
 
         self.pairs = ([player1, score1], [player2, score2])  # tupple of two lists
@@ -34,8 +34,8 @@ class Match:
         """Mise à jour des scores à l'issu d'un match
 
         Arguments:
-            new_score1 {int} -- score du joueur 1
-            new_score2 {int} -- score du joueur 2
+            new_score1 (int) -- score du joueur 1
+            new_score2 (int) -- score du joueur 2
         """
         self.pairs[0][1] = new_score1
         self.pairs[1][1] = new_score2

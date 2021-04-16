@@ -61,7 +61,7 @@ class TournamentView:
             ValueError: In case of non positive integer value or value > 3
 
         Returns:
-            integer -- used to select time-control in constant list for tournament instantiation.
+            int -- used to select time-control in constant list for tournament instantiation.
         """
         print("Choix du contrôle du temps.")
         while True:
@@ -85,7 +85,7 @@ class TournamentView:
             ValueError: In case of non positive integer value
 
         Returns:
-            integer -- number of rounds. Is used for tournament instantiation
+            int -- number of rounds. Is used for tournament instantiation
         """
         loop = True
         while loop:
@@ -109,8 +109,8 @@ class TournamentView:
     def show_tournament(self, tournament):
         """Affiche les caractéristiques du tournois.
 
-        Args:
-            tournament {instance de Tournament}
+        Arguments:
+            tournament (instance de Tournament)
         """
         print()
         print(tournament)
