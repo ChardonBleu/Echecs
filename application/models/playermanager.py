@@ -24,7 +24,7 @@ class PlayerManager:
         joueur x : nom prénom
 
         Returns:
-            string -- [description]
+            string --
         """
         liste_joueur = ""
         for index in range(len(self.players)):
@@ -45,8 +45,8 @@ class PlayerManager:
         """Permet d'ajouter ou de modifier la valeur d'un joueur
 
         Arguments:
-            key {string} -- joueur x
-            value {objet Player} -- instance de la classe Player
+            key (string)         -- joueur x
+            value (objet Player) -- instance de la classe Player
         """
         if key in self.bdd_id:
             indice_a_modifier = self.bdd_id.index(key)
@@ -72,7 +72,7 @@ class PlayerManager:
         """Utilisé aprés le tri des joueurs pour reconstruire les listes self.players et self.bdd_id triées
 
         Arguments:
-            couples_id_player {list} -- liste de tupples (id, player)
+            couples_id_player (list) -- liste de tupples (id, player)
         """
         for index in range(len(couples_id_player)):
             self.bdd_id[index] = couples_id_player[index][0]
@@ -91,11 +91,22 @@ class PlayerManager:
         """Ajout manuel de 8 joueurs.
 
         Arguments;
-            string -- indice correspond à la valeur de self.bdd_id du joueur : joueur x
-            objet Player  -- player correspond à une instance de Player avec ces attributs renseignés
+            bdd_id  (string)        -- indice correspond à la valeur de self.bdd_id du joueur : joueur x
+            player  (objet Player)  -- player correspond à une instance de Player avec ces attributs renseignés
 
         """
         self[bdd_id] = player
+
+    def update_scores_players(self, results_round):
+        """Récupère le dico des {id_player: score} pour mettre à jour les scores
+        des joueurs dans Player
+
+        Args:
+            results_round (dict) -- dico des {id_player: score}
+        """
+        for id_players, round_score in results_round.items():
+            player = self[id_players]
+            player.update_score(round_score)
 
     def save_players_BDD(self):
         """Sauvegarde le dictionnaire des joueurs dans la table player_table de la base de données.
