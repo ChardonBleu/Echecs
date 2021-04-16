@@ -109,7 +109,7 @@ class Controller:
             (self.players_controller.players_manager.bdd_id[other_player],
              self.players_controller.players_manager.bdd_id[index_joueur]))
 
-    def resume_round_score(self, results_round):
+    def update_scores_players(self, results_round):
         """Récupère le dico des {id_player: score} pour mettre à jour les scores
         des joueurs dans Player
 
@@ -178,7 +178,7 @@ class Controller:
             # Clos le premier round avec saisie des scores:
             results_round = self.tournament_controller.close_last_round_with_scores()
             self.round_controller.view.show_rounds_with_matches(self.tournament_controller.tournament, nb_rounds)
-            self.resume_round_score(results_round)
+            self.update_scores_players(results_round)
 
             # Tri des joueurs du tournoi courant par score à l'issu du round
             self.players_controller.sort_players_by_score_and_ranking(self.players_controller.players_manager)
