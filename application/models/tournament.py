@@ -10,15 +10,15 @@ class Tournament:
     def __init__(self, name, site, date_begin, date_end, description, index_time_control, number_rounds=4):
         """
         Arguments:
-            name {string} --
-            site {string} --
-            date_begin {string} --
-            date_end {string} --
-            description {string} --
-            index_time_control {int} --
+            name (string) --
+            site (string) --
+            date_begin (string) --
+            date_end (string) --
+            description (string) --
+            index_time_control (int) --
 
         Keyword Arguments:
-            number_rounds {int} -- (default: {4})
+            number_rounds (int) -- (default: {4})
         """
 
         self.name = name  # string
@@ -49,7 +49,7 @@ class Tournament:
         """Met dans l'attribut self.players de Tournament la liste des id de la bdd des joueurs de ce tournois
 
         Arguments:
-            liste_index_players {list} --
+            liste_index_players (list) --
         """
         self.players = liste_id_players
 
@@ -65,11 +65,11 @@ class Tournament:
         """Sélectionne le dernier round créé puis y ajoute un match avec les joueurs donnés en argument
 
         Arguments:
-            player1 {instance de Player} --
-            player2 {instance de Player} --
+            player1 (instance de Player) --
+            player2 (instance de Player) --
 
-            score1 {int} -- score en début de round
-            score2 {int} -- score ne début de round
+            score1 (int) -- score en début de round
+            score2 (int) -- score ne début de round
         """
         index = len(self.rounds) - 1
         self.rounds[index].add_match(player1, player2, score1, score2)

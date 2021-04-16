@@ -5,14 +5,14 @@ class Player:
     def __init__(self, first_name, last_name, birth_date, sexe, ranking, score=0):
         """
         Arguments:
-            first_name {string} --
-            last_name {string} --
-            birth_date {string} --
-            sexe {string} --
-            ranking {int} --
+            first_name (string) --
+            last_name (string) --
+            birth_date (string) --
+            sexe (string) --
+            ranking (int) --
 
         Keyword Arguments:
-            score {int} -- score du joueur au cours du tournoi (default: {0})
+            score (int) -- score du joueur au cours du tournoi (default: {0})
         """
 
         self.first_name = first_name  # string
@@ -43,7 +43,7 @@ class Player:
         """Permet de mettre à jour le classement ELO du joueur
 
         Arguments:
-            new_ranking {int} -- nouvelle valeur du classement ELO
+            new_ranking (int) -- nouvelle valeur du classement ELO
         """
         self.ranking = new_ranking
 
@@ -51,7 +51,7 @@ class Player:
         """Permet de mettre à jour le score du joueur an y rajoutant le score du dernier round terminé
 
         Arguments:
-            new_ranking {int} -- nouvelle valeur du classement ELO
+            new_ranking (int) -- nouvelle valeur du classement ELO
         """
         self.tournament_score += new_score
 
@@ -74,7 +74,7 @@ class Player:
         représentant un joueur.
 
         Arguments:
-            serialized_player {dict} -- dictionnaire représentant un joueur
+            serialized_player (dict) -- dictionnaire représentant un joueur
 
         Returns:
             instance de Player
