@@ -81,10 +81,6 @@ class TestTournament(unittest.TestCase):
         """
         self.assertEqual(self.tournament.rounds[0].len_matches_list, 1)
 
-    def test_close_round_with_scores(self):
-        """[summary]
-        """
-
 
 if __name__ == "__main__":
     unittest.main()

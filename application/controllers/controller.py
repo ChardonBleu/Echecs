@@ -16,7 +16,7 @@ class Controller:
         self.round_controller = RoundController()
 
     def link_players_with_tournament(self):
-        """Prend la liste des joueurs chargés depuis la bdd ou bien saisie à la main 
+        """Prend la liste des joueurs chargés depuis la bdd ou bien saisie à la main
         et l'associe au tournoi courant en renseignant l'attribut self.players de la classe Tournament.
         Cette liste contient les id des joueurs dans la table players de la bdd.
         """
@@ -48,7 +48,7 @@ class Controller:
         """
         player_to_pair = liste_index_joueur[0]
         number_matches_before = self.tournament_controller.tournament.rounds[nb_rounds - 1].len_matches_list
-        # On lance la méthode de recherche d'appairage et on récupère l'index du joueur sélectionné 
+        # On lance la méthode de recherche d'appairage et on récupère l'index du joueur sélectionné
         index_other_player = self.examine_other_players_as_candidate(liste_index_joueur, player_to_pair)
         other_player = liste_index_joueur[index_other_player]
         # si le saut mène au dernier joueur de la liste et qu'aucun match n'a été encore ajouté, on le rajoute
@@ -79,7 +79,9 @@ class Controller:
             self.add_match_and_memorise(player_to_pair, other_player)
         else:
             if index_other_player < len(liste_index_joueur) - 1:
-                index_other_player = self.examine_other_players_as_candidate(liste_index_joueur, player_to_pair, index_other_player + 1)
+                index_other_player = self.examine_other_players_as_candidate(liste_index_joueur,
+                                                                             player_to_pair,
+                                                                             index_other_player + 1)
         return index_other_player
 
     def add_match_and_memorise(self, player_to_pair, other_player):
@@ -108,17 +110,6 @@ class Controller:
         self.round_controller.memo_match.append(
             (self.players_controller.players_manager.bdd_id[other_player],
              self.players_controller.players_manager.bdd_id[player_to_pair]))
-
-    def update_scores_players(self, results_round):
-        """Récupère le dico des {id_player: score} pour mettre à jour les scores
-        des joueurs dans Player
-
-        Args:
-            results_round (dict) -- dico des {id_player: score}
-        """
-        for id_players, round_score in results_round.items():
-            player = self.players_controller.players_manager[id_players]
-            player.update_score(round_score)
 
     def run(self):
         """Test de séquences d'évènements
@@ -178,7 +169,7 @@ class Controller:
             # Clos le premier round avec saisie des scores:
             results_round = self.tournament_controller.close_last_round_with_scores()
             self.round_controller.view.show_rounds_with_matches(self.tournament_controller.tournament, nb_rounds)
-            self.update_scores_players(results_round)
+            self.players_controller.players_manager.update_scores_players(results_round)
 
             # Tri des joueurs du tournoi courant par score à l'issu du round
             self.players_controller.sort_players_by_score_and_ranking(self.players_controller.players_manager)
