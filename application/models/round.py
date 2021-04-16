@@ -36,9 +36,10 @@ class Round:
         self.matches.append(Match(player1, player2, score1, score2))
 
     def close_round(self):
-        """Mise à jour autoùatique de l'heure de fin de round lors de la saisie des scores
+        """Mise à jour automatique de l'heure de fin de round lors de la saisie des scores
         """
         self.horodatage_end = datetime.now().strftime("%d/%m/%Y-%H:%M")
+        return self.horodatage_end
 
     @property
     def len_matches_list(self):

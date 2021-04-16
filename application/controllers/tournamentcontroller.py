@@ -34,6 +34,11 @@ class TournamentController:
 
     def close_last_round_with_scores(self):
         """Ferme le dernier round créé avec saisie des scores des matchs
+        met à jour les scores dans Match.
+        Mémorise les scores de chaque joueur pour pouvoir mettre à jour ces scores dans Player
+
+        Returns:
+            dict -- dictionnaire des scores de chaque joueur sous la forme {id_bdd: score}
         """
         index_last_round = len(self.tournament.rounds) - 1
         last_round_matches = self.tournament.rounds[index_last_round].matches

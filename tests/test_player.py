@@ -30,7 +30,6 @@ class TestPlayer(unittest.TestCase):
                                        Player("doris", "", "", "", 820, 1),
                                        Player("garance", "", "", "", 567, 1),
                                        Player("wallace", "", "", "", 973, 0.5)]
-        [6, 7, 2, 8, 4, 5, 3, 1]
         self.player_manager.bdd_id = [1, 2, 3, 4, 5, 6, 7, 8]
         self.player_controller = PlayerController()
 
@@ -75,6 +74,7 @@ class TestPlayer(unittest.TestCase):
     def test_sort_players_by_name(self):
         """sort players of PlayerManager object by ranking
         """
+        # print("6")
         sorted_player_manager = PlayerManager()
         sorted_player_manager.players = [Player("anatole", "", "", "", 256, 0.5),
                                          Player("bérénice", "", "", "", 451, 0),
