@@ -18,8 +18,6 @@ class TournamentManager:
     """
 
     def __init__(self):
-        """
-        """
         self.tournaments = []
         self.bdd_id = []
 
@@ -57,7 +55,8 @@ class TournamentManager:
         self.bdd_id = tournament_table.insert_multiple(serialized_tournaments)
 
     def load_last_saved_tournament(self):
-        """[summary]
+        """charge dans le programme le dernier tournoi sauvegardé dans la bdd.
+        Les rounds et les match déjà rensignés sont également chargés.
         """
         db = TinyDB('db.json')
         tournament_table = db.table('tournaments')

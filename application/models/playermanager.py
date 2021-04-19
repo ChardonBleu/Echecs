@@ -205,3 +205,11 @@ class PlayerManager:
             ranking = serialized_players[index]['ranking']
             self.players.append(Player(first_name, last_name, birth_date, sexe, ranking))
             self.bdd_id.append(serialized_players[index].doc_id)
+
+    def load_players_with_bdd_id_list(self, bdd_id_list):
+        """Charge dans le player manager les 8 joueurs dont les id de la BDD sont dans la liste passée en arguments
+
+        Arguments:
+            bdd_id_list (list) -- liste de id des joueurs dans la bdd
+        """
+        pass
