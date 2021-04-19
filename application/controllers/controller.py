@@ -22,8 +22,19 @@ class Controller:
         """
         id_list = self.players_controller.players_manager.liste_id_players
         self.tournament_controller.tournament.tournament_players(id_list)
+    
+    def start_first_round(self):
+        """[summary]
+        """
+        self.tournament_controller.tournament.add_round()
+        player_to_pair = 0
+        other_player = 4
+        while player_to_pair < 4:
+            self.add_match_and_memorise(player_to_pair, other_player)
+            player_to_pair += 1
+            other_player +=1            
 
-    def start_round_with_control(self, nb_rounds):
+    def new_round_with_control(self, nb_rounds):
         """Crée un nouveau round en veillant à ce que les joueurs ne se soient pas déjà affrontés.
         Méthode appelée aprés nouveau tri des joueurs par classement et score.
 
@@ -141,8 +152,7 @@ class Controller:
         self.link_players_with_tournament()
         # Affiche le résumé des données du tournois
         self.tournament_controller.view.show_tournament(self.tournament_controller.tournament)
-        # Affiche la liste des joueurs avec leur classement
-        self.players_controller.show_players(self.players_controller.players_manager)
+
 
         """# Charger tous les joueurs de la bdd dans une variable
         all_players = self.players_controller.players_manager.load_all_players_from_bdd()
@@ -156,17 +166,36 @@ class Controller:
         self.players_controller.sort_players_by_name(all_players)
         # Affiche la liste de tous les joueurs de la bdd
         self.players_controller.show_players(all_players)"""
-
+        
         nb_rounds = 1
+        # Tri des joueurs du tournoi courant par classement ELO décroissant
+        self.players_controller.sort_players_by_score_and_ranking(self.players_controller.players_manager)
+        # Affiche la liste des joueurs avec leur classement
+        self.players_controller.show_players(self.players_controller.players_manager)
+        # Démarre le premier round en affectant les joueurs aux match à partir de la liste triée juste précédement
+        self.start_first_round()
+        # Affiche les matchs des rounds
+        self.round_controller.view.show_rounds_with_matches(self.tournament_controller.tournament, nb_rounds)
+
+        # Clos le  round avec saisie des scores:
+        results_round = self.tournament_controller.close_last_round_with_scores()
+        self.round_controller.view.show_rounds_with_matches(self.tournament_controller.tournament, nb_rounds)
+        self.players_controller.players_manager.update_scores_players(results_round)
+
+        # Tri des joueurs du tournoi courant par score à l'issu du round
+        self.players_controller.sort_players_by_score_and_ranking(self.players_controller.players_manager)
+        self.players_controller.show_players(self.players_controller.players_manager)
+
+        nb_rounds = 2
         while nb_rounds <= self.tournament_controller.tournament.number_rounds:
             # Tri des joueurs du tournoi courant par classement ELO décroissant
             self.players_controller.sort_players_by_score_and_ranking(self.players_controller.players_manager)
             # Démarre le premier round en affectant les joueurs aux match à partir de la liste triée juste précédement
-            self.start_round_with_control(nb_rounds)
+            self.new_round_with_control(nb_rounds)
             # Affiche les matchs des rounds
             self.round_controller.view.show_rounds_with_matches(self.tournament_controller.tournament, nb_rounds)
 
-            # Clos le premier round avec saisie des scores:
+            # Clos le  round avec saisie des scores:
             results_round = self.tournament_controller.close_last_round_with_scores()
             self.round_controller.view.show_rounds_with_matches(self.tournament_controller.tournament, nb_rounds)
             self.players_controller.players_manager.update_scores_players(results_round)
