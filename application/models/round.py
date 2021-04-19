@@ -55,3 +55,16 @@ class Round:
             int --
         """
         return len(self.matches)
+
+    def serialize_round(self):
+        """Transforme une instance de round en dictionnaire avant sauvegarde dans la BDD.
+
+        Returns:
+            dict -- Dictionnaire représentant un round.
+        """
+        serialized_round = {
+            'round_name': self.round_name,
+            'matches': self.matches,
+            'horodatage_begin': self.horodatage_begin,
+            'horodatage_end': self.horodatage_end}
+        return serialized_round

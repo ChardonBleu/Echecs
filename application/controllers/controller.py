@@ -208,8 +208,16 @@ class Controller:
             self.players_controller.show_players(self.players_controller.players_manager)
             nb_rounds += 1
 
+        """
+        # Affiche tous les rounds avec tous les matchs
         self.round_controller.view.show_all_rounds(self.tournament_controller.tournament)
-        self.players_controller.update_ranking_players()
+        # Mise à jour des classements 
+        self.players_controller.update_ranking_players()"""
+        
+        # Ajout du tournois en cours dans le tournament manager
+        self.tournament_controller.tournament_manager.add_tournament(self.tournament_controller.tournament)
+        # Sauvegarde dans la bdd du tournoi en cours
+        self.tournament_controller.tournament_manager.save_tournaments_bdd()
 
         """# Tri des joueurs courants par ordre alphabétique croissant
         self.players_controller.players_manager.sort_players_by_name(self.players_controller.players_manager)

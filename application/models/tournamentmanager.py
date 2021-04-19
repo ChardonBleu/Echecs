@@ -14,7 +14,7 @@ class TournamentManager:
         Sauvegarder un tournoi dans la BDD.
         Charger le dernier tournoi sauvegardé à partir de la BDD.
         Charger un tournoi, connaissant son id dans la bdd.
-        Charger tous les tournois pour pouvoir les afficher
+        Charger tous les tournois pour pouvoir les afficher.
     """
 
     def __init__(self):
@@ -34,12 +34,22 @@ class TournamentManager:
             liste_tournaments += str(self.tournaments[index]) + "\n"
         return liste_tournaments
 
+    def add_tournament(self, tournament):
+        """Ajoute le tournoi en argument au Tournament manager.
+        Permet de préparer la sauvegarde du tournois en cours.
+
+        Arguments:
+            tournament {onbet Tournament} -- Instance de Tournament contenant un tournoi en cours.
+        """
+        self.tournaments.append(tournament)
+
     def save_tournaments_bdd(self):
         """Sauvegarde le dictionnaire des tournois dans la table tournament de la base de données.
 
         Returns:
-            list -- liste des id des joueurs sauvegardés dans la base de données
+            list -- Liste des id des joueurs sauvegardés dans la base de données.
         """
+
         serialized_tournaments = []
         for tournament in self.tournaments:
             serialized_tournaments.append(tournament.serialize_tournament())

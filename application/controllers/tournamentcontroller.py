@@ -1,5 +1,6 @@
 from ..views.tournamentview import TournamentView
 from ..models.tournament import Tournament
+from ..models.tournamentmanager import TournamentManager
 from ..controllers.roundcontroller import RoundController
 
 
@@ -16,12 +17,14 @@ class TournamentController:
         self.round_controller (objet RoundController) -- instance de RoundController.  Permet d'accéder aux données
                                                          de rounds depuis une instance de TournamentController
         self.tournmanet (objet Tournament)  -- instance du tournoi. Correspond au tournoi en cours.
+        self.tournament_manager (objet TournamentManager)  -- Pour sauvegarde ou chargement d'un tournoi
     """
 
     def __init__(self):
         self.view = TournamentView()
         self.round_controller = RoundController()
         self.tournament = None
+        self.tournament_manager = TournamentManager()
 
     def new_tournament(self):
         """Crée instance de Tournament avec saisie utilisateur des caractéristiques du tournois,
