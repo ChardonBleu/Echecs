@@ -8,6 +8,7 @@ class TournamentManager:
 
     Attributs:
         self.tournaments  (list) -- liste d'instances de Tournament
+        self.bdd_id  (list)  --  liste de id des tournois dans la BDD
 
     Permet de :
         Sauvegarder un tournoi dans la BDD.
@@ -20,7 +21,7 @@ class TournamentManager:
         """
         """
         self.tournaments = []
-        # self.bdd_id = []
+        self.bdd_id = []
 
     def __str__(self):
         """Permet d'afficher la liste des tournois:
@@ -39,10 +40,9 @@ class TournamentManager:
         Returns:
             list -- liste des id des joueurs sauvegardés dans la base de données
         """
-        serialized_players = []
-        for player in self.players:
-            serialized_players.append(player.serialize_player())
+        serialized_tournaments = []
+        for tournament in self.tournaments:
+            serialized_tournaments.append(tournament.serialize_tournament())
         db = TinyDB('db.json')
-        players_table = db.table('players')
-        self.bdd_id = players_table.insert_multiple(serialized_players)
-
+        tournament_table = db.table('tournaments')
+        self.bdd_id = tournament_table.insert_multiple(serialized_tournaments)
