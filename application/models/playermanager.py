@@ -5,17 +5,23 @@ from ..models.player import Player
 
 class PlayerManager:
     """Sert à créer une liste d'instances de joueurs pour un tournoi, avec sa liste d'id de la bdd associée.
+
+    Attributs:
+        self.players  (list) -- liste de 8 instances de Player. Ce sont les joueurs du tournoi.
+        self.bdd_id (list)  -- liste de 8 nombres correspondant aux id des joueurs dans le bdd
+
     Une instance de PlayerManager simule un dictionaire ordonné: si on trie les joueur dans la liste self.players,
     la liste associée self.bdd_id se trie également.
+
     Permet également de :
-        Importer des joueurs en les saisissant à la console
+        Importer des joueurs en les saisissant à la console.
         Sauvegarder ces joueurs dans la BDD.
         Charger des joueurs à partir de la BDD.
+        Mettre à jour les classements ELO dans le BDD.
+        Trier les joueurs.
     """
 
     def __init__(self):
-        """
-        """
         self.players = []
         self.bdd_id = []
 
@@ -109,9 +115,8 @@ class PlayerManager:
             player.update_score(round_score)
 
     def save_players_bdd(self):
-        """Sauvegarde le dictionnaire des joueurs dans la table player_table de la base de données.
+        """Sauvegarde le dictionnaire des joueurs dans la table 'players' de la base de données.
 
-        Le nom de la table est construit par la méthode name_tournament_players() de la classe Tournament.
 
         Returns:
             list -- liste des id des joueurs sauvegardés dans la base de données
@@ -134,7 +139,8 @@ class PlayerManager:
         self.decouple_items(sorted_player_list)
 
     def sort_players_by_score_and_ranking(self, player_manager):
-        """Permet le tri des joueurs du tournoi courant selon leur classement ELO (ordre décroissant des rangs).
+        """Permet le tri des joueurs du tournoi courant selon leur classement ELO (ordre décroissant des rangs)
+        et selon leur score au tournoi (ordre décroissant des rangs).
 
         Args:
             player_manager (instance de PlayerManager) -- Contient la liste des 8 joueurs du tournoi courant
@@ -146,7 +152,7 @@ class PlayerManager:
     def update_ranking_players_bdd(self, last_name, new_ranking):
         """Sauvegarde dans le bdd la mise à jour de classement Elo des joueurs,
         ces nouvelles valeurs du classement étant saisies par l'utilisateur en
-        fin de tournoi
+        fin de tournoi.
 
         Arguments:
             last_name  (string)  -- nom de famille du joueur dont on met à jour le classement

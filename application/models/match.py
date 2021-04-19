@@ -1,6 +1,8 @@
 class Match:
     """Modélise un match d'un round du tournoi d'échecs.
-    Les données sont stockées sous la forme d'un tupple contenant deux listes [instance de Player, score].
+    Les données sont stockées sous la forme d'un tupple contenant deux listes [instance de Player, score]:
+    
+        self.pairs  (tupple)  -- tupple contenant les deux listes [instance de Player, score]
     """
 
     def __init__(self, player1, player2, score1, score2):
@@ -13,7 +15,7 @@ class Match:
             score2 (int) -- score ne début de round
         """
 
-        self.pairs = ([player1, score1], [player2, score2])  # tupple of two lists
+        self.pairs = ([player1, score1], [player2, score2])
 
     def __str__(self):
         """Pour affichage des joueurs et des scores d'un match

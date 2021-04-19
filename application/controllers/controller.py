@@ -6,11 +6,14 @@ from .roundcontroller import RoundController
 class Controller:
     """
     Controleur général -- en chantier -- Permet de tester des séquences d'évènements
+
+    Attributs:
+        self.tournament_controller  (objet TournamentController)  -- Contrôle le tournoi courant
+        self.players_controller  (objet PlayerController)  -- Contrôle les joueurs du tournoi courant
+        self.round_controller  (objet RoundController)  -- Contrôle les rounds du tournoi courant
     """
 
     def __init__(self):
-        """
-        """
         self.tournament_controller = TournamentController()
         self.players_controller = PlayerController()
         self.round_controller = RoundController()

@@ -9,12 +9,15 @@ class PlayerController:
     Assure le lien entre utilisateur et modèles en appelant la vue des joueurs
         pour la saisie de nouveaux joueurs
         pour l'affichage des joueurs du tournoi courant
-    Se charge du tri des joueurs.
+
+    Attributs:
+        self.view  (objet PlayerView)  -- instance de PlayerView destinée à la saisie
+                                          et l'affichage des données propres aux joueurs.
+        self.players_manager (objet PlayerManager)  -- instance de PlayerManager contenant
+                                                       les joueurs du tournoi courant
     """
 
     def __init__(self):
-        """
-        """
         self.view = PlayerView()
         self.players_manager = PlayerManager()
 

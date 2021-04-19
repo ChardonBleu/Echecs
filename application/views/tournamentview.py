@@ -6,7 +6,6 @@ class TournamentView:
         Interface destinée à la gestion du tournois:
         Choix paramètres tournois: nom, site, dates début et fin, description
         timecontrol et number of rounds
-
     """
 
     def prompt_name_tournament(self):

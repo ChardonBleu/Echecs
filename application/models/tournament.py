@@ -5,33 +5,42 @@ from ..utils.constants import TIME_CONTROL
 
 class Tournament:
     """Modélise un tournoi d'échecs.
+
+    Gère l'ajout de rounds au tournoi:
+        self.rounds (list) -- liste d'instances de Round
+
+    Gère l'ajout de match dans le dernier round:
+        chaque instance de Round créée contient une liste de 4 instances de Match
+
+    Gère l'ajout de joueurs au tournoi:
+        self.players (list)  -- liste de id des joueurs (id de la BDD)
     """
 
     def __init__(self, name, site, date_begin, date_end, description, index_time_control, number_rounds=4):
         """
         Arguments:
-            name (string) --
-            site (string) --
-            date_begin (string) --
-            date_end (string) --
-            description (string) --
-            index_time_control (int) --
+            name (string) -- nom du tournoi
+            site (string) -- lieu du tournoi
+            date_begin (string) -- date de début du tournoi
+            date_end (string) -- date de fin du tournoi
+            description (string) --  description du tournoi
+            index_time_control (int) -- permet le choix du contrôleur de temps dans une liste de constantes
 
         Keyword Arguments:
-            number_rounds (int) -- (default: {4})
+            number_rounds (int) --  nombre de rounds du tournoi (default: {4})
         """
 
-        self.name = name  # string
-        self.site = site  # string
-        self.date_begin = date_begin  # string
-        self.date_end = date_end  # string
-        self.description = description  # string
-        self.time_control = TIME_CONTROL[index_time_control]  # string
-        self.number_rounds = number_rounds  # int
+        self.name = name
+        self.site = site
+        self.date_begin = date_begin
+        self.date_end = date_end
+        self.description = description
+        self.time_control = TIME_CONTROL[index_time_control]
+        self.number_rounds = number_rounds
 
-        self.rounds = []  # list of instances of Round()
+        self.rounds = []
 
-        self.players = []  # list of players's bdd id
+        self.players = []
 
     def __str__(self):
         """Permet d'afficher un résumé des caractéristique du tournois

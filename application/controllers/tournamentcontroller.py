@@ -5,15 +5,20 @@ from ..controllers.roundcontroller import RoundController
 
 class TournamentController:
     """
-    Modélise le controller du tournoi.
+    Modélise le controller du tournoi.   
     Assure le lien entre utilisateur et modèles en appelant la vue du tournoi
-        pour la saisie d'un nouveau tournoi
+    pour la saisie d'un nouveau tournoi.
+    
+    Attributs:
+    
+        self.view (objet TournamentView)  -- instance de TournamentView destinée à la saisie 
+                                             et l'affichage des données propres aux tournois
+        self.round_controller (objet RoundController) -- instance de RoundController.  Permet d'accéder aux données
+                                                         de rounds depuis une instance de TournamentController
+        self.tournmanet (objet Tournament)  -- instance du tournoi. Correspond au tournoi en cours.
     """
 
     def __init__(self):
-        """
-        """
-        # self.players = PlayerManager()
         self.view = TournamentView()
         self.round_controller = RoundController()
         self.tournament = None
