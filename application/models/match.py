@@ -1,6 +1,8 @@
 class Match:
     """Modélise un match d'un round du tournoi d'échecs.
-    Les données sont stockées sous la forme d'un tupple contenant deux listes [instance de Player, score].
+    Les données sont stockées sous la forme d'un tupple contenant deux listes [instance de Player, score]:
+    
+        self.pairs  (tupple)  -- tupple contenant les deux listes [instance de Player, score]
     """
 
     def __init__(self, player1, player2, score1, score2):
@@ -13,7 +15,7 @@ class Match:
             score2 (int) -- score ne début de round
         """
 
-        self.pairs = ([player1, score1], [player2, score2])  # tupple of two lists
+        self.pairs = ([player1, score1], [player2, score2])
 
     def __str__(self):
         """Pour affichage des joueurs et des scores d'un match
@@ -39,3 +41,13 @@ class Match:
         """
         self.pairs[0][1] = new_score1
         self.pairs[1][1] = new_score2
+
+    def serialize_match(self):
+        """Transforme une instance de match en dictionnaire avant sauvegarde dans la BDD.
+
+        Returns:
+            dict -- Dictionnaire représentant un match.
+        """
+        serialized_match = {
+            'pairs': self.pairs}
+        return serialized_match

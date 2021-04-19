@@ -76,3 +76,19 @@ class PlayerView:
         """
         print()
         print(players)
+
+    def prompt_new_ranking_player(self, player):
+        """Demande à l'utilisateur le nouveau classement pour chaque joueur à l'issu du tournoi
+        """
+        print()
+        print(player)
+        while True:
+            try:
+                new_ranking = int(input("Saisir le nouveau classement pour le joueur ci-dessus: "))
+                if new_ranking < 0:
+                    raise ValueError
+            except ValueError:
+                print("Il faut saisir un entier positif !")
+            else:
+                break
+        return new_ranking

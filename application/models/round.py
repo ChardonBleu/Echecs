@@ -4,7 +4,13 @@ from .match import Match
 
 
 class Round:
-    """Modélise un round du tournoi d'échec
+    """Modélise un round du tournoi d'échec.
+
+    Attributs:
+        self.round_name  (string) --  nom du round
+        self.matches  (list)  --  liste de 4 instances de Match
+        self.horodatage_begin (datetime) -- horodatage automatique à la création du round
+        self.horodatage_end (datetime) -- horodatage automatique à la fermeture du round    
     """
 
     def __init__(self, num_round):
@@ -13,10 +19,10 @@ class Round:
             num_round (int) -- Permet de nommer le round
         """
 
-        self.round_name = "round " + str(num_round)  # string
-        self.matches = []  # list of 4 instances of match
-        self.horodatage_begin = datetime.now().strftime("%d/%m/%Y-%H:%M")  # date et heure de début
-        self.horodatage_end = ""  # date et heure de fin
+        self.round_name = "round " + str(num_round)
+        self.matches = []
+        self.horodatage_begin = datetime.now().strftime("%d/%m/%Y-%H:%M")
+        self.horodatage_end = ""
 
     def __str__(self):
         """Pour affichage des données d'un round
@@ -49,3 +55,19 @@ class Round:
             int --
         """
         return len(self.matches)
+
+    def serialize_round(self):
+        """Transforme une instance de round en dictionnaire avant sauvegarde dans la BDD.
+
+        Returns:
+            dict -- Dictionnaire représentant un round.
+        """
+        serialized_match = []
+        for match in self.matches:
+            serialized_match.append(match.serialize_match())
+        serialized_round = {
+            'round_name': self.round_name,
+            'matches': serialized_match,
+            'horodatage_begin': str(self.horodatage_begin),
+            'horodatage_end': str(self.horodatage_end)}
+        return serialized_round

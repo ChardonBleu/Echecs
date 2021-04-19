@@ -1,25 +1,33 @@
 from ..views.tournamentview import TournamentView
 from ..models.tournament import Tournament
+from ..models.tournamentmanager import TournamentManager
 from ..controllers.roundcontroller import RoundController
 
 
 class TournamentController:
     """
-    Modélise le controller du tournoi.
+    Modélise le controller du tournoi.   
     Assure le lien entre utilisateur et modèles en appelant la vue du tournoi
-        pour la saisie d'un nouveau tournoi
+    pour la saisie d'un nouveau tournoi.
+    
+    Attributs:
+    
+        self.view (objet TournamentView)  -- instance de TournamentView destinée à la saisie 
+                                             et l'affichage des données propres aux tournois
+        self.round_controller (objet RoundController) -- instance de RoundController.  Permet d'accéder aux données
+                                                         de rounds depuis une instance de TournamentController
+        self.tournmanet (objet Tournament)  -- instance du tournoi. Correspond au tournoi en cours.
+        self.tournament_manager (objet TournamentManager)  -- Pour sauvegarde ou chargement d'un tournoi
     """
 
     def __init__(self):
-        """
-        """
-        # self.players = PlayerManager()
         self.view = TournamentView()
         self.round_controller = RoundController()
         self.tournament = None
+        self.tournament_manager = TournamentManager()
 
     def new_tournament(self):
-        """Crée instance de Tournament avec saisie utilisateur des caractéristique du tournois,
+        """Crée instance de Tournament avec saisie utilisateur des caractéristiques du tournois,
         sauf attribut players
         L'attribut round se renseigne à l'instanciation à partir du nombre de rounds donné par l'utilisateur
         On instancie les rounds vides.
