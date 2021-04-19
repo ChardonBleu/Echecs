@@ -55,6 +55,8 @@ class PlayerController:
         for player in self.players_manager.players:
             new_ranking = self.view.prompt_new_ranking_player(player)
             player.update_ranking(new_ranking)
+            serialized_player = player.serialize_player()
+            self.players_manager.update_ranking_players_bdd(serialized_player['last_name'], new_ranking)
 
     def sort_players_by_name(self, player_manager):
         """Permet le tri des joueurs du tournoi courant selon leur nom complet : 'nom_de_famille prénom'

@@ -80,6 +80,7 @@ class PlayerView:
     def prompt_new_ranking_player(self, player):
         """Demande à l'utilisateur le nouveau classement pour chaque joueur à l'issu du tournoi
         """
+        print()
         print(player)
         while True:
             try:

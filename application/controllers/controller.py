@@ -24,7 +24,7 @@ class Controller:
         self.tournament_controller.tournament.tournament_players(id_list)
     
     def start_first_round(self):
-        """[summary]
+        """Crée le premier round 
         """
         self.tournament_controller.tournament.add_round()
         player_to_pair = 0

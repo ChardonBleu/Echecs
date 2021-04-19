@@ -1,4 +1,4 @@
-from tinydb import TinyDB
+from tinydb import TinyDB, Query
 
 from ..models.player import Player
 
@@ -108,7 +108,7 @@ class PlayerManager:
             player = self[id_players]
             player.update_score(round_score)
 
-    def save_players_BDD(self):
+    def save_players_bdd(self):
         """Sauvegarde le dictionnaire des joueurs dans la table player_table de la base de données.
 
         Le nom de la table est construit par la méthode name_tournament_players() de la classe Tournament.
@@ -122,6 +122,20 @@ class PlayerManager:
         db = TinyDB('db.json')
         players_table = db.table('players')
         self.bdd_id = players_table.insert_multiple(serialized_players)
+
+    def update_ranking_players_bdd(self, last_name, new_ranking):
+        """Sauvegarde dans le bdd la mise à jour de classement Elo des joueurs,
+        ces nouvelles valeurs du classement étant saisies par l'utilisateur en
+        fin de tournoi
+        
+        Arguments:
+            last_name  (string)  -- nom de famille du joueur dont on met à jour le classement
+            new_ranking  (int)  --  nouvelle valeur du classement
+        """
+        db = TinyDB('db.json')
+        players_table = db.table('players')
+        Name = Query()
+        players_table.update({'ranking': new_ranking}, Name.last_name == last_name)
 
     def load_all_players_from_bdd(self):
         """Charge des joueurs depuis la base de données puis transforme la liste
