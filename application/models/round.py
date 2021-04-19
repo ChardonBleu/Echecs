@@ -81,7 +81,9 @@ class Round:
         self.round_name = serialized_round['round_name']
         self.horodatage_begin = serialized_round['horodatage_begin']
         self.horodatage_end = serialized_round['horodatage_end']
-        self.matches = []
-        for match in serialized_round['matches']:
-            self.matches.append(match.deserialize_match(match))
+        self.matches = [] 
+        non_empty_matches = len(serialized_round['matches'])
+        for index in range(non_empty_matches):
+            self.matches.append(Match("", "", "", ""))
+            self.matches[index] = self.matches[index].deserialize_match(serialized_round['matches'][index])
         return self

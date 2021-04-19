@@ -119,6 +119,8 @@ class Tournament:
         self.number_rounds = serialized_tournament['number_rounds']
         self.players = serialized_tournament['players']
         self.rounds = []
-        for this_round in serialized_tournament['rounds']:
-            self.rounds.append(this_round.deserialize_round(this_round))
+        non_empty_rounds = len(serialized_tournament['rounds'])
+        for index in range(non_empty_rounds):
+            self.rounds.append(Round(""))
+            self.rounds[index] = self.rounds[index].deserialize_round(serialized_tournament['rounds'][index])
         return self

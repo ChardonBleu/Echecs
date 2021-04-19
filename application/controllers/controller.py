@@ -149,9 +149,9 @@ class Controller:
         self.players_controller.players_manager.save_players_BDD()"""
 
         """# Charge les 8 premiers joueurs de la bdd pour test rapide appli
-        self.players_controller.players_manager.load_8_players_from_bdd()"""
+        self.players_controller.players_manager.load_8_players_from_bdd()
 
-        """# Lie les joueurs entrés manuellemetn et ajoutées à la BDD au tournoi courant
+        # Lie les joueurs entrés manuellemetn et ajoutées à la BDD au tournoi courant
         self.link_players_with_tournament()
         # Affiche le résumé des données du tournois
         self.tournament_controller.view.show_tournament(self.tournament_controller.tournament)"""
@@ -197,6 +197,11 @@ class Controller:
             # Affiche les matchs des rounds
             self.round_controller.view.show_rounds_with_matches(self.tournament_controller.tournament, nb_rounds)
 
+            # Ajout du tournois en cours dans le tournament manager
+            self.tournament_controller.tournament_manager.add_tournament(self.tournament_controller.tournament)
+            # Sauvegarde dans la bdd du tournoi en cours
+            self.tournament_controller.tournament_manager.save_tournaments_bdd() 
+
             # Clos le  round avec saisie des scores:
             results_round = self.tournament_controller.close_last_round_with_scores()
             self.round_controller.view.show_rounds_with_matches(self.tournament_controller.tournament, nb_rounds)
@@ -216,7 +221,7 @@ class Controller:
         """# Ajout du tournois en cours dans le tournament manager
         self.tournament_controller.tournament_manager.add_tournament(self.tournament_controller.tournament)
         # Sauvegarde dans la bdd du tournoi en cours
-        self.tournament_controller.tournament_manager.save_tournaments_bdd()"""     
+        self.tournament_controller.tournament_manager.save_tournaments_bdd()  """  
 
         """# Tri des joueurs courants par ordre alphabétique croissant
         self.players_controller.players_manager.sort_players_by_name(self.players_controller.players_manager)
@@ -224,14 +229,17 @@ class Controller:
         self.players_controller.show_players(self.players_controller.players_manager)"""
 
         # Charge le dernier tournoi sauvegardé
-        
+        self.tournament_controller.tournament = self.tournament_controller.tournament_manager.load_last_saved_tournament()
         # Affiche le résumé des données du tournois
         self.tournament_controller.view.show_tournament(self.tournament_controller.tournament)
-        # Charge les joueurs de ce tournoi dans le playermanager
+        # Affiche tous les rounds avec tous les matchs
+        self.round_controller.view.show_all_rounds(self.tournament_controller.tournament)
+        # Charge les joueurs de ce tournoi dans le playermanager"""
         
+        """
         # Affiche la liste des joueurs avec leur classement
         self.players_controller.show_players(self.players_controller.players_manager)
         # Recalcule leur score à partir des données du tournoi chargé
         
         # Affiche la liste des joueurs avec leur classement
-        self.players_controller.show_players(self.players_controller.players_manager)
+        self.players_controller.show_players(self.players_controller.players_manager)"""

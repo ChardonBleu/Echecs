@@ -49,10 +49,21 @@ class TournamentManager:
         Returns:
             list -- Liste des id des joueurs sauvegardés dans la base de données.
         """
-
         serialized_tournaments = []
         for tournament in self.tournaments:
             serialized_tournaments.append(tournament.serialize_tournament())
         db = TinyDB('db.json')
         tournament_table = db.table('tournaments')
         self.bdd_id = tournament_table.insert_multiple(serialized_tournaments)
+
+    def load_last_saved_tournament(self):
+        """[summary]
+        """
+        db = TinyDB('db.json')
+        tournament_table = db.table('tournaments')
+        id_last_tournament = len(tournament_table)
+        serialized_last_tournament = tournament_table.get(doc_id=id_last_tournament)
+        self.bdd_id = id_last_tournament
+        self.tournaments = [Tournament("", "", "", "", "", 1)]
+        self.tournaments[0] = self.tournaments[0].deserialize_tournament(serialized_last_tournament)
+        return self.tournaments[0]
