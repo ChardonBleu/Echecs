@@ -58,5 +58,5 @@ class PlayerController:
         for player in self.players_manager.players:
             new_ranking = self.view.prompt_new_ranking_player(player)
             player.update_ranking(new_ranking)
-            serialized_player = player.serialize_player()
-            self.players_manager.update_ranking_players_bdd(serialized_player['last_name'], new_ranking)
+            index = self.players_manager.players.index(player)
+            self.players_manager.update_ranking_players_bdd(index, new_ranking)
