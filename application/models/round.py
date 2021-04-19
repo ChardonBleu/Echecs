@@ -71,3 +71,17 @@ class Round:
             'horodatage_begin': str(self.horodatage_begin),
             'horodatage_end': str(self.horodatage_end)}
         return serialized_round
+
+    def deserialize_round(self, serialized_round):
+        """Transforme un dico obtenu à partir de la BDD en instance de round.
+
+        Returns:
+            objet Round -- instance de Round.
+        """
+        self.round_name = serialized_round['round_name']
+        self.horodatage_begin = serialized_round['horodatage_begin']
+        self.horodatage_end = serialized_round['horodatage_end']
+        self.matches = []
+        for match in serialized_round['matches']:
+            self.matches.append(match.deserialize_match(match))
+        return self

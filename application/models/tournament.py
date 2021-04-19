@@ -103,3 +103,22 @@ class Tournament:
             'rounds': serialized_round,
             'players': self.players}
         return serialized_tournament
+
+    def deserialize_tournament(self, serialized_tournament):
+        """Transforme un dico obtenu à partir de la BDD en instance de Tournament.
+
+        Returns:
+            objet Tournament -- instance de Tournament.
+        """
+        self.name = serialized_tournament['name']
+        self.site = serialized_tournament['site']
+        self.date_begin = serialized_tournament['date_begin']
+        self.date_end = serialized_tournament['date_end']
+        self.description = serialized_tournament['description']
+        self.time_control = serialized_tournament['time_control']
+        self.number_rounds = serialized_tournament['number_rounds']
+        self.players = serialized_tournament['players']
+        self.rounds = []
+        for this_round in serialized_tournament['rounds']:
+            self.rounds.append(this_round.deserialize_round(this_round))
+        return self

@@ -51,3 +51,15 @@ class Match:
         serialized_match = {
             'pairs': self.pairs}
         return serialized_match
+
+    def deserialize_match(self, serialized_match):
+        """Transforme un dico obtenu à partir de la BDD en instance de match.
+
+        Returns:
+            objet Match -- instance de Match.
+        """
+        joueur1 = serialized_match['pairs'][0][0]
+        joueur2 = serialized_match['pairs'][1][0]
+        score1 = serialized_match['pairs'][0][1]
+        score2 = serialized_match['pairs'][1][1]
+        return Match(joueur1, joueur2, score1, score2)
