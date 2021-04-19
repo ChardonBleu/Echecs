@@ -140,22 +140,21 @@ class Controller:
             Lancer le premier round avec les matchs
         """
 
-        # Instancie un nouveau tournoi
-        self.tournament_controller.new_tournament()
+        """# Instancie un nouveau tournoi
+        self.tournament_controller.new_tournament()"""
 
         """# Ajoute manuellement 8 joueurs au tournoi courant
         self.players_controller.add_8_players()
         # Sauvegarde les joueurs entrés manuellement dans la BDD
         self.players_controller.players_manager.save_players_BDD()"""
 
-        # Charge les 8 premiers joueurs de la bdd pour test rapide appli
-        self.players_controller.players_manager.load_8_players_from_bdd()
+        """# Charge les 8 premiers joueurs de la bdd pour test rapide appli
+        self.players_controller.players_manager.load_8_players_from_bdd()"""
 
-        # Lie les joueurs entrés manuellemetn et ajoutées à la BDD au tournoi courant
+        """# Lie les joueurs entrés manuellemetn et ajoutées à la BDD au tournoi courant
         self.link_players_with_tournament()
         # Affiche le résumé des données du tournois
-        self.tournament_controller.view.show_tournament(self.tournament_controller.tournament)
-
+        self.tournament_controller.view.show_tournament(self.tournament_controller.tournament)"""
 
         """# Charger tous les joueurs de la bdd dans une variable
         all_players = self.players_controller.players_manager.load_all_players_from_bdd()
@@ -169,8 +168,8 @@ class Controller:
         self.players_controller.players_manager.sort_players_by_name(all_players)
         # Affiche la liste de tous les joueurs de la bdd
         self.players_controller.show_players(all_players)"""
-        
-        nb_rounds = 1
+
+        """nb_rounds = 1
         # Tri des joueurs du tournoi courant par classement ELO décroissant
         self.players_controller.players_manager.sort_players_by_score_and_ranking(self.players_controller.players_manager)
         # Affiche la liste des joueurs avec leur classement
@@ -206,7 +205,7 @@ class Controller:
             # Tri des joueurs du tournoi courant par score à l'issu du round
             self.players_controller.players_manager.sort_players_by_score_and_ranking(self.players_controller.players_manager)
             self.players_controller.show_players(self.players_controller.players_manager)
-            nb_rounds += 1
+            nb_rounds += 1"""
 
         """
         # Affiche tous les rounds avec tous les matchs
@@ -214,12 +213,25 @@ class Controller:
         # Mise à jour des classements 
         self.players_controller.update_ranking_players()"""
         
-        # Ajout du tournois en cours dans le tournament manager
+        """# Ajout du tournois en cours dans le tournament manager
         self.tournament_controller.tournament_manager.add_tournament(self.tournament_controller.tournament)
         # Sauvegarde dans la bdd du tournoi en cours
-        self.tournament_controller.tournament_manager.save_tournaments_bdd()
+        self.tournament_controller.tournament_manager.save_tournaments_bdd()"""     
 
         """# Tri des joueurs courants par ordre alphabétique croissant
         self.players_controller.players_manager.sort_players_by_name(self.players_controller.players_manager)
         # Affiche la liste des joueurs avec leur classement
         self.players_controller.show_players(self.players_controller.players_manager)"""
+
+        # Charge le dernier tournoi sauvegardé
+        
+        # Affiche le résumé des données du tournois
+        self.tournament_controller.view.show_tournament(self.tournament_controller.tournament)
+        # Charge les joueurs de ce tournoi dans le playermanager
+        
+        # Affiche la liste des joueurs avec leur classement
+        self.players_controller.show_players(self.players_controller.players_manager)
+        # Recalcule leur score à partir des données du tournoi chargé
+        
+        # Affiche la liste des joueurs avec leur classement
+        self.players_controller.show_players(self.players_controller.players_manager)

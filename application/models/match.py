@@ -32,13 +32,22 @@ class Match:
         """
         return ("j{:2} / j{:2}".format(str(self.pairs[0][0]), str(self.pairs[1][0])))
 
+    def update_score(self, new_score1, new_score2):
+        """Mise à jour des scores à l'issu d'un match
+
+        Arguments:
+            new_score1 (int) -- score du joueur 1
+            new_score2 (int) -- score du joueur 2
+        """
+        self.pairs[0][1] = new_score1
+        self.pairs[1][1] = new_score2
+
     def serialize_match(self):
         """Transforme une instance de match en dictionnaire avant sauvegarde dans la BDD.
 
         Returns:
             dict -- Dictionnaire représentant un match.
         """
-        serialized_round = {
+        serialized_match = {
             'pairs': self.pairs}
-        return serialized_round
-
+        return serialized_match

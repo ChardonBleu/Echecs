@@ -62,9 +62,12 @@ class Round:
         Returns:
             dict -- Dictionnaire représentant un round.
         """
+        serialized_match = []
+        for match in self.matches:
+            serialized_match.append(match.serialize_match())
         serialized_round = {
             'round_name': self.round_name,
-            'matches': self.matches,
-            'horodatage_begin': self.horodatage_begin,
-            'horodatage_end': self.horodatage_end}
+            'matches': serialized_match,
+            'horodatage_begin': str(self.horodatage_begin),
+            'horodatage_end': str(self.horodatage_end)}
         return serialized_round

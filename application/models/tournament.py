@@ -89,6 +89,9 @@ class Tournament:
         Returns:
             dict -- Dictionnaire représentant un tournois.
         """
+        serialized_round = []
+        for tour in self.rounds:
+            serialized_round.append(tour.serialize_round())
         serialized_tournament = {
             'name': self.name,
             'site': self.site,
@@ -97,6 +100,6 @@ class Tournament:
             'description': self.description,
             'time_control': self.time_control,
             'number_rounds': self.number_rounds,
-            'rounds': self.rounds,
+            'rounds': serialized_round,
             'players': self.players}
         return serialized_tournament
