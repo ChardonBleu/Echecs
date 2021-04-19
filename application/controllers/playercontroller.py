@@ -45,6 +45,17 @@ class PlayerController:
         """
         self.view.show_player(player_manager)
 
+    def update_ranking_players(self):
+        """Récupère le dico des {id_player: score} pour mettre à jour les scores
+        des joueurs dans Player
+
+        Args:
+            results_round (dict) -- dico des {id_player: score}
+        """
+        for player in self.players_manager.players:
+            new_ranking = self.view.prompt_new_ranking_player(player)
+            player.update_ranking(new_ranking)
+
     def sort_players_by_name(self, player_manager):
         """Permet le tri des joueurs du tournoi courant selon leur nom complet : 'nom_de_famille prénom'
         (ordre alphabétique croissant - insensibilité à la casse).

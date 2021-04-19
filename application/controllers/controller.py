@@ -177,6 +177,7 @@ class Controller:
             nb_rounds += 1
 
         self.round_controller.view.show_all_rounds(self.tournament_controller.tournament)
+        self.players_controller.update_ranking_players()
 
         """# Tri des joueurs courants par ordre alphabétique croissant
         self.players_controller.sort_players_by_name(self.players_controller.players_manager)
