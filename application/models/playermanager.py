@@ -123,11 +123,31 @@ class PlayerManager:
         players_table = db.table('players')
         self.bdd_id = players_table.insert_multiple(serialized_players)
 
+    def sort_players_by_name(self, player_manager):
+        """Permet le tri des joueurs du tournoi courant selon leur nom complet : 'nom_de_famille prénom'
+        (ordre alphabétique croissant - insensibilité à la casse).
+
+        Args:
+            player_manager (instance de PlayerManager) -- Contient la liste des 8 joueurs du tournoi courant
+        """
+        sorted_player_list = sorted(self.couple_items(), key=lambda couple: couple[1].full_name.lower())
+        self.decouple_items(sorted_player_list)
+
+    def sort_players_by_score_and_ranking(self, player_manager):
+        """Permet le tri des joueurs du tournoi courant selon leur classement ELO (ordre décroissant des rangs).
+
+        Args:
+            player_manager (instance de PlayerManager) -- Contient la liste des 8 joueurs du tournoi courant
+        """
+        sorted_player_list = sorted(self.couple_items(), key=lambda couple: couple[1].ranking,  reverse=True)
+        sorted_player_list = sorted(sorted_player_list, key=lambda couple: couple[1].tournament_score, reverse=True)
+        self.decouple_items(sorted_player_list)
+
     def update_ranking_players_bdd(self, last_name, new_ranking):
         """Sauvegarde dans le bdd la mise à jour de classement Elo des joueurs,
         ces nouvelles valeurs du classement étant saisies par l'utilisateur en
         fin de tournoi
-        
+
         Arguments:
             last_name  (string)  -- nom de famille du joueur dont on met à jour le classement
             new_ranking  (int)  --  nouvelle valeur du classement

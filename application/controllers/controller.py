@@ -159,17 +159,17 @@ class Controller:
         # Affiche la liste de tous les joueurs de la bddS
         self.players_controller.show_players(all_players)
         # Tri des TOUS les joueurs par classement ELO décroissant
-        self.players_controller.sort_players_by_score_and_ranking(all_players)
+        self.players_controller.players_manager.sort_players_by_score_and_ranking(all_players)
         # Affiche la liste de tous les joueurs de la bdd
         self.players_controller.show_players(all_players)
         # Tri des TOUS les joueurs par ordre alphabétique croissant
-        self.players_controller.sort_players_by_name(all_players)
+        self.players_controller.players_manager.sort_players_by_name(all_players)
         # Affiche la liste de tous les joueurs de la bdd
         self.players_controller.show_players(all_players)"""
         
         nb_rounds = 1
         # Tri des joueurs du tournoi courant par classement ELO décroissant
-        self.players_controller.sort_players_by_score_and_ranking(self.players_controller.players_manager)
+        self.players_controller.players_manager.sort_players_by_score_and_ranking(self.players_controller.players_manager)
         # Affiche la liste des joueurs avec leur classement
         self.players_controller.show_players(self.players_controller.players_manager)
         # Démarre le premier round en affectant les joueurs aux match à partir de la liste triée juste précédement
@@ -183,13 +183,13 @@ class Controller:
         self.players_controller.players_manager.update_scores_players(results_round)
 
         # Tri des joueurs du tournoi courant par score à l'issu du round
-        self.players_controller.sort_players_by_score_and_ranking(self.players_controller.players_manager)
+        self.players_controller.players_manager.sort_players_by_score_and_ranking(self.players_controller.players_manager)
         self.players_controller.show_players(self.players_controller.players_manager)
 
         nb_rounds = 2
         while nb_rounds <= self.tournament_controller.tournament.number_rounds:
             # Tri des joueurs du tournoi courant par classement ELO décroissant
-            self.players_controller.sort_players_by_score_and_ranking(self.players_controller.players_manager)
+            self.players_controller.players_manager.sort_players_by_score_and_ranking(self.players_controller.players_manager)
             # Démarre le premier round en affectant les joueurs aux match à partir de la liste triée juste précédement
             self.new_round_with_control(nb_rounds)
             # Affiche les matchs des rounds
@@ -201,7 +201,7 @@ class Controller:
             self.players_controller.players_manager.update_scores_players(results_round)
 
             # Tri des joueurs du tournoi courant par score à l'issu du round
-            self.players_controller.sort_players_by_score_and_ranking(self.players_controller.players_manager)
+            self.players_controller.players_manager.sort_players_by_score_and_ranking(self.players_controller.players_manager)
             self.players_controller.show_players(self.players_controller.players_manager)
             nb_rounds += 1
 
@@ -209,6 +209,6 @@ class Controller:
         self.players_controller.update_ranking_players()
 
         """# Tri des joueurs courants par ordre alphabétique croissant
-        self.players_controller.sort_players_by_name(self.players_controller.players_manager)
+        self.players_controller.players_manager.sort_players_by_name(self.players_controller.players_manager)
         # Affiche la liste des joueurs avec leur classement
         self.players_controller.show_players(self.players_controller.players_manager)"""

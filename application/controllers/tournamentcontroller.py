@@ -19,7 +19,7 @@ class TournamentController:
         self.tournament = None
 
     def new_tournament(self):
-        """Crée instance de Tournament avec saisie utilisateur des caractéristique du tournois,
+        """Crée instance de Tournament avec saisie utilisateur des caractéristiques du tournois,
         sauf attribut players
         L'attribut round se renseigne à l'instanciation à partir du nombre de rounds donné par l'utilisateur
         On instancie les rounds vides.
