@@ -57,7 +57,6 @@ class TournamentController:
                 match.update_score(1, 0)
                 score_round[match.pairs[0][0]] = 1
                 score_round[match.pairs[1][0]] = 0
-                
             if winner == 'j' + str(match.pairs[1][0]):
                 match.update_score(0, 1)
                 score_round[match.pairs[0][0]] = 0
@@ -69,3 +68,16 @@ class TournamentController:
         self.tournament.rounds[index_last_round].close_round()
         return score_round
 
+    def recover_couples_players_for_memorize(self):
+        """Récupération des couples de joueurs ayant déjà joué ensemble, aprés chargement
+        d'un tournoi depuis la BDD
+
+        Returns:
+            list -- liste de tupples (id_bb joueur1, id_bdd joueur 2)
+        """
+        couples = []
+        for index in range(len(self.tournament.rounds)):
+            for match in self.tournament.rounds[index].matches:
+                couples.append((match.pairs[0][0], match.pairs[1][0]))
+                couples.append((match.pairs[1][0], match.pairs[0][0]))
+        self.round_controller.memo_match = couples

@@ -92,3 +92,22 @@ class PlayerView:
             else:
                 break
         return new_ranking
+
+    def prompt_list_id_bdd_players(self):
+        """Demande à l'utilisateur de donnes les id de la BDD des 8 joueurs qu'il souhaite charger
+        
+        Returns:
+            list  --  liste des 8 id
+        """
+        bdd_id_list = []
+        while True:
+            try:
+                for counter in range(1, 9):
+                    bdd_id_list.append(int(input("id du joueur" + str(counter) + ": ")))
+                    if bdd_id_list[counter - 1] < 0:
+                        raise ValueError
+            except ValueError:
+                    print("Il faut saisir un entier positif !")
+            else:
+                    break
+        return bdd_id_list

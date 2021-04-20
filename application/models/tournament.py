@@ -150,5 +150,3 @@ class Tournament:
                 score_round[match.pairs[0][0]] += match.pairs[0][1]
                 score_round[match.pairs[1][0]] += match.pairs[1][1]
         return score_round
-    
-    
