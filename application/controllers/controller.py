@@ -212,7 +212,7 @@ class Controller:
             self.players_controller.show_players(self.players_controller.players_manager)
             nb_rounds += 1"""
 
-        
+
         """# Affiche tous les rounds avec tous les matchs
         self.round_controller.view.show_all_rounds(self.tournament_controller.tournament)
         # Mise à jour des classements 
@@ -236,11 +236,11 @@ class Controller:
         self.round_controller.view.show_all_rounds(self.tournament_controller.tournament)
         # Charge les joueurs de ce tournoi dans le playermanager
         self.players_controller.players_manager.load_players_with_bdd_id_list(self.tournament_controller.tournament.liste_id_players)
-        
-                
+
+
         """# Affiche la liste des joueurs avec leur classement
         self.players_controller.show_players(self.players_controller.players_manager)
         # Recalcule leur score à partir des données du tournoi chargé
-        
+
         # Affiche la liste des joueurs avec leur classement
         self.players_controller.show_players(self.players_controller.players_manager)"""

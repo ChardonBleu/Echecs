@@ -212,4 +212,16 @@ class PlayerManager:
         Arguments:
             bdd_id_list (list) -- liste de id des joueurs dans la bdd
         """
-        pass
+        db = TinyDB('db.json')
+        players_table = db.table('players')
+        self.players = []
+        self.bdd_id = []
+        for bdd_id in bdd_id_list:
+            serialized_player = players_table.get(dic_id=bdd_id)
+            first_name = serialized_player['first_name']
+            last_name = serialized_player['last_name']
+            birth_date = serialized_player['birth_date']
+            sexe = serialized_player['sexe']
+            ranking = serialized_player['ranking']
+            self.players.append(Player(first_name, last_name, birth_date, sexe, ranking))
+            self.bdd_id.append(bdd_id)
