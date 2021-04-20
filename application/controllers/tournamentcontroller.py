@@ -68,20 +68,4 @@ class TournamentController:
                 score_round[match.pairs[1][0]] = 0.5
         self.tournament.rounds[index_last_round].close_round()
         return score_round
-    
-    def recover_scores_for_loaded_tournament(self):
-        """Récupération des scores des rounds d'un tournois chargé depuis la BDD
-        
-        Returns:
-            dict -- dictionnaire des scores de chaque joueur sous la forme {id_bdd: score}
-        """
-        score_round = {}
-        for index in range(len(self.tournament.rounds)):
-            for match in self.tournament.rounds[index].matches:
-                score_round[match.pairs[0][0]] = 0
-                score_round[match.pairs[1][0]] = 0
-        for index in range(len(self.tournament.rounds)):
-            for match in self.tournament.rounds[index].matches:
-                score_round[match.pairs[0][0]] += match.pairs[0][1]
-                score_round[match.pairs[1][0]] += match.pairs[1][1]
-        return score_round
+
