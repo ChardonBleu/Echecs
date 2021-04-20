@@ -217,7 +217,7 @@ class PlayerManager:
         self.players = []
         self.bdd_id = []
         for bdd_id in bdd_id_list:
-            serialized_player = players_table.get(dic_id=bdd_id)
+            serialized_player = players_table.get(doc_id=bdd_id)
             first_name = serialized_player['first_name']
             last_name = serialized_player['last_name']
             birth_date = serialized_player['birth_date']

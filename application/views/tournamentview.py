@@ -104,6 +104,20 @@ class TournamentView:
                     else:
                         loop = False
         return number_rounds
+    
+    def prompt_id_tournament(self):
+        """[summary]
+        """
+        while True:
+            try:
+                bdd_id = int(input("Saisir l'id du tournoi que vous souhaitez charger: "))
+                if bdd_id < 0:
+                    raise ValueError
+            except ValueError:
+                print("Il faut saisir un entier positif !")
+            else:
+                break
+        return bdd_id
 
     def show_tournament(self, tournament):
         """Affiche les caractéristiques du tournois.

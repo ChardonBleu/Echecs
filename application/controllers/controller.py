@@ -228,19 +228,20 @@ class Controller:
         # Affiche la liste des joueurs avec leur classement
         self.players_controller.show_players(self.players_controller.players_manager)"""
 
-        # Charge le dernier tournoi sauvegardé
-        self.tournament_controller.tournament = self.tournament_controller.tournament_manager.load_last_saved_tournament()
+        """# Charge le dernier tournoi sauvegardé
+        self.tournament_controller.tournament = self.tournament_controller.tournament_manager.load_last_saved_tournament()"""
+        # Charge un tournoi dont l'utilisateur a donné d'id de lma bdd
+        bdd_id = self.tournament_controller.view.prompt_id_tournament() 
+        self.tournament_controller.tournament = self.tournament_controller.tournament_manager.load_tournament_by_id(bdd_id)
         # Affiche le résumé des données du tournois
         self.tournament_controller.view.show_tournament(self.tournament_controller.tournament)
         # Affiche tous les rounds avec tous les matchs
         self.round_controller.view.show_all_rounds(self.tournament_controller.tournament)
         # Charge les joueurs de ce tournoi dans le playermanager
         self.players_controller.players_manager.load_players_with_bdd_id_list(self.tournament_controller.tournament.liste_id_players)
-
-
-        """# Affiche la liste des joueurs avec leur classement
+        # Affiche la liste des joueurs avec leur classement
         self.players_controller.show_players(self.players_controller.players_manager)
-        # Recalcule leur score à partir des données du tournoi chargé
+        """# Recalcule leur score à partir des données du tournoi chargé
 
         # Affiche la liste des joueurs avec leur classement
         self.players_controller.show_players(self.players_controller.players_manager)"""
