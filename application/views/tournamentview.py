@@ -104,7 +104,7 @@ class TournamentView:
                     else:
                         loop = False
         return number_rounds
-    
+
     def prompt_id_tournament(self):
         """[summary]
         """

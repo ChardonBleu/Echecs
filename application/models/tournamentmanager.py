@@ -1,4 +1,4 @@
-from tinydb import TinyDB, Query
+from tinydb import TinyDB
 
 from ..models.tournament import Tournament
 
@@ -66,7 +66,7 @@ class TournamentManager:
         self.tournaments = [Tournament("", "", "", "", "", 1)]
         self.tournaments[0] = self.tournaments[0].deserialize_tournament(serialized_last_tournament)
         return self.tournaments[0]
-    
+
     def load_tournament_by_id(self, id):
         """charge dans le programme le dernier tournoi sauvegardé dans la bdd.
         Les rounds et les match déjà rensignés sont également chargés.

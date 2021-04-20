@@ -1,4 +1,4 @@
-from tinydb import TinyDB, Query
+from tinydb import TinyDB
 
 from ..models.player import Player
 
@@ -148,7 +148,7 @@ class PlayerManager:
         sorted_player_list = sorted(sorted_player_list, key=lambda couple: couple[1].tournament_score, reverse=True)
         self.decouple_items(sorted_player_list)
 
-    def update_ranking_players_bdd(self, index , new_ranking):
+    def update_ranking_players_bdd(self, index, new_ranking):
         """Sauvegarde dans le bdd la mise à jour de classement Elo des joueurs,
         ces nouvelles valeurs du classement étant saisies par l'utilisateur en
         fin de tournoi.
@@ -159,7 +159,7 @@ class PlayerManager:
         """
         db = TinyDB('db.json')
         players_table = db.table('players')
-        players_table.update({'ranking': new_ranking}, doc_ids = [self.bdd_id[index]])
+        players_table.update({'ranking': new_ranking}, doc_ids=[self.bdd_id[index]])
 
     def load_all_players_from_bdd(self):
         """Charge des joueurs depuis la base de données puis transforme la liste

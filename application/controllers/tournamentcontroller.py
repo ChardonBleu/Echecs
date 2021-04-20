@@ -6,13 +6,13 @@ from ..controllers.roundcontroller import RoundController
 
 class TournamentController:
     """
-    Modélise le controller du tournoi.   
+    Modélise le controller du tournoi.
     Assure le lien entre utilisateur et modèles en appelant la vue du tournoi
     pour la saisie d'un nouveau tournoi.
-    
+
     Attributs:
-    
-        self.view (objet TournamentView)  -- instance de TournamentView destinée à la saisie 
+
+        self.view (objet TournamentView)  -- instance de TournamentView destinée à la saisie
                                              et l'affichage des données propres aux tournois
         self.round_controller (objet RoundController) -- instance de RoundController.  Permet d'accéder aux données
                                                          de rounds depuis une instance de TournamentController

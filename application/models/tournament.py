@@ -61,13 +61,13 @@ class Tournament:
             liste_index_players (list) --
         """
         self.players = liste_id_players
-    
-    @property 
+
+    @property
     def liste_id_players(self):
         """Permet d"accéder à la liste de idd de la bdd des joueurs du tournoi courant
-        
+
         Returns:
-            self.players (list)  -- 
+            self.players (list)  --
         """
         return self.players
 
@@ -136,7 +136,7 @@ class Tournament:
 
     def recover_scores_for_loaded_tournament(self):
         """Récupération des scores des rounds d'un tournois chargé depuis la BDD
-        
+
         Returns:
             dict -- dictionnaire des scores de chaque joueur sous la forme {id_bdd: score}
         """

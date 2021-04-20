@@ -95,7 +95,7 @@ class PlayerView:
 
     def prompt_list_id_bdd_players(self):
         """Demande à l'utilisateur de donnes les id de la BDD des 8 joueurs qu'il souhaite charger
-        
+
         Returns:
             list  --  liste des 8 id
         """
@@ -107,7 +107,7 @@ class PlayerView:
                     if bdd_id_list[counter - 1] < 0:
                         raise ValueError
             except ValueError:
-                    print("Il faut saisir un entier positif !")
+                print("Il faut saisir un entier positif !")
             else:
-                    break
+                break
         return bdd_id_list
