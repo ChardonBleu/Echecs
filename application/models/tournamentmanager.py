@@ -41,18 +41,39 @@ class TournamentManager:
         """
         self.tournaments.append(tournament)
 
-    def save_tournaments_bdd(self):
-        """Sauvegarde le dictionnaire des tournois dans la table tournament de la base de données.
+    def save_tournaments_bdd(self, tournament):
+        """
+        Sauvegarde le dictionnaire des tournois dans la table tournament de la base de données
+        pour le tournoi courant
+        """
 
-        Returns:
-            list -- Liste des id des joueurs sauvegardés dans la base de données.
+        if len(self.bdd_id) == 0:
+            self.tournaments.append(tournament)
+            serialized_tournaments = []
+            serialized_tournaments.append(self.tournaments[0].serialize_tournament())
+            db = TinyDB('db.json')
+            tournament_table = db.table('tournaments')
+            self.bdd_id.append(tournament_table.insert_multiple(serialized_tournaments))
+        else:
+            self.tournaments[0] = tournament
+            serialized_tournaments = []
+            serialized_tournaments.append(self.tournaments[0].serialize_tournament())
+            db = TinyDB('db.json')
+            tournament_table = db.table('tournaments')
+            tournament_table.update(serialized_tournaments, doc_ids=self.bdd_id)
+            
+
+    def update_tournaments_bdd(self):
+        """
+        Met à jour le dictionnaire des tournois dans la table tournament de la base de données
+        pour le tournoi courant.
         """
         serialized_tournaments = []
-        for tournament in self.tournaments:
-            serialized_tournaments.append(tournament.serialize_tournament())
+        serialized_tournaments.append(self.tournaments[0].serialize_tournament())
         db = TinyDB('db.json')
         tournament_table = db.table('tournaments')
-        self.bdd_id = tournament_table.insert_multiple(serialized_tournaments)
+        tournament_table.remmove(doc_id=self.bdd_id)
+        self.bdd_id.append(tournament_table.insert_multiple(serialized_tournaments))
 
     def load_last_saved_tournament(self):
         """charge dans le programme le dernier tournoi sauvegardé dans la bdd.
@@ -62,7 +83,7 @@ class TournamentManager:
         tournament_table = db.table('tournaments')
         id_last_tournament = len(tournament_table)
         serialized_last_tournament = tournament_table.get(doc_id=id_last_tournament)
-        self.bdd_id = id_last_tournament
+        self.bdd_id.append(id_last_tournament)
         self.tournaments = [Tournament("", "", "", "", "", 1)]
         self.tournaments[0] = self.tournaments[0].deserialize_tournament(serialized_last_tournament)
         return self.tournaments[0]
@@ -74,7 +95,7 @@ class TournamentManager:
         db = TinyDB('db.json')
         tournament_table = db.table('tournaments')
         serialized_tournament = tournament_table.get(doc_id=id)
-        self.bdd_id = id
+        self.bdd_id.append(id)
         self.tournaments = [Tournament("", "", "", "", "", 1)]
         self.tournaments[0] = self.tournaments[0].deserialize_tournament(serialized_tournament)
         return self.tournaments[0]
@@ -88,8 +109,7 @@ class TournamentManager:
         serialized_tournaments = tournament_table.all()
         list_all_tournaments = TournamentManager()
         for index in range(len(serialized_tournaments)):
-            self.bdd_id = serialized_tournaments[index].doc_id
-            self.tournaments.append(Tournament("", "", "", "", "", 1))
-            self.tournaments[index] = self.tournaments[index].deserialize_tournament(serialized_tournaments[index])
-            print(self.tournaments[index])
+            list_all_tournaments.bdd_id = serialized_tournaments[index].doc_id
+            list_all_tournaments.tournaments.append(Tournament("", "", "", "", "", 1))
+            list_all_tournaments.tournaments[index] = self.tournaments[index].deserialize_tournament(serialized_tournaments[index])
         return list_all_tournaments
