@@ -75,7 +75,12 @@ class Controller:
         return liste_index_joueur
 
     def examine_other_players_as_candidate(self, liste_index_joueur, player_to_pair, index_other_player=1):
-        """Recherche un joueur à appairer avec le joueur d'index player_to_pair
+        """Recherche un joueur à appairer avec le joueur d'index player_to_pair.
+        Si on ne trouve pas d'appairage avec le joueur juste aprés player_to_pair dans la liste,
+        on cherche avec le suivant en faisant un appel rescursif de la méthode avec en argument
+        index_other_player + 1.
+        Le cas où un appairage n'a toujours pas été trouvé quand on arrive au bout de la liste
+        est traité dans la méthode search_couple_for_first_player()
 
         Arguments:
             liste_index_joueur (list) -- liste des index des joueurs disponibles pour appairage
@@ -171,7 +176,8 @@ class Controller:
 
         """nb_rounds = 1
         # Tri des joueurs du tournoi courant par classement ELO décroissant
-        self.players_controller.players_manager.sort_players_by_score_and_ranking(self.players_controller.players_manager)
+        self.players_controller.players_manager.sort_players_by_score_and_ranking(
+            self.players_controller.players_manager)
         # Affiche la liste des joueurs avec leur classement
         self.players_controller.show_players(self.players_controller.players_manager)
         # Démarre le premier round en affectant les joueurs aux match à partir de la liste triée juste précédement
@@ -185,17 +191,20 @@ class Controller:
         self.players_controller.players_manager.update_scores_players(results_round)
 
         # Tri des joueurs du tournoi courant par score à l'issu du round
-        self.players_controller.players_manager.sort_players_by_score_and_ranking(self.players_controller.players_manager)
+        self.players_controller.players_manager.sort_players_by_score_and_ranking(
+            self.players_controller.players_manager)
         self.players_controller.show_players(self.players_controller.players_manager)
 
         nb_rounds = 2
         while nb_rounds <= self.tournament_controller.tournament.number_rounds:
             # Tri des joueurs du tournoi courant par classement ELO décroissant
-            self.players_controller.players_manager.sort_players_by_score_and_ranking(self.players_controller.players_manager)
+            self.players_controller.players_manager.sort_players_by_score_and_ranking(
+                self.players_controller.players_manager)
             # Démarre le premier round en affectant les joueurs aux match à partir de la liste triée juste précédement
             self.new_round_with_control(nb_rounds)
             # Affiche les matchs des rounds
-            self.round_controller.view.show_rounds_with_matches(self.tournament_controller.tournament, nb_rounds)
+            self.round_controller.view.show_rounds_with_matches(
+                self.tournament_controller.tournament, nb_rounds)
 
             # Ajout du tournois en cours dans le tournament manager
             self.tournament_controller.tournament_manager.add_tournament(self.tournament_controller.tournament)
@@ -208,7 +217,8 @@ class Controller:
             self.players_controller.players_manager.update_scores_players(results_round)
 
             # Tri des joueurs du tournoi courant par score à l'issu du round
-            self.players_controller.players_manager.sort_players_by_score_and_ranking(self.players_controller.players_manager)
+            self.players_controller.players_manager.sort_players_by_score_and_ranking(
+                self.players_controller.players_manager)
             self.players_controller.show_players(self.players_controller.players_manager)
             nb_rounds += 1"""
 
@@ -229,19 +239,20 @@ class Controller:
         self.players_controller.show_players(self.players_controller.players_manager)"""
 
         """# Charge le dernier tournoi sauvegardé
-        self.tournament_controller.tournament = self.tournament_controller.tournament_manager.load_last_saved_tournament()"""
+        self.tournament_controller.tournament = self.tournament_controller.tournament_manager.load_last_saved_tournament()"""  # *** TROP LONGUE !!! ***
         # Charge un tournoi dont l'utilisateur a donné d'id de lma bdd
-        bdd_id = self.tournament_controller.view.prompt_id_tournament() 
-        self.tournament_controller.tournament = self.tournament_controller.tournament_manager.load_tournament_by_id(bdd_id)
+        bdd_id = self.tournament_controller.view.prompt_id_tournament()
+        self.tournament_controller.tournament = self.tournament_controller.tournament_manager.load_tournament_by_id(
+            bdd_id)
         # Affiche le résumé des données du tournois
         self.tournament_controller.view.show_tournament(self.tournament_controller.tournament)
         # Affiche tous les rounds avec tous les matchs
         self.round_controller.view.show_all_rounds(self.tournament_controller.tournament)
         # Charge les joueurs de ce tournoi dans le playermanager
-        self.players_controller.players_manager.load_players_with_bdd_id_list(self.tournament_controller.tournament.liste_id_players)
+        self.players_controller.players_manager.load_players_with_bdd_id_list(
+            self.tournament_controller.tournament.liste_id_players)
+        # Recalcule leur score à partir des données du tournoi chargé
+        results_round = self.tournament_controller.recover_scores_for_loaded_tournament()
+        self.players_controller.players_manager.update_scores_players(results_round)
         # Affiche la liste des joueurs avec leur classement
         self.players_controller.show_players(self.players_controller.players_manager)
-        """# Recalcule leur score à partir des données du tournoi chargé
-
-        # Affiche la liste des joueurs avec leur classement
-        self.players_controller.show_players(self.players_controller.players_manager)"""
