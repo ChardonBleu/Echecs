@@ -32,12 +32,21 @@ class TournamentManager:
             liste_tournaments += str(self.tournaments[index]) + "\n"
         return liste_tournaments
 
-    def save_tournaments_bdd(self, tournament):
-        """
-        Sauvegarde le dictionnaire des tournois dans la table tournament de la base de données
-        pour le tournoi courant
-        """
+    def add_tournament(self, tournament):
+        """Ajoute le tournoi en argument au Tournament manager.
+        Permet de préparer la sauvegarde du tournois en cours.
 
+        Arguments:
+            tournament {onbet Tournament} -- Instance de Tournament contenant un tournoi en cours.
+        """
+        self.tournaments.append(tournament)
+
+    def save_tournaments_bdd(self, tournament):
+        """Sauvegarde le dictionnaire des tournois dans la table tournament de la base de données.
+
+        Returns:
+            list -- Liste des id des joueurs sauvegardés dans la base de données.
+        """
         if len(self.bdd_id) == 0:
             self.tournaments.append(tournament)
             serialized_tournaments = []
@@ -46,7 +55,7 @@ class TournamentManager:
             tournament_table = db.table('tournaments')
             self.bdd_id.append(tournament_table.insert_multiple(serialized_tournaments))
         else:
-            self.update_tournaments_bdd(tournament)     
+            self.update_tournaments_bdd(tournament)
 
     def update_tournaments_bdd(self, tournament):
         """
@@ -65,7 +74,7 @@ class TournamentManager:
         Les rounds et les match déjà rensignés sont également chargés.
         """
         self.tournaments = []
-        self.bdd_id = []        
+        self.bdd_id = []
         db = TinyDB('db.json')
         tournament_table = db.table('tournaments')
         id_last_tournament = len(tournament_table)
@@ -80,7 +89,7 @@ class TournamentManager:
         Les rounds et les match déjà rensignés sont également chargés.
         """
         self.tournaments = []
-        self.bdd_id = []        
+        self.bdd_id = []
         db = TinyDB('db.json')
         tournament_table = db.table('tournaments')
         serialized_tournament = tournament_table.get(doc_id=id)
