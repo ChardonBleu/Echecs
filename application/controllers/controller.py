@@ -3,6 +3,7 @@ from .tournamentcontroller import TournamentController
 from .roundcontroller import RoundController
 
 
+
 class Controller:
     """
     Controleur général -- en chantier -- Permet de tester des séquences d'évènements
@@ -17,6 +18,7 @@ class Controller:
         self.tournament_controller = TournamentController()
         self.players_controller = PlayerController()
         self.round_controller = RoundController()
+        
 
     def link_players_with_tournament(self):
         """Prend la liste des joueurs chargés depuis la bdd ou bien saisie à la main
