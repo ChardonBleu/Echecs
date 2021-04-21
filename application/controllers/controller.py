@@ -155,13 +155,13 @@ class Controller:
         # Sauvegarde les joueurs entrés manuellement dans la BDD
         self.players_controller.players_manager.save_players_BDD()"""
 
-        """# Charge les 8 premiers joueurs de la bdd pour test rapide appli
+        """# Charge  8 joueurs de la bdd à partir de leur bdd_id saisis par l'utilisateur
         list_id_bdd = self.players_controller.view.prompt_list_id_bdd_players()
         self.players_controller.players_manager.load_players_with_bdd_id_list(list_id_bdd)
 
-        # Lie les joueurs entrés manuellemetn et ajoutées à la BDD au tournoi courant
+        # Lie les joueurs entrés manuellement et ajoutées à la BDD au tournoi courant.
         self.link_players_with_tournament()
-        # Affiche le résumé des données du tournois
+        # Affiche le résumé des données du tournois.
         self.tournament_controller.view.show_tournament(self.tournament_controller.tournament)"""
 
         """# Charger tous les joueurs de la bdd dans une variable
@@ -192,64 +192,20 @@ class Controller:
         results_round = self.tournament_controller.close_last_round_with_scores()
         self.round_controller.view.show_rounds_with_matches(self.tournament_controller.tournament, nb_rounds)
         self.players_controller.players_manager.update_scores_players(results_round)
+        
+        # Sauvegarde dans la bdd du tournoi en cours - Update si sauvegarde existe déjà
+        self.tournament_controller.tournament_manager.save_tournaments_bdd(self.tournament_controller.tournament)"""
+        
+        # ***********************   STOP   ********************************************************
 
-        # Tri des joueurs du tournoi courant par score à l'issu du round
-        self.players_controller.players_manager.sort_players_by_score_and_ranking(
-            self.players_controller.players_manager)
-        self.players_controller.show_players(self.players_controller.players_manager)
-
-        nb_rounds = 2
-        while nb_rounds <= self.tournament_controller.tournament.number_rounds:
-            # Tri des joueurs du tournoi courant par classement ELO décroissant
-            self.players_controller.players_manager.sort_players_by_score_and_ranking(
-                self.players_controller.players_manager)
-            # Démarre le round suivant en affectant les joueurs aux match à partir de la liste triée juste précédement
-            self.new_round_with_control(nb_rounds)
-            # Affiche les matchs des rounds
-            self.round_controller.view.show_rounds_with_matches(
-                self.tournament_controller.tournament, nb_rounds)
-
-            # Ajout du tournois en cours dans le tournament manager
-            self.tournament_controller.tournament_manager.add_tournament(self.tournament_controller.tournament)
-            # Sauvegarde dans la bdd du tournoi en cours
-            self.tournament_controller.tournament_manager.save_tournaments_bdd()
-
-            # Clos le  round avec saisie des scores:
-            results_round = self.tournament_controller.close_last_round_with_scores()
-            self.round_controller.view.show_rounds_with_matches(self.tournament_controller.tournament, nb_rounds)
-            self.players_controller.players_manager.update_scores_players(results_round)
-
-            # Tri des joueurs du tournoi courant par score à l'issu du round
-            self.players_controller.players_manager.sort_players_by_score_and_ranking(
-                self.players_controller.players_manager)
-            self.players_controller.show_players(self.players_controller.players_manager)
-            nb_rounds += 1"""
-
-        """# Affiche tous les rounds avec tous les matchs
-        self.round_controller.view.show_all_rounds(self.tournament_controller.tournament)
-        # Mise à jour des classements
-        self.players_controller.update_ranking_players()"""
-
-        """# Ajout du tournois en cours dans le tournament manager
-        self.tournament_controller.tournament_manager.add_tournament(self.tournament_controller.tournament)
-        # Sauvegarde dans la bdd du tournoi en cours
-        self.tournament_controller.tournament_manager.save_tournaments_bdd()  """
-
-        """# Tri des joueurs courants par ordre alphabétique croissant
-        self.players_controller.players_manager.sort_players_by_name(self.players_controller.players_manager)
-        # Affiche la liste des joueurs avec leur classement
-        self.players_controller.show_players(self.players_controller.players_manager)"""
-
-        """# Charge le dernier tournoi sauvegardé
-        self.tournament_controller.tournament = self.tournament_controller.tournament_manager.load_last_saved_tournament()
-
+        # Charge le dernier tournoi sauvegardé
         last_tournament = self.tournament_controller.tournament_manager.load_last_saved_tournament()
         self.tournament_controller.tournament =  last_tournament
-        
+        """# ou bien
         # Charge un tournoi dont l'utilisateur a donné d'id de la bdd
         bdd_id = self.tournament_controller.view.prompt_id_tournament()
         self.tournament_controller.tournament = self.tournament_controller.tournament_manager.load_tournament_by_id(
-            bdd_id)
+            bdd_id)"""
         # Affiche le résumé des données du tournois
         self.tournament_controller.view.show_tournament(self.tournament_controller.tournament)
         # Affiche tous les rounds avec tous les matchs
@@ -262,13 +218,61 @@ class Controller:
         self.players_controller.players_manager.update_scores_players(results_round)
         # Récupère la liste des joueurs ayant déjà joué ensemble
         self.tournament_controller.recover_couples_players_for_memorize()
-
         # Affiche la liste des joueurs avec leur classement
         self.players_controller.show_players(self.players_controller.players_manager)
-
         # Récupère le numéro de round en cours
         nb_rounds = len(self.tournament_controller.tournament.rounds)
-        # Clos le round avec saisie des scores:
+
+
+        # Tri des joueurs du tournoi courant par score à l'issu du round
+        self.players_controller.players_manager.sort_players_by_score_and_ranking(
+            self.players_controller.players_manager)
+        self.players_controller.show_players(self.players_controller.players_manager)
+
+        nb_rounds += 1
+        while nb_rounds <= self.tournament_controller.tournament.number_rounds:
+            # Tri des joueurs du tournoi courant par classement ELO décroissant
+            self.players_controller.players_manager.sort_players_by_score_and_ranking(
+                self.players_controller.players_manager)
+            # Démarre le round suivant en affectant les joueurs aux match à partir de la liste triée juste précédement
+            self.new_round_with_control(nb_rounds)
+            # Affiche les matchs des rounds
+            self.round_controller.view.show_rounds_with_matches(
+                self.tournament_controller.tournament, nb_rounds)
+
+            # Clos le  round avec saisie des scores:
+            results_round = self.tournament_controller.close_last_round_with_scores()
+            self.round_controller.view.show_rounds_with_matches(self.tournament_controller.tournament, nb_rounds)
+            self.players_controller.players_manager.update_scores_players(results_round)
+            
+            # Sauvegarde dans la bdd du tournoi en cours - Update si sauvegarde existe déjà
+            self.tournament_controller.tournament_manager.save_tournaments_bdd(self.tournament_controller.tournament)
+
+            # Tri des joueurs du tournoi courant par score à l'issu du round
+            self.players_controller.players_manager.sort_players_by_score_and_ranking(
+                self.players_controller.players_manager)
+            self.players_controller.show_players(self.players_controller.players_manager)
+            nb_rounds += 1
+
+        # Affiche tous les rounds avec tous les matchs
+        self.round_controller.view.show_all_rounds(self.tournament_controller.tournament)
+        
+        # ************* REPRISE JUSQUE LA *************************************
+        
+        """# Mise à jour des classements
+        self.players_controller.update_ranking_players()"""
+
+        """# Sauvegarde dans la bdd du tournoi en cours
+        self.tournament_controller.tournament_manager.save_tournaments_bdd(self.tournament_controller.tournament)  """
+
+        """# Tri des joueurs courants par ordre alphabétique croissant
+        self.players_controller.players_manager.sort_players_by_name(self.players_controller.players_manager)
+        # Affiche la liste des joueurs avec leur classement
+        self.players_controller.show_players(self.players_controller.players_manager)"""
+
+        """"""
+        
+        """# Clos le round avec saisie des scores:
         results_round = self.tournament_controller.close_last_round_with_scores()
         self.round_controller.view.show_rounds_with_matches(self.tournament_controller.tournament, nb_rounds)
         self.players_controller.players_manager.update_scores_players(results_round)
@@ -292,8 +296,13 @@ class Controller:
             self.players_controller.players_manager.sort_players_by_score_and_ranking(
                 self.players_controller.players_manager)
             self.players_controller.show_players(self.players_controller.players_manager)
-            nb_rounds += 1"""
-
+            nb_rounds += 1
+        
+        # Sauvegarde dans la bdd du tournoi en cours - Update si sauvegarde existe déjà
+        self.tournament_controller.tournament_manager.save_tournaments_bdd(self.tournament_controller.tournament)"""
+        
+       
+        
         """# Chargement de tous les tournois de la bdd
         all_tournaments = self.tournament_controller.tournament_manager.load_all_tournaments()
         # Affichage de tous les tournois
