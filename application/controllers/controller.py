@@ -157,9 +157,9 @@ class Controller:
 
         """# Charge  8 joueurs de la bdd à partir de leur bdd_id saisis par l'utilisateur
         list_id_bdd = self.players_controller.view.prompt_list_id_bdd_players()
-        self.players_controller.players_manager.load_players_with_bdd_id_list(list_id_bdd)
+        self.players_controller.players_manager.load_players_with_bdd_id_list(list_id_bdd)"""
 
-        # Lie les joueurs entrés manuellement et ajoutées à la BDD au tournoi courant.
+        """# Lie les joueurs entrés manuellement et ajoutées à la BDD au tournoi courant.
         self.link_players_with_tournament()
         # Affiche le résumé des données du tournois.
         self.tournament_controller.view.show_tournament(self.tournament_controller.tournament)"""
@@ -198,15 +198,15 @@ class Controller:
         
         # ***********************   STOP   ********************************************************
 
-        # Charge le dernier tournoi sauvegardé
+        """# Charge le dernier tournoi sauvegardé
         last_tournament = self.tournament_controller.tournament_manager.load_last_saved_tournament()
-        self.tournament_controller.tournament =  last_tournament
+        self.tournament_controller.tournament =  last_tournament"""
         """# ou bien
         # Charge un tournoi dont l'utilisateur a donné d'id de la bdd
         bdd_id = self.tournament_controller.view.prompt_id_tournament()
         self.tournament_controller.tournament = self.tournament_controller.tournament_manager.load_tournament_by_id(
             bdd_id)"""
-        # Affiche le résumé des données du tournois
+        """ # Affiche le résumé des données du tournois
         self.tournament_controller.view.show_tournament(self.tournament_controller.tournament)
         # Affiche tous les rounds avec tous les matchs
         self.round_controller.view.show_all_rounds(self.tournament_controller.tournament)
@@ -255,7 +255,7 @@ class Controller:
             nb_rounds += 1
 
         # Affiche tous les rounds avec tous les matchs
-        self.round_controller.view.show_all_rounds(self.tournament_controller.tournament)
+        self.round_controller.view.show_all_rounds(self.tournament_controller.tournament)"""
         
         # ************* REPRISE JUSQUE LA *************************************
         
@@ -300,10 +300,10 @@ class Controller:
         
         # Sauvegarde dans la bdd du tournoi en cours - Update si sauvegarde existe déjà
         self.tournament_controller.tournament_manager.save_tournaments_bdd(self.tournament_controller.tournament)"""
-        
-       
-        
-        """# Chargement de tous les tournois de la bdd
+      
+        # Chargement de tous les tournois de la bdd
         all_tournaments = self.tournament_controller.tournament_manager.load_all_tournaments()
-        # Affichage de tous les tournois
-        self.tournament_controller.view.show_tournament(all_tournaments)"""
+        # Affichage de tous les tournois (liste) sans les rounds
+        self.tournament_controller.view.show_tournament(all_tournaments)
+        # Affiche de tous les tournois AVEC tous les rounds avec tous les matchs
+        self.round_controller.view.show_all_rounds_all_tournaments(all_tournaments.tournaments)

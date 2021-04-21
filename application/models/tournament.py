@@ -45,7 +45,7 @@ class Tournament:
     def __str__(self):
         """Permet d'afficher un résumé des caractéristique du tournois.
         """
-        resume_tournament = ("Tournois {} à {}\ndu {} au {}\nObservation: {}\n"
+        resume_tournament = ("Tournois: {} - à: {}\ndu {} au {}\nObservation: {}\n"
                              .format(self.name, self.site, self.date_begin,
                                      self.date_end, self.description, ) +
                              "Time control: {} - Nombre de rounds: {}\n"

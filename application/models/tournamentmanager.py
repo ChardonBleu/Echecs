@@ -29,7 +29,7 @@ class TournamentManager:
         """
         liste_tournaments = ""
         for index in range(len(self.tournaments)):
-            liste_tournaments += str(self.tournaments[index]) + "\n"
+            liste_tournaments += "tournoi " + str(index + 1) + ":\n" + str(self.tournaments[index]) + "\n"
         return liste_tournaments
 
     def add_tournament(self, tournament):
@@ -109,5 +109,5 @@ class TournamentManager:
         for index in range(len(serialized_tournaments)):
             list_all_tournaments.bdd_id = serialized_tournaments[index].doc_id
             list_all_tournaments.tournaments.append(Tournament("", "", "", "", "", 1))
-            list_all_tournaments.tournaments[index] = self.tournaments[index].deserialize_tournament(serialized_tournaments[index])
+            list_all_tournaments.tournaments[index] = list_all_tournaments.tournaments[index].deserialize_tournament(serialized_tournaments[index])
         return list_all_tournaments
