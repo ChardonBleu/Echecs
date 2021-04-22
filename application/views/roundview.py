@@ -74,3 +74,9 @@ class RoundView:
         print("couples de joueurs ayant déjà joué ensemble")
         for match in memo_match:
             print(str(match))
+            
+    def max_rounds_alert(self):
+        """Alerte de fin de tournoi
+        """
+        print("Tous les rounds prévus ont été joués.")
+        print("Si tous les scores ont été saisis, le tournoi est terminé!")

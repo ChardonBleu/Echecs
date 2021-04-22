@@ -101,6 +101,9 @@ class TournamentManager:
     def load_all_tournaments(self):
         """charge dans le programme le dernier tournoi sauvegardé dans la bdd.
         Les rounds et les match déjà rensignés sont également chargés.
+        
+        Returns:
+            list -- nouvelle instance de TournamentManager contenant TOUS les tournois de la BDD
         """
         db = TinyDB('db.json')
         tournament_table = db.table('tournaments')

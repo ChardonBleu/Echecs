@@ -75,9 +75,8 @@ class TournamentController:
         Returns:
             list -- liste de tupples (id_bb joueur1, id_bdd joueur 2)
         """
-        couples = []
         for index in range(len(self.tournament.rounds)):
             for match in self.tournament.rounds[index].matches:
-                couples.append((match.pairs[0][0], match.pairs[1][0]))
-                couples.append((match.pairs[1][0], match.pairs[0][0]))
-        self.round_controller.memo_match = couples
+                self.round_controller.add_players_to_memo_match(match.pairs[0][0], match.pairs[1][0])
+                self.round_controller.add_players_to_memo_match(match.pairs[1][0], match.pairs[0][0])
+

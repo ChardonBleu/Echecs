@@ -167,7 +167,7 @@ class PlayerManager:
         Peut servir pour affichage de tous les joueurs.
 
         Returns:
-            list -- liste des instances de classe Player de tous les joueurs de la BDD
+            list -- nouvelle instance de PlayerManager contenant TOUS les joueurs de la BDD
         """
         db = TinyDB('db.json')
         players_table = db.table('players')
