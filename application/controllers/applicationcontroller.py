@@ -19,8 +19,9 @@ class ApplicationController:
 
     def run(self):
         self.controller = HomeMenuController()
-        while self.running:
+        while self.controller:
             self.controller = self.controller.run()
+
 
 class HomeMenuController:
 
@@ -39,20 +40,72 @@ class HomeMenuController:
         user_choice = self.view.get_user_choice()
         return user_choice.handler
 
+
+# **************** Menu secondaire du 1. Charger tournoi passé **************** 
 class LoadTournamentController:
-    pass
+    
+    def __init__(self):
+        self.menu = Menu()
+        self.view = MenuView(self.menu)
 
+    def run(self):
+        self.menu.add("auto", "Charger dernier tournoi sauvegardé", LoadLastTournamentController())
+        self.menu.add("auto", "Charger un tournoi de la BDD à partir de son ID", LoadTournamentIdController())
+        self.menu.add("auto", "Retour Menu principal", HomeMenuController())
+
+        user_choice = self.view.get_user_choice()
+        return user_choice.handler
+
+
+class LoadLastTournamentController:
+    
+    def run(self):
+        print("Dans le sous menu de '1.1. Charger dernier tournoi sauvegardé'")
+        # Appel méthode correspondant à la séquence 1.1
+        return LoadTournamentController()
+
+
+class LoadTournamentIdController:
+    
+    def run(self):
+        print("Dans le sous menu de '1.2. Charger  tournoi à partir de son id dans la BDD'")
+        # Appel méthode correspondant à la séquence 1.2
+        return LoadTournamentController()
+
+
+# **************** Menu secondaire du 2. Créer nouveau tournoi **************** 
 class CreateTournamentController:
-    pass
 
+    def run(self):
+        print("Dans le sous menu de '2. Créer nouveau Tournoi'")
+        return HomeMenuController()
+
+
+# **************** Menu secondaire du 3. Rapports tournois **************** 
 class ReportsController:
-    pass
 
+    def run(self):
+        print("Dans le sous menu de '3. Rapports tournoi'")
+        return HomeMenuController()
+
+
+# **************** Menu secondaire du 4. Gérer tournoi **************** 
 class TournamentManagerController:
-    pass
 
+    def run(self):
+        print("Dans le sous menu de '4. Gérer Tournois'")
+        return HomeMenuController()
+
+
+# **************** Menu secondaire du 5.Gérer joueurs **************** 
 class PlayersManagerController:
-    pass
+
+    def run(self):
+        print("Dans le sous menu de '5. Gérer joueurs'")
+        return HomeMenuController()
+
 
 class LeavingController:
-    pass
+
+    def run(self):
+        print("Dans le sous menu de '6. Quitter'")
