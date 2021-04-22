@@ -58,10 +58,10 @@ class ApplicationController:
         self.controller = None
         self.gamecontroller = GameController()
 
-    def run(self):
+    def run(self, *args):
         self.controller = HomeMenuController()
         while self.controller:
-            self.controller = self.controller.run()
+            self.controller = self.controller.run(args)
 
 
 class HomeMenuController:
@@ -79,16 +79,17 @@ class HomeMenuController:
         self.menu = Menu()
         self.view = MenuView(self.menu)
 
-    def run(self):
-        self.menu.add("auto", "Charger tournoi passé", LoadTournamentController())
-        self.menu.add("auto", "Créer nouveau tournoi", CreateTournamentController())
-        self.menu.add("auto", "Rapports tournois", ReportsController())
-        self.menu.add("auto", "Gérer un tournoi", TournamentManagerController())
-        self.menu.add("auto", "Gérer les joueurs", PlayersManagerController())
-        self.menu.add("auto", "Quitter", LeavingController())
+    def run(self, *args):
+        
+        self.menu.add("auto", "Charger tournoi passé", LoadTournamentController)
+        self.menu.add("auto", "Créer nouveau tournoi", CreateTournamentController)
+        self.menu.add("auto", "Rapports tournois", ReportsController)
+        self.menu.add("auto", "Gérer un tournoi", TournamentManagerController)
+        self.menu.add("auto", "Gérer les joueurs", PlayersManagerController)
+        self.menu.add("auto", "Quitter", LeavingController)
 
         user_choice = self.view.get_user_choice()
-        return user_choice.handler
+        return user_choice.handler()
 
 
 # **************** Menu secondaire du 1. Charger tournoi passé **************** 
@@ -103,18 +104,18 @@ class LoadTournamentController:
         self.menu = Menu()
         self.view = MenuView(self.menu)
 
-    def run(self):
-        self.menu.add("auto", "Charger dernier tournoi sauvegardé", LoadLastTournamentController())
-        self.menu.add("auto", "Charger un tournoi de la BDD à partir de son ID", LoadTournamentIdController())
-        self.menu.add("auto", "Retour Menu principal", HomeMenuController())
+    def run(self, *args):
+        self.menu.add("auto", "Charger dernier tournoi sauvegardé", LoadLastTournamentController)
+        self.menu.add("auto", "Charger un tournoi de la BDD à partir de son ID", LoadTournamentIdController)
+        self.menu.add("auto", "Retour Menu principal", HomeMenuController)
 
         user_choice = self.view.get_user_choice()
-        return user_choice.handler
+        return user_choice.handler()
 
 
 class LoadLastTournamentController:
     
-    def run(self):
+    def run(self, *args):
 
         # Appel méthode correspondant à la séquence 1.1
         return LoadTournamentController()
@@ -122,7 +123,7 @@ class LoadLastTournamentController:
 
 class LoadTournamentIdController:
     
-    def run(self):
+    def run(self, *args):
 
         # Appel méthode correspondant à la séquence 1.2
         return LoadTournamentController()
@@ -145,19 +146,19 @@ class CreateTournamentController:
         self.menu = Menu()
         self.view = MenuView(self.menu)
 
-    def run(self):
-        self.menu.add("auto", "Ajouter des joueurs", AddPlayersController())
-        self.menu.add("auto", "Créer nouveau tournoi", CreateNewTournamentController())
-        self.menu.add("auto", "Rapports tournois", LinkPlayersTournamentController())
-        self.menu.add("auto", "Retour Menu principal", HomeMenuController())
+    def run(self, *args):
+        self.menu.add("auto", "Ajouter des joueurs", AddPlayersController)
+        self.menu.add("auto", "Créer nouveau tournoi", CreateNewTournamentController)
+        self.menu.add("auto", "Rapports tournois", LinkPlayersTournamentController)
+        self.menu.add("auto", "Retour Menu principal", HomeMenuController)
 
         user_choice = self.view.get_user_choice()
-        return user_choice.handler
+        return user_choice.handler()
 
 
 class CreateNewTournamentController:
     
-    def run(self):
+    def run(self, *args):
 
         # Appel méthode correspondant à la séquence 2.2
         return CreateTournamentController()
@@ -165,7 +166,7 @@ class CreateNewTournamentController:
 
 class LinkPlayersTournamentController:
     
-    def run(self):
+    def run(self, *args):
 
         # Appel méthode correspondant à la séquence 2.3
         return CreateTournamentController()
@@ -178,18 +179,18 @@ class AddPlayersController:
         self.menu = Menu()
         self.view = MenuView(self.menu)
 
-    def run(self):
-        self.menu.add("auto", "Charger 8 joueurs de la BDD à partir de leur ID", Load8PlayersController())
-        self.menu.add("auto", "Entrer manuellement 8 nouveaux joueurs et les sauvegarder dans la BDD", Add8PlayersController())
-        self.menu.add("auto", "Retour", CreateTournamentController())
+    def run(self, *args):
+        self.menu.add("auto", "Charger 8 joueurs de la BDD à partir de leur ID", Load8PlayersController)
+        self.menu.add("auto", "Entrer manuellement 8 nouveaux joueurs et les sauvegarder dans la BDD", Add8PlayersController)
+        self.menu.add("auto", "Retour", CreateTournamentController)
 
         user_choice = self.view.get_user_choice()
-        return user_choice.handler
+        return user_choice.handler()
 
 
 class Load8PlayersController:
     
-    def run(self):
+    def run(self, *args):
 
         # Appel méthode correspondant à la séquence 2.1.1
         return AddPlayersController()
@@ -197,7 +198,7 @@ class Load8PlayersController:
 
 class Add8PlayersController:
     
-    def run(self):
+    def run(self, *args):
 
         # Appel méthode correspondant à la séquence 2.1.2
         return AddPlayersController()
@@ -217,19 +218,19 @@ class ReportsController:
         self.menu = Menu()
         self.view = MenuView(self.menu)
 
-    def run(self):
-        self.menu.add("auto", "Afficher liste simple de tous les tournois", DisplayAllTournamentsController())
-        self.menu.add("auto", "Afficher liste de tous les tournois avec rounds et matchs", DisplayAllRoundsController())
-        self.menu.add("auto", "afficher liste de tous les rounds et match du tournoi courant", DisplayRoundsController())
-        self.menu.add("auto", "Retour Menu principal", HomeMenuController())
+    def run(self, *args):
+        self.menu.add("auto", "Afficher liste simple de tous les tournois", DisplayAllTournamentsController)
+        self.menu.add("auto", "Afficher liste de tous les tournois avec rounds et matchs", DisplayAllRoundsController)
+        self.menu.add("auto", "afficher liste de tous les rounds et match du tournoi courant", DisplayRoundsController)
+        self.menu.add("auto", "Retour Menu principal", HomeMenuController)
 
         user_choice = self.view.get_user_choice()
-        return user_choice.handler
+        return user_choice.handler()
 
 
 class DisplayAllTournamentsController:
     
-    def run(self):
+    def run(self, *args):
 
         # Appel méthode correspondant à la séquence 3.1
         return ReportsController()
@@ -237,7 +238,7 @@ class DisplayAllTournamentsController:
 
 class DisplayAllRoundsController:
     
-    def run(self):
+    def run(self, *args):
 
         # Appel méthode correspondant à la séquence 3.2
         return ReportsController()
@@ -245,7 +246,7 @@ class DisplayAllRoundsController:
 
 class DisplayRoundsController:
     
-    def run(self):
+    def run(self, *args):
 
         # Appel méthode correspondant à la séquence 3.3
         return ReportsController()
@@ -261,14 +262,16 @@ class TournamentManagerController:
         5. Retour    
     """
 
-    def __init__(self):
+    def __init__(self, nb_rounds=1):
         self.menu = Menu()
         self.view = MenuView(self.menu)
+        self.nb_rounds = nb_rounds
 
-    def run(self):
+    def run(self, *args):
+        
         self.menu.add("auto", "Démarrer premier round", StarsFisrtRoundController())
-        self.menu.add("auto", "Saisir scores et clore round en cours", CloseRoundController())
-        self.menu.add("auto", "Lancer Round suivant", NextRoundController())
+        self.menu.add("auto", "Saisir scores et clore round en cours", CloseRoundController(self.nb_rounds))
+        self.menu.add("auto", "Lancer Round suivant", NextRoundController(self.nb_rounds))
         self.menu.add("auto", "Sauvegarder tournoi", SaveTournamentController())
         self.menu.add("auto", "Retour Menu principal", HomeMenuController())
 
@@ -278,31 +281,45 @@ class TournamentManagerController:
 
 class StarsFisrtRoundController:
     
-    def run(self):
+    def run(self, *args):
 
         # Appel méthode correspondant à la séquence 4.1
-        return TournamentManagerController()
+        # ATENTION necessité de récupérer nb_rounds !!!!
+        nb_rounds = "retour d'une méthode de gamecontroller"
+        return TournamentManagerController(nb_rounds)
 
 
 class CloseRoundController:
     
-    def run(self):
+    def __init__(self, nb_rounds):
+        self.nb_rounds = nb_rounds
+    
+    def run(self, nb_rounds):
 
         # Appel méthode correspondant à la séquence 4.2
-        return TournamentManagerController()
+        # ATENTION necessité de récupérer nb_rounds !!!!
+        # appel methode de gamecontrolelr avec argument nb_rounds
+        nb_rounds = "retour d'une méthode de gamecontroller"
+        return TournamentManagerController(nb_rounds)
 
 
 class NextRoundController:
     
-    def run(self):
+    def __init__(self, nb_rounds):
+        self.nb_rounds = nb_rounds
+    
+    def run(self, nb_rounds):
 
         # Appel méthode correspondant à la séquence 4.3
-        return TournamentManagerController()
+        # ATENTION necessité de récupérer nb_rounds !!!!
+        # appel methode de gamecontroller avec argument nb_rounds
+        nb_rounds = "retour d'une méthode de gamecontroller"
+        return TournamentManagerController(nb_rounds)
 
 
 class SaveTournamentController:
     
-    def run(self):
+    def run(self, *args):
 
         # Appel méthode correspondant à la séquence 4.4
         return TournamentManagerController()
@@ -326,19 +343,19 @@ class PlayersManagerController:
         self.menu = Menu()
         self.view = MenuView(self.menu)
 
-    def run(self):
-        self.menu.add("auto", "Mettre à jour classement ELO et sauvegarder", UpdateRankingController())
-        self.menu.add("auto", "Afficher tous les joueurs", DisplayAllPlayersController())
-        self.menu.add("auto", "Afficher les joueurs du tournoi courant", DispalyPlayersController())
-        self.menu.add("auto", "Retour Menu principal", HomeMenuController())
+    def run(self, *args):
+        self.menu.add("auto", "Mettre à jour classement ELO et sauvegarder", UpdateRankingController)
+        self.menu.add("auto", "Afficher tous les joueurs", DisplayAllPlayersController)
+        self.menu.add("auto", "Afficher les joueurs du tournoi courant", DispalyPlayersController)
+        self.menu.add("auto", "Retour Menu principal", HomeMenuController)
 
         user_choice = self.view.get_user_choice()
-        return user_choice.handler
+        return user_choice.handler()
 
 
 class UpdateRankingController:
     
-    def run(self):
+    def run(self, *args):
 
         # Appel méthode correspondant à la séquence 5.1
         return PlayersManagerController()
@@ -350,18 +367,18 @@ class DisplayAllPlayersController:
         self.menu = Menu()
         self.view = MenuView(self.menu)
 
-    def run(self):
-        self.menu.add("auto", "Joueurs par nom", DislplayAllNameController())
-        self.menu.add("auto", "Joueurs par classement ELO décroissant", DisplayAllRankingController())
-        self.menu.add("auto", "Retour", PlayersManagerController())
+    def run(self, *args):
+        self.menu.add("auto", "Joueurs par nom", DislplayAllNameController)
+        self.menu.add("auto", "Joueurs par classement ELO décroissant", DisplayAllRankingController)
+        self.menu.add("auto", "Retour", PlayersManagerController)
 
         user_choice = self.view.get_user_choice()
-        return user_choice.handler
+        return user_choice.handler()
 
 
 class DislplayAllNameController:
     
-    def run(self):
+    def run(self, *args):
 
         # Appel méthode correspondant à la séquence 5.2.1.
         return PlayersManagerController()
@@ -369,7 +386,7 @@ class DislplayAllNameController:
 
 class DisplayAllRankingController:
     
-    def run(self):
+    def run(self, *args):
 
         # Appel méthode correspondant à la séquence 5.2.2
         return PlayersManagerController()
@@ -382,18 +399,18 @@ class DispalyPlayersController:
         self.menu = Menu()
         self.view = MenuView(self.menu)
 
-    def run(self):
-        self.menu.add("auto", "Joueurs par nom", DislplayNameController())
-        self.menu.add("auto", "Joueurs par classement ELO décroissant", DisplayRankingController())
-        self.menu.add("auto", "Retour", PlayersManagerController())
+    def run(self, *args):
+        self.menu.add("auto", "Joueurs par nom", DislplayNameController)
+        self.menu.add("auto", "Joueurs par classement ELO décroissant", DisplayRankingController)
+        self.menu.add("auto", "Retour", PlayersManagerController)
 
         user_choice = self.view.get_user_choice()
-        return user_choice.handler
+        return user_choice.handler()
 
 
 class DislplayNameController:
     
-    def run(self):
+    def run(self, *args):
 
         # Appel méthode correspondant à la séquence 5.3.1.
         return PlayersManagerController()
@@ -401,7 +418,7 @@ class DislplayNameController:
 
 class DisplayRankingController:
     
-    def run(self):
+    def run(self, *args):
 
         # Appel méthode correspondant à la séquence 5.3.2
         return PlayersManagerController()
@@ -410,5 +427,5 @@ class DisplayRankingController:
 # ****************** Sortie de l'application *****************
 class LeavingController:
 
-    def run(self):
+    def run(self, *args):
         print("Dans le sous menu de '6. Quitter'")
