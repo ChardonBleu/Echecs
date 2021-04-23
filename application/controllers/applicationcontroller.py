@@ -189,8 +189,13 @@ class LoadTournamentIdController:
 
     def run(self, *args):
 
-        # Appel méthode correspondant à la séquence 1.2
-        return LoadTournamentController(self.gamecontroller)
+        """Lance la séquence de menu 1.2
+
+        Returns:
+            (objet GameController) -- controller général du jeu
+        """
+        nb_rounds = self.gamecontroller.load_tournament_with_id_and_display()
+        return LoadTournamentController(self.gamecontroller, nb_rounds)
 
 
 # **************** Menu secondaire du 2. Créer nouveau tournoi **************** 
@@ -244,8 +249,12 @@ class CreateNewTournamentController:
         self.gamecontroller = gamecontroller
 
     def run(self, *args):
+        """Lance la séquence de menu 2.2
 
-        # Appel méthode correspondant à la séquence 2.2
+        Returns:
+            (objet GameController) -- controller général du jeu
+        """
+        self.gamecontroller.create_new_tournament()
         return CreateTournamentController(self.gamecontroller)
 
 
@@ -260,8 +269,12 @@ class LinkPlayersTournamentController:
         self.gamecontroller = gamecontroller
 
     def run(self, *args):
+        """Lance la séquence de menu 2.3
 
-        # Appel méthode correspondant à la séquence 2.3
+        Returns:
+            (objet GameController) -- controller général du jeu
+        """
+        self.gamecontroller.link_new_tournament_with_players_and_display()
         return CreateTournamentController(self.gamecontroller)
 
 
@@ -305,8 +318,12 @@ class Load8PlayersController:
         self.gamecontroller = gamecontroller
 
     def run(self, *args):
+        """Lance la séquence de menu 2.1.1
 
-        # Appel méthode correspondant à la séquence 2.1.1
+        Returns:
+            (objet GameController) -- controller général du jeu
+        """
+        self.gamecontroller.load_8_players_from_bdd_and_display()
         return AddPlayersController(self.gamecontroller)
 
 
@@ -321,8 +338,12 @@ class Add8PlayersController:
         self.gamecontroller = gamecontroller
 
     def run(self, *args):
+        """Lance la séquence de menu 2.1.2
 
-        # Appel méthode correspondant à la séquence 2.1.2
+        Returns:
+            (objet GameController) -- controller général du jeu
+        """
+        self.gamecontroller.load_and_save_8_players_and_display()
         return AddPlayersController(self.gamecontroller)
 
 
@@ -374,8 +395,12 @@ class DisplayAllTournamentsController:
         self.gamecontroller = gamecontroller
 
     def run(self, gamecontroller, *args):
+        """Lance la séquence de menu 3.1
 
-        # Appel méthode correspondant à la séquence 3.1
+        Returns:
+            (objet GameController) -- controller général du jeu
+        """
+        self.gamecontroller.display_all_tournaments_without_rounds()
         return ReportsController(self.gamecontroller)
 
 
@@ -390,8 +415,12 @@ class DisplayAllRoundsController:
         self.gamecontroller = gamecontroller
 
     def run(self, gamecontroller, *args):
+        """Lance la séquence de menu 3.2
 
-        # Appel méthode correspondant à la séquence 3.2
+        Returns:
+            (objet GameController) -- controller général du jeu
+        """
+        self.gamecontroller.display_all_tournaments_with_rounds()
         return ReportsController(self.gamecontroller)
 
 
@@ -406,8 +435,12 @@ class DisplayRoundsController:
         self.gamecontroller = gamecontroller
 
     def run(self, gamecontroller, *args):
+        """Lance la séquence de menu 3.3
 
-        # Appel méthode correspondant à la séquence 3.3
+        Returns:
+            (objet GameController) -- controller général du jeu
+        """
+        self.gamecontroller.display_tournaments_rounds_and_match()
         return ReportsController(self.gamecontroller)
 
 
@@ -463,10 +496,12 @@ class StarsFisrtRoundController:
         self.gamecontroller = gamecontroller
 
     def run(self, *args):
+        """Lance la séquence de menu 4.1
 
-        # Appel méthode correspondant à la séquence 4.1
-        # ATENTION necessité de récupérer nb_rounds !!!!
-        nb_rounds = "retour d'une méthode de gamecontroller"
+        Returns:
+            (objet GameController) -- controller général du jeu
+        """
+        nb_rounds = self.gamecontroller.start_first_round_and_display()
         return TournamentManagerController(self.gamecontroller, nb_rounds)
 
 
@@ -483,11 +518,12 @@ class CloseRoundController:
         self.gamecontroller = gamecontroller
     
     def run(self, *args):
+        """Lance la séquence de menu 4.2
 
-        # Appel méthode correspondant à la séquence 4.2
-        # ATENTION necessité de récupérer nb_rounds !!!!
-        # appel methode de gamecontrolelr avec argument nb_rounds
-        nb_rounds = "retour d'une méthode de gamecontroller"
+        Returns:
+            (objet GameController) -- controller général du jeu
+        """
+        nb_rounds = self.gamecontroller.close_round_and_display(self.nb_rounds)
         return TournamentManagerController(self.gamecontroller, nb_rounds)
 
 
@@ -504,11 +540,12 @@ class NextRoundController:
         self.gamecontroller = gamecontroller
     
     def run(self, *args):
+        """Lance la séquence de menu 4.3
 
-        # Appel méthode correspondant à la séquence 4.3
-        # ATENTION necessité de récupérer nb_rounds !!!!
-        # appel methode de gamecontroller avec argument nb_rounds
-        nb_rounds = "retour d'une méthode de gamecontroller"
+        Returns:
+            (objet GameController) -- controller général du jeu
+        """
+        nb_rounds = self.gamecontroller.start_next_round_and_display(self.nb_rounds)
         return TournamentManagerController(self.gamecontroller, nb_rounds)
 
 
@@ -523,8 +560,12 @@ class SaveTournamentController:
         self.gamecontroller = gamecontroller
 
     def run(self, *args):
+        """Lance la séquence de menu 4.4
 
-        # Appel méthode correspondant à la séquence 4.4
+        Returns:
+            (objet GameController) -- controller général du jeu
+        """
+        self.gamecontroller.save_tournament()
         return TournamentManagerController(self.gamecontroller)
 
 
@@ -580,8 +621,12 @@ class UpdateRankingController:
         self.gamecontroller = gamecontroller
 
     def run(self, *args):
+        """Lance la séquence de menu 5.1
 
-        # Appel méthode correspondant à la séquence 5.1
+        Returns:
+            (objet GameController) -- controller général du jeu
+        """
+        self.gamecontroller.update_players_ranking_and_save()
         return PlayersManagerController(self.gamecontroller)
 
 # **************** Menu tertiaire du 5.2. Ajouter des joueurs **************** 
@@ -625,7 +670,12 @@ class DislplayAllNameController:
 
     def run(self, *args):
 
-        # Appel méthode correspondant à la séquence 5.2.1.
+        """Lance la séquence de menu 5.2.1
+
+        Returns:
+            (objet GameController) -- controller général du jeu
+        """
+        self.gamecontroller.display_all_players_by_name()
         return PlayersManagerController(self.gamecontroller)
 
 
@@ -641,7 +691,12 @@ class DisplayAllRankingController:
 
     def run(self, *args):
 
-        # Appel méthode correspondant à la séquence 5.2.2
+        """Lance la séquence de menu 5.2.2
+
+        Returns:
+            (objet GameController) -- controller général du jeu
+        """
+        self.gamecontroller.display_all_players_by_ranking()
         return PlayersManagerController(self.gamecontroller)
 
 
@@ -686,7 +741,12 @@ class DislplayNameController:
 
     def run(self, *args):
 
-        # Appel méthode correspondant à la séquence 5.3.1.
+        """Lance la séquence de menu 5.3.1
+
+        Returns:
+            (objet GameController) -- controller général du jeu
+        """
+        self.gamecontroller.display_players_by_name()
         return PlayersManagerController(self.gamecontroller)
 
 
@@ -702,7 +762,12 @@ class DisplayRankingController:
 
     def run(self, *args):
 
-        # Appel méthode correspondant à la séquence 5.3.2
+        """Lance la séquence de menu 5.3.2
+
+        Returns:
+            (objet GameController) -- controller général du jeu
+        """
+        self.gamecontroller.display_players_by_ranking()
         return PlayersManagerController(self.gamecontroller)
 
 
@@ -718,4 +783,5 @@ class LeavingController:
         self.gamecontroller = gamecontroller
 
     def run(self, *args):
-        print("Dans le sous menu de '6. Quitter'")
+        pass
+
