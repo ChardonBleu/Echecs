@@ -91,7 +91,7 @@ class HomeMenuController:
     6. Quitter
     """
 
-    def __init__(self, gamecontroller, nb_rounds=1):
+    def __init__(self, gamecontroller, nb_rounds=0):
         """Construit le Menu de la classe et la vue pour ce menu
 
         Arguments:
@@ -480,7 +480,7 @@ class TournamentManagerController:
         Returns:
             (instance du controller choisi ) -- transporte en argument instance du controleur général du tournoi
         """
-        self.menu.add("auto", "Démarrer premier round", StarsFisrtRoundController(self.gamecontroller))
+        self.menu.add("auto", "Démarrer premier round", StarsFisrtRoundController(self.gamecontroller, self.nb_rounds))
         self.menu.add("auto", "Saisir scores et clore round en cours", CloseRoundController(self.gamecontroller, self.nb_rounds))
         self.menu.add("auto", "Lancer Round suivant", NextRoundController(self.gamecontroller, self.nb_rounds))
         self.menu.add("auto", "Sauvegarder tournoi", SaveTournamentController(self.gamecontroller))
@@ -492,13 +492,14 @@ class TournamentManagerController:
 
 class StarsFisrtRoundController:
 
-    def __init__(self, gamecontroller):
+    def __init__(self, gamecontroller, nb_rounds):
         """
         Arguments:
             gamecontroller (instance de GameController) -- contrôleur général du tournoi. Permet d'accéder 
                                                            à tous les objets et méthodes du tournoi courant.
         """
         self.gamecontroller = gamecontroller
+        self.nb_rounds = nb_rounds
 
     def run(self, *args):
         """Lance la séquence de menu 4.1
@@ -509,9 +510,12 @@ class StarsFisrtRoundController:
         Returns:
             (objet GameController) -- controller général du jeu
         """
-        nb_rounds = self.gamecontroller.start_first_round_and_display()
-        print(nb_rounds)
-        return TournamentManagerController(self.gamecontroller, nb_rounds)
+        if self.nb_rounds == 0:
+            self.nb_rounds = self.gamecontroller.start_first_round_and_display()
+            return TournamentManagerController(self.gamecontroller, self.nb_rounds)
+        else:
+            self.gamecontroller.tournament_controller.view.alert_control_first_round()
+            return TournamentManagerController(self.gamecontroller, self.nb_rounds)
 
 
 class CloseRoundController:
@@ -534,10 +538,8 @@ class CloseRoundController:
         Returns:
             (objet GameController) -- controller général du jeu
         """
-        print(self.nb_rounds)
-        nb_rounds = self.gamecontroller.close_round_and_display(self.nb_rounds)
-        print(nb_rounds)
-        return TournamentManagerController(self.gamecontroller, nb_rounds)
+        self.nb_rounds = self.gamecontroller.close_round_and_display(self.nb_rounds)
+        return TournamentManagerController(self.gamecontroller, self.nb_rounds)
 
 
 class NextRoundController:
@@ -562,10 +564,8 @@ class NextRoundController:
         Returns:
             (objet GameController) -- controller général du jeu
         """
-        print(self.nb_rounds)
-        nb_rounds = self.gamecontroller.start_next_round_and_display(self.nb_rounds)
-        print(nb_rounds)
-        return TournamentManagerController(self.gamecontroller, nb_rounds)
+        self.nb_rounds = self.gamecontroller.start_next_round_and_display(self.nb_rounds)
+        return TournamentManagerController(self.gamecontroller, self.nb_rounds)
 
 
 class SaveTournamentController:

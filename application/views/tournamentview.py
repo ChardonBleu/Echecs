@@ -133,3 +133,8 @@ class TournamentView:
         """Afffiche un alerte en cas de demande d'affichage d'un tournoi vide
         """
         print("Aucun tournoi courant n'a encore été chargé ou créé")
+
+    def alert_control_first_round(self):
+        """Afffiche un alerte en cas de demande d'affichage d'un tournoi vide
+        """
+        print("Le permier round a déjà été créé !")
