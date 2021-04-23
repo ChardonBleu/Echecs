@@ -168,7 +168,13 @@ class LoadLastTournamentController:
         self.gamecontroller = gamecontroller
     
     def run(self, *args):
-        """Lance la séquence de menu 1.1
+        """Lance la séquence de menu 1.1:
+        Charge le dernier tournoi sauvegardé dans la BDD et crée une instance de Tournament.
+        Charge les 8 joueurs correspondant aux id de joueurs mémorisés dans cette instance de Tournament.
+        Récupère les résultats des rounds ayant déjà eu lieu et met à jour les scores des joueurs avec ces résultats.
+        Récupère la liste des tupples des couples de joueurs ayant déjà joué ensemble.
+        Affiche le résumé des caractéristiques du tournoi, les rounds et match et les joueurs.
+        Calcule le nombre de rounds déjà créés et le renvoie.
 
         Returns:
             (objet GameController) -- controller général du jeu
@@ -190,7 +196,14 @@ class LoadTournamentIdController:
     def run(self, *args):
 
         """Lance la séquence de menu 1.2
-
+        Charge un tournoi sauvegardé dans la BDD en demandant à l'utilisateur l'id de ce tournoi
+        et crée une instance de Tournament.
+        Charge les 8 joueurs correspondant aux id de joueurs mémorisés dans cette instance de Tournament.
+        Récupère les résultats des rounds ayant déjà eu lieu et met à jour les scores des joueurs avec ces résultats.
+        Récupère la liste des tupples des couples de joueurs ayant déjà joué ensemble.
+        Affiche le résumé des caractéristiques du tournoi, les rounds et match et les joueurs.
+        Calcule le nombre de rounds déjà créés et le renvoie.
+        
         Returns:
             (objet GameController) -- controller général du jeu
         """
@@ -250,7 +263,8 @@ class CreateNewTournamentController:
 
     def run(self, *args):
         """Lance la séquence de menu 2.2
-
+        Demande à l'utilisateur de saisir les données pour un nouveau tournoi.
+        
         Returns:
             (objet GameController) -- controller général du jeu
         """
@@ -270,7 +284,8 @@ class LinkPlayersTournamentController:
 
     def run(self, *args):
         """Lance la séquence de menu 2.3
-
+        Lie le tournoi chargé ou nouvellement créé aux 8 joueurs chargés ou nouvellement créés.
+        
         Returns:
             (objet GameController) -- controller général du jeu
         """
@@ -319,7 +334,10 @@ class Load8PlayersController:
 
     def run(self, *args):
         """Lance la séquence de menu 2.1.1
-
+        Demande à l'utilisateur les id des joueurs qu'il veut faire jouer.
+        Charge ces 8 joueurs de la BDD dans le PlayerManager.
+        Affiche ces 8 joueurs.
+        
         Returns:
             (objet GameController) -- controller général du jeu
         """
@@ -339,7 +357,10 @@ class Add8PlayersController:
 
     def run(self, *args):
         """Lance la séquence de menu 2.1.2
-
+        Demande à l'utiliateur de saisir 8 nouveaux joueurs.
+        Sauvegarde ces joueurs dans la BDD.
+        Affiche ces joueurs.
+        
         Returns:
             (objet GameController) -- controller général du jeu
         """
@@ -396,7 +417,8 @@ class DisplayAllTournamentsController:
 
     def run(self, gamecontroller, *args):
         """Lance la séquence de menu 3.1
-
+        Affiche tous les tournois de la BDD, sans les détails de rounds.
+        
         Returns:
             (objet GameController) -- controller général du jeu
         """
@@ -416,7 +438,8 @@ class DisplayAllRoundsController:
 
     def run(self, gamecontroller, *args):
         """Lance la séquence de menu 3.2
-
+        Affiche tous les tournois de la BDD, avec les détails de rounds et matchs.
+        
         Returns:
             (objet GameController) -- controller général du jeu
         """
@@ -436,7 +459,8 @@ class DisplayRoundsController:
 
     def run(self, gamecontroller, *args):
         """Lance la séquence de menu 3.3
-
+        Affiche les rounds et match du tournoi courant.
+        
         Returns:
             (objet GameController) -- controller général du jeu
         """
@@ -497,7 +521,10 @@ class StarsFisrtRoundController:
 
     def run(self, *args):
         """Lance la séquence de menu 4.1
-
+        Trie les joueurs par scores et classement ELO décroissant.
+        Affiche la liste triée.
+        Ajoute un premier round avec les matchs et l'affiche.
+        
         Returns:
             (objet GameController) -- controller général du jeu
         """
@@ -519,7 +546,9 @@ class CloseRoundController:
     
     def run(self, *args):
         """Lance la séquence de menu 4.2
-
+        Demande à l'utilisateur de saisir les scores et met à jour les scores totaux des joueurs.
+        Affiche les joueurs.
+        
         Returns:
             (objet GameController) -- controller général du jeu
         """
@@ -541,7 +570,11 @@ class NextRoundController:
     
     def run(self, *args):
         """Lance la séquence de menu 4.3
-
+        Vérifie qu'il reste des rounds à jouer.
+        S'il en reste trie les joueurs par score et classement ELO puis crée un nouveau
+        round avec les matchs.
+        Affiche le round créé.
+        
         Returns:
             (objet GameController) -- controller général du jeu
         """
@@ -561,7 +594,8 @@ class SaveTournamentController:
 
     def run(self, *args):
         """Lance la séquence de menu 4.4
-
+        Sauvegarde le tournoi courant dans le BDD.
+    
         Returns:
             (objet GameController) -- controller général du jeu
         """
@@ -622,7 +656,9 @@ class UpdateRankingController:
 
     def run(self, *args):
         """Lance la séquence de menu 5.1
-
+        Demande à l'uitilisateur de saisir les nouveaux classements ELO.
+        Met à jour les classement ELO dans la BDD.
+        
         Returns:
             (objet GameController) -- controller général du jeu
         """
@@ -671,7 +707,8 @@ class DislplayAllNameController:
     def run(self, *args):
 
         """Lance la séquence de menu 5.2.1
-
+        Affiche tous les joueurs triés par nom.
+        
         Returns:
             (objet GameController) -- controller général du jeu
         """
@@ -692,7 +729,7 @@ class DisplayAllRankingController:
     def run(self, *args):
 
         """Lance la séquence de menu 5.2.2
-
+        Affiche tous les joueurs triés par classement ELO décroissant.
         Returns:
             (objet GameController) -- controller général du jeu
         """
@@ -742,7 +779,7 @@ class DislplayNameController:
     def run(self, *args):
 
         """Lance la séquence de menu 5.3.1
-
+        Affiche les joueurs du tournoi courant triés par nom.
         Returns:
             (objet GameController) -- controller général du jeu
         """
@@ -763,7 +800,7 @@ class DisplayRankingController:
     def run(self, *args):
 
         """Lance la séquence de menu 5.3.2
-
+        Affiche les joueurs du tournoi courant triés par classement ELO décroissant.
         Returns:
             (objet GameController) -- controller général du jeu
         """
@@ -784,4 +821,3 @@ class LeavingController:
 
     def run(self, *args):
         pass
-
