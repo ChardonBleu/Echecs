@@ -191,9 +191,15 @@ class GameController:
         Charge ces 8 joueurs de la BDD dans le PlayerManager.
         Affiche ces 8 joueurs.
         """
-        list_id_bdd = self.players_controller.view.prompt_list_id_bdd_players()
+        number_players_bdd = self.players_controller.players_manager.evaluate_number_players_bdd()
+        list_id_bdd = self.players_controller.view.prompt_list_id_bdd_players(number_players_bdd)
         self.players_controller.players_manager.load_players_with_bdd_id_list(list_id_bdd)
         self.players_controller.show_players(self.players_controller.players_manager)
+        if self.tournament_controller.tournament:
+            self.link_players_with_tournament()
+            self.tournament_controller.view.show_tournament(self.tournament_controller.tournament)
+        else:
+            pass
     
     def load_and_save_8_players_and_display(self):
         """Séquence menu 2.1.2
@@ -204,19 +210,22 @@ class GameController:
         self.players_controller.add_8_players()
         self.players_controller.players_manager.save_players_bdd()
         self.players_controller.show_players(self.players_controller.players_manager)
-    
+        if self.tournament_controller.tournament:
+            self.link_players_with_tournament()
+            self.tournament_controller.view.show_tournament(self.tournament_controller.tournament)
+        else:
+            pass
+
     def create_new_tournament(self):
         """Séquence menu 2.2
         Demande à l'utilisateur de saisir les données pour un nouveau tournoi.
         """
         self.tournament_controller.new_tournament()
-        
-    def link_new_tournament_with_players_and_display(self):
-        """Séquence menu 2.3
-        Lie le tournoi chargé ou nouvellement créé aux 8 joueurs chargés ou nouvellement créés.
-        """
-        self.link_players_with_tournament()
-        self.tournament_controller.view.show_tournament(self.tournament_controller.tournament) 
+        if len(self.players_controller.players_manager.players) == 8:
+            self.link_players_with_tournament()
+            self.tournament_controller.view.show_tournament(self.tournament_controller.tournament)
+        else:
+            pass        
         
     def display_all_tournaments_without_rounds(self):
         """Séquence menu 3.1

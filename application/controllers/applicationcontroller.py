@@ -247,7 +247,6 @@ class CreateTournamentController:
         """
         self.menu.add("auto", "Ajouter des joueurs", AddPlayersController)
         self.menu.add("auto", "Créer nouveau tournoi", CreateNewTournamentController)
-        self.menu.add("auto", "Lier Le tournoi créé ou chargé avec les 8 joueurs créés ou chargés", LinkPlayersTournamentController)
         self.menu.add("auto", "Retour Menu principal", HomeMenuController)
 
         user_choice = self.view.get_user_choice()
@@ -272,27 +271,6 @@ class CreateNewTournamentController:
             (objet GameController) -- controller général du jeu
         """
         self.gamecontroller.create_new_tournament()
-        return CreateTournamentController(self.gamecontroller)
-
-
-class LinkPlayersTournamentController:
-
-    def __init__(self, gamecontroller):
-        """
-        Arguments:
-            gamecontroller (instance de GameController) -- contrôleur général du tournoi. Permet d'accéder 
-                                                           à tous les objets et méthodes du tournoi courant.
-        """
-        self.gamecontroller = gamecontroller
-
-    def run(self, *args):
-        """Lance la séquence de menu 2.3
-        Lie le tournoi chargé ou nouvellement créé aux 8 joueurs chargés ou nouvellement créés.
-        
-        Returns:
-            (objet GameController) -- controller général du jeu
-        """
-        self.gamecontroller.link_new_tournament_with_players_and_display()
         return CreateTournamentController(self.gamecontroller)
 
 

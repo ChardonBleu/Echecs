@@ -193,7 +193,7 @@ class PlayerManager:
             list_all_players.bdd_id.append(serialized_players[index].doc_id)
         return list_all_players
 
-    def load_8_players_from_bdd(self, id_first_player=9):
+    def evaluate_number_players_bdd(self):
         """Chargement de 8 joueurs consécutifs de la bdd à partir du joueur dont l'id est passé en paramètre
         pour test déroulement application.
 
@@ -203,18 +203,8 @@ class PlayerManager:
         et récupérer le bon joueur à l'aide de .doc_id ...
         """
         db = TinyDB('db.json')
-        players_table = db.table('players')
-        serialized_players = players_table.all()
-        self.players = []
-        self.bdd_id = []
-        for index in range(id_first_player - 1, id_first_player + 7):
-            first_name = serialized_players[index]['first_name']
-            last_name = serialized_players[index]['last_name']
-            birth_date = serialized_players[index]['birth_date']
-            sexe = serialized_players[index]['sexe']
-            ranking = serialized_players[index]['ranking']
-            self.players.append(Player(first_name, last_name, birth_date, sexe, ranking))
-            self.bdd_id.append(serialized_players[index].doc_id)
+        number_players_bdd = len(db.table('players'))
+        return number_players_bdd        
 
     def load_players_with_bdd_id_list(self, bdd_id_list):
         """Charge dans le player manager les 8 joueurs dont les id de la BDD sont dans la liste passée en arguments

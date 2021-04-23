@@ -93,21 +93,27 @@ class PlayerView:
                 break
         return new_ranking
 
-    def prompt_list_id_bdd_players(self):
+    def prompt_list_id_bdd_players(self, number_players_bdd):
         """Demande à l'utilisateur de donnes les id de la BDD des 8 joueurs qu'il souhaite charger
 
         Returns:
             list  --  liste des 8 id
         """
         bdd_id_list = []
-        while True:
-            try:
-                for counter in range(1, 9):
-                    bdd_id_list.append(int(input("id du joueur" + str(counter) + ": ")))
-                    if bdd_id_list[counter - 1] < 0:
+        for counter in range(1, 9):
+            while True:
+                try:                    
+                    id_new_player = (int(input("id du joueur" + str(counter) + ": ")))
+                    print(id_new_player)
+                    if id_new_player > number_players_bdd or id_new_player < 0:
                         raise ValueError
-            except ValueError:
-                print("Il faut saisir un entier positif !")
-            else:
-                break
+                    if id_new_player in bdd_id_list:
+                        raise ArithmeticError
+                except ValueError:
+                    print("Il faut saisir un entier positif et infèrieur au nombre maxi de joueurs stockés: " + str(number_players_bdd) + " !")
+                except ArithmeticError:
+                    print("Ce joueur est déjà dans la liste!")
+                else:
+                    break
+            bdd_id_list.append(id_new_player)
         return bdd_id_list
