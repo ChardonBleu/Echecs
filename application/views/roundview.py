@@ -80,3 +80,19 @@ class RoundView:
         """
         print("Tous les rounds prévus ont été joués.")
         print("Si tous les scores ont été saisis, le tournoi est terminé!")
+
+    def alert_control_first_round(self):
+        """Afffiche un alerte en cas de demande d'affichage d'un tournoi vide
+        """
+        print("Le permier round a déjà été créé !")
+        
+    def alert_closed_round(self):
+        """Afffiche un alerte au cas où on veiller rentrer les score d"'un round déjà fermé
+        """
+        print("Ce round est déjà fermé !")
+        
+    def alert_non_closed_round(self):
+        """Afffiche un alerte au cas où on veiller créer un nouveau round
+        alors que les scores du précédent round ne sont pas encore saisis.
+        """
+        print("Il faut saisir les scores du round précedent avant d'en créer un nouveau !")

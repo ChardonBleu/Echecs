@@ -23,6 +23,7 @@ class Round:
         self.matches = []
         self.horodatage_begin = datetime.now().strftime("%d/%m/%Y-%H:%M")
         self.horodatage_end = ""
+        self.round_closed = False
 
     def __str__(self):
         """Pour affichage des données d'un round
@@ -45,7 +46,18 @@ class Round:
         """Mise à jour automatique de l'heure de fin de round lors de la saisie des scores
         """
         self.horodatage_end = datetime.now().strftime("%d/%m/%Y-%H:%M")
+        self.round_closed = True
         return self.horodatage_end
+
+    @property
+    def closed(self):
+        """Permet de savoir si le round a été fermé
+
+        Returns:
+            (bool) -- True si le round est fermé
+        """
+        return self.round_closed
+
 
     @property
     def len_matches_list(self):

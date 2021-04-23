@@ -514,7 +514,7 @@ class StarsFisrtRoundController:
             self.nb_rounds = self.gamecontroller.start_first_round_and_display()
             return TournamentManagerController(self.gamecontroller, self.nb_rounds)
         else:
-            self.gamecontroller.tournament_controller.view.alert_control_first_round()
+            self.gamecontroller.tournament_controller.round_controller.view.alert_control_first_round()
             return TournamentManagerController(self.gamecontroller, self.nb_rounds)
 
 
@@ -538,8 +538,12 @@ class CloseRoundController:
         Returns:
             (objet GameController) -- controller général du jeu
         """
-        self.nb_rounds = self.gamecontroller.close_round_and_display(self.nb_rounds)
-        return TournamentManagerController(self.gamecontroller, self.nb_rounds)
+        if not self.gamecontroller.tournament_controller.tournament.rounds[self.nb_rounds - 1].closed:
+            self.nb_rounds = self.gamecontroller.close_round_and_display(self.nb_rounds)
+            return TournamentManagerController(self.gamecontroller, self.nb_rounds)
+        else:
+            self.gamecontroller.tournament_controller.round_controller.view.alert_closed_round()
+            return TournamentManagerController(self.gamecontroller, self.nb_rounds)
 
 
 class NextRoundController:
@@ -564,8 +568,12 @@ class NextRoundController:
         Returns:
             (objet GameController) -- controller général du jeu
         """
-        self.nb_rounds = self.gamecontroller.start_next_round_and_display(self.nb_rounds)
-        return TournamentManagerController(self.gamecontroller, self.nb_rounds)
+        if self.gamecontroller.tournament_controller.tournament.rounds[self.nb_rounds - 1].closed:
+            self.nb_rounds = self.gamecontroller.start_next_round_and_display(self.nb_rounds)
+            return TournamentManagerController(self.gamecontroller, self.nb_rounds)
+        else:
+            self.gamecontroller.tournament_controller.round_controller.view.alert_non_closed_round()
+            return TournamentManagerController(self.gamecontroller, self.nb_rounds)
 
 
 class SaveTournamentController:
