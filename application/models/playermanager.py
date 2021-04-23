@@ -134,8 +134,18 @@ class PlayerManager:
         Args:
             player_manager (instance de PlayerManager) -- Contient la liste des 8 joueurs du tournoi courant
         """
-        sorted_player_list = sorted(self.couple_items(), key=lambda couple: couple[1].full_name.lower())
-        self.decouple_items(sorted_player_list)
+        sorted_player_list = sorted(player_manager.couple_items(), key=lambda couple: couple[1].full_name.lower())
+        player_manager.decouple_items(sorted_player_list)
+
+    def sort_players_by_ranking(self, player_manager):
+        """Permet le tri des joueurs du tournoi courant selon leur classement ELO (ordre décroissant des rangs)
+        et selon leur score au tournoi (ordre décroissant des rangs).
+
+        Args:
+            player_manager (instance de PlayerManager) -- Contient la liste des 8 joueurs du tournoi courant
+        """
+        sorted_player_list = sorted(player_manager.couple_items(), key=lambda couple: couple[1].ranking,  reverse=True)
+        player_manager.decouple_items(sorted_player_list)
 
     def sort_players_by_score_and_ranking(self, player_manager):
         """Permet le tri des joueurs du tournoi courant selon leur classement ELO (ordre décroissant des rangs)
@@ -144,9 +154,9 @@ class PlayerManager:
         Args:
             player_manager (instance de PlayerManager) -- Contient la liste des 8 joueurs du tournoi courant
         """
-        sorted_player_list = sorted(self.couple_items(), key=lambda couple: couple[1].ranking,  reverse=True)
+        sorted_player_list = sorted(player_manager.couple_items(), key=lambda couple: couple[1].ranking,  reverse=True)
         sorted_player_list = sorted(sorted_player_list, key=lambda couple: couple[1].tournament_score, reverse=True)
-        self.decouple_items(sorted_player_list)
+        player_manager.decouple_items(sorted_player_list)
 
     def update_ranking_players_bdd(self, index, new_ranking):
         """Sauvegarde dans le bdd la mise à jour de classement Elo des joueurs,

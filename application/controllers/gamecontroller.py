@@ -268,6 +268,7 @@ class GameController:
         self.players_controller.players_manager.sort_players_by_score_and_ranking(
             self.players_controller.players_manager)
         self.players_controller.show_players(self.players_controller.players_manager)
+        return nb_rounds
 
     def start_next_round_and_display(self, nb_rounds):
         """Séquence menu 4.3
@@ -279,6 +280,7 @@ class GameController:
         Returns:
             nb_rounds (int) -- Nombre de rounds ayant déjà été créé
         """
+        print(nb_rounds)
         if nb_rounds < self.tournament_controller.tournament.number_rounds:
             self.players_controller.players_manager.sort_players_by_score_and_ranking(
                 self.players_controller.players_manager)
@@ -317,7 +319,7 @@ class GameController:
         Affiche tous les joueurs triés par classement ELO décroissant.
         """
         all_players = self.players_controller.players_manager.load_all_players_from_bdd()
-        self.players_controller.players_manager.sort_players_by_score_and_ranking(all_players)
+        self.players_controller.players_manager.sort_players_by_ranking(all_players)
         self.players_controller.show_players(all_players)
 
     def display_players_by_name(self):
@@ -331,6 +333,6 @@ class GameController:
         """Séquence menu 5.3.2
         Affiche les joueurs du tournoi courant triés par classement ELO décroissant.
         """
-        self.players_controller.players_manager.sort_players_by_score_and_ranking(
+        self.players_controller.players_manager.sort_players_by_ranking(
             self.players_controller.players_manager)
         self.players_controller.show_players(self.players_controller.players_manager)
