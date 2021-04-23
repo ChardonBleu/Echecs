@@ -245,7 +245,10 @@ class GameController:
         """Séquence menu 3.3
         Affiche les rounds et match du tournoi courant.
         """
-        self.tournament_controller.round_controller.view.show_all_rounds(self.tournament_controller.tournament)
+        if self.tournament_controller.tournament:
+            self.tournament_controller.round_controller.view.show_all_rounds(self.tournament_controller.tournament)
+        else:
+            self.tournament_controller.view.alert_no_tournament()
         
     def start_first_round_and_display(self):
         """Séquence menu 4.1

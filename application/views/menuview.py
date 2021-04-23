@@ -14,6 +14,7 @@ class MenuView:
     def display_menu(self):
         """Affichage des entrées du menu
         """
+        print(self.menu)
         for key, entry in self.menu.items():
             print("{}: {}".format(key, entry))
         print()
@@ -24,6 +25,7 @@ class MenuView:
         Returns:
             instance d'objet MenuEntry -- entrée du menu désignée par choice
         """
+        print()
         while True:
             self.display_menu()
             choice = input(">> ")

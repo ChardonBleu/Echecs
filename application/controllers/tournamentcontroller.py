@@ -32,6 +32,7 @@ class TournamentController:
         L'attribut round se renseigne à l'instanciation à partir du nombre de rounds donné par l'utilisateur
         On instancie les rounds vides.
         """
+        self.tournament = []
         self.tournament = Tournament(self.view.prompt_name_tournament(),
                                      self.view.prompt_site_tournament(),
                                      self.view.prompt_date_begin_tournament(),

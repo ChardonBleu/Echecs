@@ -104,7 +104,6 @@ class PlayerView:
             while True:
                 try:                    
                     id_new_player = (int(input("id du joueur" + str(counter) + ": ")))
-                    print(id_new_player)
                     if id_new_player > number_players_bdd or id_new_player < 0:
                         raise ValueError
                     if id_new_player in bdd_id_list:

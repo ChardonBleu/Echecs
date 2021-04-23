@@ -30,9 +30,15 @@ class Menu:
     self.autokey : clé d'autonumérotation des entrées
     """
 
-    def __init__(self):
+    def __init__(self, title):
         self.entries = {}
         self.autokey = 1
+        self.title = title
+        
+    def __str__(self):
+        """Affiche le titre du menu
+        """
+        return str(self.title)
 
     def add(self, key, option, handler):
         """Permet d'ajouter une entrée au menu

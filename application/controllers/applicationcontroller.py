@@ -75,9 +75,9 @@ class ApplicationController:
             self.controller = self.controller.run(args)
 
 
-# ********************************************************************
-# *************** CLASSES DE NAVIGATION DE MENU **********************
-# ********************************************************************
+# *************************************************************************
+# *************** CLASSES DE NAVIGATION DANS LE MENU **********************
+# *************************************************************************
 
 
 class HomeMenuController:
@@ -98,7 +98,7 @@ class HomeMenuController:
             gamecontroller (instance de GameController) -- contrôleur général du tournoi. Permet d'accéder 
                                                            à tous les objets et méthodes du tournoi courant.
         """
-        self.menu = Menu()
+        self.menu = Menu("Menu Principal:")
         self.view = MenuView(self.menu)
         self.gamecontroller = gamecontroller
         self.nb_rounds = nb_rounds
@@ -112,7 +112,7 @@ class HomeMenuController:
         """
         self.menu.add("auto", "Charger tournoi passé", LoadTournamentController(self.gamecontroller))
         self.menu.add("auto", "Créer nouveau tournoi", CreateTournamentController(self.gamecontroller))
-        self.menu.add("auto", "Rapports tournois", ReportsController)
+        self.menu.add("auto", "Rapports tournois", ReportsController(self.gamecontroller))
         self.menu.add("auto", "Gérer un tournoi", TournamentManagerController(self.gamecontroller, self.nb_rounds))
         self.menu.add("auto", "Gérer les joueurs", PlayersManagerController(self.gamecontroller))
         self.menu.add("auto", "Quitter", LeavingController(self.gamecontroller))
@@ -137,7 +137,7 @@ class LoadTournamentController:
             gamecontroller (instance de GameController) -- contrôleur général du tournoi. Permet d'accéder 
                                                            à tous les objets et méthodes du tournoi courant.
         """
-        self.menu = Menu()
+        self.menu = Menu("Menu de chargement de tournois passés:")
         self.view = MenuView(self.menu)
         self.gamecontroller = gamecontroller
         self.nb_rounds = nb_rounds
@@ -182,7 +182,7 @@ class LoadLastTournamentController:
             (objet GameController) -- controller général du jeu
         """
         self.nb_rounds = self.gamecontroller.load_last_tournament_and_display()
-        return LoadTournamentController(self.gamecontroller, self.nb_rounds)
+        return HomeMenuController(self.gamecontroller, self.nb_rounds)
 
 
 class LoadTournamentIdController:
@@ -211,7 +211,7 @@ class LoadTournamentIdController:
             (objet GameController) -- controller général du jeu
         """
         self.nb_rounds = self.gamecontroller.load_tournament_with_id_and_display()
-        return LoadTournamentController(self.gamecontroller, self.nb_rounds)
+        return HomeMenuController(self.gamecontroller, self.nb_rounds)
 
 
 # **************** Menu secondaire du 2. Créer nouveau tournoi **************** 
@@ -234,7 +234,7 @@ class CreateTournamentController:
             gamecontroller (instance de GameController) -- contrôleur général du tournoi. Permet d'accéder 
                                                            à tous les objets et méthodes du tournoi courant.
         """
-        self.menu = Menu()
+        self.menu = Menu("Menu de crétion d'un nouveau tournoi:")
         self.view = MenuView(self.menu)
         self.gamecontroller = gamecontroller
 
@@ -284,7 +284,7 @@ class AddPlayersController:
             gamecontroller (instance de GameController) -- contrôleur général du tournoi. Permet d'accéder 
                                                            à tous les objets et méthodes du tournoi courant.
         """
-        self.menu = Menu()
+        self.menu = Menu("Menu d'ajout de joueurs au nouveau tournoi:")
         self.view = MenuView(self.menu)
         self.gamecontroller = gamecontroller
 
@@ -323,7 +323,7 @@ class Load8PlayersController:
             (objet GameController) -- controller général du jeu
         """
         self.gamecontroller.load_8_players_from_bdd_and_display()
-        return AddPlayersController(self.gamecontroller)
+        return CreateTournamentController(self.gamecontroller)
 
 
 class Add8PlayersController:
@@ -346,7 +346,7 @@ class Add8PlayersController:
             (objet GameController) -- controller général du jeu
         """
         self.gamecontroller.load_and_save_8_players_and_display()
-        return AddPlayersController(self.gamecontroller)
+        return CreateTournamentController(self.gamecontroller)
 
 
 # **************** Menu secondaire du 3. Rapports tournois **************** 
@@ -366,7 +366,7 @@ class ReportsController:
             gamecontroller (instance de GameController) -- contrôleur général du tournoi. Permet d'accéder 
                                                            à tous les objets et méthodes du tournoi courant.
         """
-        self.menu = Menu()
+        self.menu = Menu("Menu d'affichage des rapports de tournois:")
         self.view = MenuView(self.menu)
         self.gamecontroller = gamecontroller
 
@@ -404,7 +404,7 @@ class DisplayAllTournamentsController:
             (objet GameController) -- controller général du jeu
         """
         self.gamecontroller.display_all_tournaments_without_rounds()
-        return ReportsController(self.gamecontroller)
+        return HomeMenuController(self.gamecontroller)
 
 
 class DisplayAllRoundsController:
@@ -425,7 +425,7 @@ class DisplayAllRoundsController:
             (objet GameController) -- controller général du jeu
         """
         self.gamecontroller.display_all_tournaments_with_rounds()
-        return ReportsController(self.gamecontroller)
+        return HomeMenuController(self.gamecontroller)
 
 
 class DisplayRoundsController:
@@ -446,7 +446,7 @@ class DisplayRoundsController:
             (objet GameController) -- controller général du jeu
         """
         self.gamecontroller.display_tournaments_rounds_and_match()
-        return ReportsController(self.gamecontroller)
+        return HomeMenuController(self.gamecontroller)
 
 
 # **************** Menu secondaire du 4. Gérer tournoi **************** 
@@ -467,7 +467,7 @@ class TournamentManagerController:
             gamecontroller (instance de GameController) -- contrôleur général du tournoi. Permet d'accéder 
                                                            à tous les objets et méthodes du tournoi courant.
         """
-        self.menu = Menu()
+        self.menu = Menu("Menu de gestion du tournoi courant:")
         self.view = MenuView(self.menu)
         self.nb_rounds = nb_rounds
         self.gamecontroller = gamecontroller
@@ -478,7 +478,7 @@ class TournamentManagerController:
         Affiche le menu et demande à l'utilisateur de choisir une option
 
         Returns:
-            (instance du controller choisi ) -- trnasporte en argument instance du controleur général du tournoi
+            (instance du controller choisi ) -- transporte en argument instance du controleur général du tournoi
         """
         self.menu.add("auto", "Démarrer premier round", StarsFisrtRoundController(self.gamecontroller))
         self.menu.add("auto", "Saisir scores et clore round en cours", CloseRoundController(self.gamecontroller, self.nb_rounds))
@@ -610,7 +610,7 @@ class PlayersManagerController:
             gamecontroller (instance de GameController) -- contrôleur général du tournoi. Permet d'accéder 
                                                            à tous les objets et méthodes du tournoi courant.
         """
-        self.menu = Menu()
+        self.menu = Menu("Menu de gestion des joueurs:")
         self.view = MenuView(self.menu)
         self.gamecontroller = gamecontroller
 
@@ -649,7 +649,7 @@ class UpdateRankingController:
             (objet GameController) -- controller général du jeu
         """
         self.gamecontroller.update_players_ranking_and_save()
-        return PlayersManagerController(self.gamecontroller)
+        return HomeMenuController(self.gamecontroller)
 
 # **************** Menu tertiaire du 5.2. Ajouter des joueurs **************** 
 class DisplayAllPlayersController:
@@ -661,7 +661,7 @@ class DisplayAllPlayersController:
             gamecontroller (instance de GameController) -- contrôleur général du tournoi. Permet d'accéder 
                                                            à tous les objets et méthodes du tournoi courant.
         """
-        self.menu = Menu()
+        self.menu = Menu("Menu de rapports des joueurs de la base de données:")
         self.view = MenuView(self.menu)
         self.gamecontroller = gamecontroller
 
@@ -733,7 +733,7 @@ class DispalyPlayersController:
             gamecontroller (instance de GameController) -- contrôleur général du tournoi. Permet d'accéder 
                                                            à tous les objets et méthodes du tournoi courant.
         """
-        self.menu = Menu()
+        self.menu = Menu("Menu de rapport des joueurs du tournoi courant:")
         self.view = MenuView(self.menu)
         self.gamecontroller = gamecontroller
 
