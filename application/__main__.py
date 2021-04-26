@@ -1,7 +1,7 @@
-from .controllers.controller import Controller
+from .controllers.applicationcontroller import ApplicationController
 
 
 if __name__ == "__main__":
 
-    tournois_controller = Controller()
-    tournois_controller.run()
+    application = ApplicationController()
+    application.run()

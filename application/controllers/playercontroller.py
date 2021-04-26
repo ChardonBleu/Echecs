@@ -9,12 +9,15 @@ class PlayerController:
     Assure le lien entre utilisateur et modèles en appelant la vue des joueurs
         pour la saisie de nouveaux joueurs
         pour l'affichage des joueurs du tournoi courant
-    Se charge du tri des joueurs.
+
+    Attributs:
+        self.view  (objet PlayerView)  -- instance de PlayerView destinée à la saisie
+                                          et l'affichage des données propres aux joueurs.
+        self.players_manager (objet PlayerManager)  -- instance de PlayerManager contenant
+                                                       les joueurs du tournoi courant
     """
 
     def __init__(self):
-        """
-        """
         self.view = PlayerView()
         self.players_manager = PlayerManager()
 
@@ -45,22 +48,15 @@ class PlayerController:
         """
         self.view.show_player(player_manager)
 
-    def sort_players_by_name(self, player_manager):
-        """Permet le tri des joueurs du tournoi courant selon leur nom complet : 'nom_de_famille prénom'
-        (ordre alphabétique croissant - insensibilité à la casse).
+    def update_ranking_players(self):
+        """Récupère le dico des {id_player: score} pour mettre à jour les scores
+        des joueurs dans Player
 
         Args:
-            player_manager (instance de PlayerManager) -- Contient la liste des 8 joueurs du tournoi courant
+            results_round (dict) -- dico des {id_player: score}
         """
-        sorted_player_list = sorted(player_manager.couple_items(), key=lambda couple: couple[1].full_name.lower())
-        player_manager.decouple_items(sorted_player_list)
-
-    def sort_players_by_score_and_ranking(self, player_manager):
-        """Permet le tri des joueurs du tournoi courant selon leur classement ELO (ordre décroissant des rangs).
-
-        Args:
-            player_manager (instance de PlayerManager) -- Contient la liste des 8 joueurs du tournoi courant
-        """
-        sorted_player_list = sorted(player_manager.couple_items(), key=lambda couple: couple[1].ranking,  reverse=True)
-        sorted_player_list = sorted(sorted_player_list, key=lambda couple: couple[1].tournament_score, reverse=True)
-        player_manager.decouple_items(sorted_player_list)
+        for player in self.players_manager.players:
+            new_ranking = self.view.prompt_new_ranking_player(player)
+            player.update_ranking(new_ranking)
+            index = self.players_manager.players.index(player)
+            self.players_manager.update_ranking_players_bdd(index, new_ranking)

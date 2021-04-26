@@ -48,9 +48,25 @@ class RoundView:
         """
         for tour in tournament.rounds:
             print(tour)
-            print()
             for match in tour.matches:
                 print(match)
+            print()
+
+    def show_all_rounds_all_tournaments(self, all_tournaments):
+        """Affiche les caractéristiques des rounds du tournoi courant passé en paramètre.
+
+        Args:
+            tournament {instance de Tournament}
+        """
+        for tournament in all_tournaments:
+            print("Tournoi " + str(all_tournaments.index(tournament) + 1))
+            print(tournament)
+            for tour in tournament.rounds:
+                print(tour)
+                for match in tour.matches:
+                    print(match)
+                print()
+            print()
 
     def show_round_controller(self, memo_match):
         """Permet d'afficher les tupples mémorisés des couples de joueur ayant déjà joué ensemble
@@ -58,3 +74,25 @@ class RoundView:
         print("couples de joueurs ayant déjà joué ensemble")
         for match in memo_match:
             print(str(match))
+
+    def max_rounds_alert(self):
+        """Alerte de fin de tournoi
+        """
+        print("Tous les rounds prévus ont été joués.")
+        print("Si tous les scores ont été saisis, le tournoi est terminé!")
+
+    def alert_control_first_round(self):
+        """Afffiche un alerte en cas de demande d'affichage d'un tournoi vide
+        """
+        print("Le permier round a déjà été créé !")
+
+    def alert_closed_round(self):
+        """Afffiche un alerte au cas où on veiller rentrer les score d"'un round déjà fermé
+        """
+        print("Ce round est déjà fermé !")
+
+    def alert_non_closed_round(self):
+        """Afffiche un alerte au cas où on veiller créer un nouveau round
+        alors que les scores du précédent round ne sont pas encore saisis.
+        """
+        print("Il faut saisir les scores du round précedent avant d'en créer un nouveau !")

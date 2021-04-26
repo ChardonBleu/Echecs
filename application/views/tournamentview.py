@@ -6,7 +6,6 @@ class TournamentView:
         Interface destinée à la gestion du tournois:
         Choix paramètres tournois: nom, site, dates début et fin, description
         timecontrol et number of rounds
-
     """
 
     def prompt_name_tournament(self):
@@ -106,6 +105,20 @@ class TournamentView:
                         loop = False
         return number_rounds
 
+    def prompt_id_tournament(self):
+        """[summary]
+        """
+        while True:
+            try:
+                bdd_id = int(input("Saisir l'id du tournoi que vous souhaitez charger: "))
+                if bdd_id < 0:
+                    raise ValueError
+            except ValueError:
+                print("Il faut saisir un entier positif !")
+            else:
+                break
+        return bdd_id
+
     def show_tournament(self, tournament):
         """Affiche les caractéristiques du tournois.
 
@@ -115,3 +128,8 @@ class TournamentView:
         print()
         print(tournament)
         print()
+
+    def alert_no_tournament(self):
+        """Afffiche un alerte en cas de demande d'affichage d'un tournoi vide
+        """
+        print("Aucun tournoi courant n'a encore été chargé ou créé")

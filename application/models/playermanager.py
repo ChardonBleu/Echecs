@@ -5,17 +5,23 @@ from ..models.player import Player
 
 class PlayerManager:
     """Sert à créer une liste d'instances de joueurs pour un tournoi, avec sa liste d'id de la bdd associée.
+
+    Attributs:
+        self.players  (list) -- liste de 8 instances de Player. Ce sont les joueurs du tournoi.
+        self.bdd_id (list)  -- liste de 8 nombres correspondant aux id des joueurs dans le bdd
+
     Une instance de PlayerManager simule un dictionaire ordonné: si on trie les joueur dans la liste self.players,
     la liste associée self.bdd_id se trie également.
+
     Permet également de :
-        Importer des joueurs en les saisissant à la console
+        Importer des joueurs en les saisissant à la console.
         Sauvegarder ces joueurs dans la BDD.
         Charger des joueurs à partir de la BDD.
+        Mettre à jour les classements ELO dans le BDD.
+        Trier les joueurs.
     """
 
     def __init__(self):
-        """
-        """
         self.players = []
         self.bdd_id = []
 
@@ -108,10 +114,8 @@ class PlayerManager:
             player = self[id_players]
             player.update_score(round_score)
 
-    def save_players_BDD(self):
-        """Sauvegarde le dictionnaire des joueurs dans la table player_table de la base de données.
-
-        Le nom de la table est construit par la méthode name_tournament_players() de la classe Tournament.
+    def save_players_bdd(self):
+        """Sauvegarde le dictionnaire des joueurs dans la table 'players' de la base de données.
 
         Returns:
             list -- liste des id des joueurs sauvegardés dans la base de données
@@ -123,29 +127,73 @@ class PlayerManager:
         players_table = db.table('players')
         self.bdd_id = players_table.insert_multiple(serialized_players)
 
+    def sort_players_by_name(self, player_manager):
+        """Permet le tri des joueurs du tournoi courant selon leur nom complet : 'nom_de_famille prénom'
+        (ordre alphabétique croissant - insensibilité à la casse).
+
+        Args:
+            player_manager (instance de PlayerManager) -- Contient la liste des 8 joueurs du tournoi courant
+        """
+        sorted_player_list = sorted(player_manager.couple_items(), key=lambda couple: couple[1].full_name.lower())
+        player_manager.decouple_items(sorted_player_list)
+
+    def sort_players_by_ranking(self, player_manager):
+        """Permet le tri des joueurs du tournoi courant selon leur classement ELO (ordre décroissant des rangs)
+        et selon leur score au tournoi (ordre décroissant des rangs).
+
+        Args:
+            player_manager (instance de PlayerManager) -- Contient la liste des 8 joueurs du tournoi courant
+        """
+        sorted_player_list = sorted(player_manager.couple_items(), key=lambda couple: couple[1].ranking,  reverse=True)
+        player_manager.decouple_items(sorted_player_list)
+
+    def sort_players_by_score_and_ranking(self, player_manager):
+        """Permet le tri des joueurs du tournoi courant selon leur classement ELO (ordre décroissant des rangs)
+        et selon leur score au tournoi (ordre décroissant des rangs).
+
+        Args:
+            player_manager (instance de PlayerManager) -- Contient la liste des 8 joueurs du tournoi courant
+        """
+        sorted_player_list = sorted(player_manager.couple_items(), key=lambda couple: couple[1].ranking,  reverse=True)
+        sorted_player_list = sorted(sorted_player_list, key=lambda couple: couple[1].tournament_score, reverse=True)
+        player_manager.decouple_items(sorted_player_list)
+
+    def update_ranking_players_bdd(self, index, new_ranking):
+        """Sauvegarde dans le bdd la mise à jour de classement Elo des joueurs,
+        ces nouvelles valeurs du classement étant saisies par l'utilisateur en
+        fin de tournoi.
+
+        Arguments:
+            last_name  (string)  -- nom de famille du joueur dont on met à jour le classement
+            new_ranking  (int)  --  nouvelle valeur du classement
+        """
+        db = TinyDB('db.json')
+        players_table = db.table('players')
+        players_table.update({'ranking': new_ranking}, doc_ids=[self.bdd_id[index]])
+
     def load_all_players_from_bdd(self):
         """Charge des joueurs depuis la base de données puis transforme la liste
         de dictionnaires de joueurs en liste d'instances de joueurs.
         Peut servir pour affichage de tous les joueurs.
 
         Returns:
-            list -- liste des instances de classe Player de tous les joueurs de la BDD
+            list -- nouvelle instance de PlayerManager contenant TOUS les joueurs de la BDD
         """
         db = TinyDB('db.json')
         players_table = db.table('players')
         serialized_players = players_table.all()
-        liste_tous_joueurs = PlayerManager()
+        list_all_players = PlayerManager()
         for index in range(len(serialized_players)):
             first_name = serialized_players[index]['first_name']
             last_name = serialized_players[index]['last_name']
             birth_date = serialized_players[index]['birth_date']
             sexe = serialized_players[index]['sexe']
             ranking = serialized_players[index]['ranking']
-            liste_tous_joueurs.players.append(Player(first_name, last_name, birth_date, sexe, ranking))
-            liste_tous_joueurs.bdd_id.append(serialized_players[index].doc_id)
-        return liste_tous_joueurs
+            list_all_players.players.append(Player(first_name, last_name, birth_date, sexe, ranking))
+            list_all_players.bdd_id.append(serialized_players[index].doc_id)
+        return list_all_players
 
-    def load_8_players_from_bdd(self, id_first_player=9):
+    def evaluate_number_players_bdd(self):
         """Chargement de 8 joueurs consécutifs de la bdd à partir du joueur dont l'id est passé en paramètre
         pour test déroulement application.
 
@@ -155,15 +203,25 @@ class PlayerManager:
         et récupérer le bon joueur à l'aide de .doc_id ...
         """
         db = TinyDB('db.json')
+        number_players_bdd = len(db.table('players'))
+        return number_players_bdd
+
+    def load_players_with_bdd_id_list(self, bdd_id_list):
+        """Charge dans le player manager les 8 joueurs dont les id de la BDD sont dans la liste passée en arguments
+
+        Arguments:
+            bdd_id_list (list) -- liste de id des joueurs dans la bdd
+        """
+        db = TinyDB('db.json')
         players_table = db.table('players')
-        serialized_players = players_table.all()
         self.players = []
         self.bdd_id = []
-        for index in range(id_first_player - 1, id_first_player + 7):
-            first_name = serialized_players[index]['first_name']
-            last_name = serialized_players[index]['last_name']
-            birth_date = serialized_players[index]['birth_date']
-            sexe = serialized_players[index]['sexe']
-            ranking = serialized_players[index]['ranking']
+        for bdd_id in bdd_id_list:
+            serialized_player = players_table.get(doc_id=bdd_id)
+            first_name = serialized_player['first_name']
+            last_name = serialized_player['last_name']
+            birth_date = serialized_player['birth_date']
+            sexe = serialized_player['sexe']
+            ranking = serialized_player['ranking']
             self.players.append(Player(first_name, last_name, birth_date, sexe, ranking))
-            self.bdd_id.append(serialized_players[index].doc_id)
+            self.bdd_id.append(bdd_id)

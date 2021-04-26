@@ -1,5 +1,6 @@
 from ..views.tournamentview import TournamentView
 from ..models.tournament import Tournament
+from ..models.tournamentmanager import TournamentManager
 from ..controllers.roundcontroller import RoundController
 
 
@@ -7,23 +8,31 @@ class TournamentController:
     """
     Modélise le controller du tournoi.
     Assure le lien entre utilisateur et modèles en appelant la vue du tournoi
-        pour la saisie d'un nouveau tournoi
+    pour la saisie d'un nouveau tournoi.
+
+    Attributs:
+
+        self.view (objet TournamentView)  -- instance de TournamentView destinée à la saisie
+                                             et l'affichage des données propres aux tournois
+        self.round_controller (objet RoundController) -- instance de RoundController.  Permet d'accéder aux données
+                                                         de rounds depuis une instance de TournamentController
+        self.tournmanet (objet Tournament)  -- instance du tournoi. Correspond au tournoi en cours.
+        self.tournament_manager (objet TournamentManager)  -- Pour sauvegarde ou chargement d'un tournoi
     """
 
     def __init__(self):
-        """
-        """
-        # self.players = PlayerManager()
         self.view = TournamentView()
         self.round_controller = RoundController()
         self.tournament = None
+        self.tournament_manager = TournamentManager()
 
     def new_tournament(self):
-        """Crée instance de Tournament avec saisie utilisateur des caractéristique du tournois,
+        """Crée instance de Tournament avec saisie utilisateur des caractéristiques du tournois,
         sauf attribut players
         L'attribut round se renseigne à l'instanciation à partir du nombre de rounds donné par l'utilisateur
         On instancie les rounds vides.
         """
+        self.tournament = []
         self.tournament = Tournament(self.view.prompt_name_tournament(),
                                      self.view.prompt_site_tournament(),
                                      self.view.prompt_date_begin_tournament(),
@@ -59,3 +68,15 @@ class TournamentController:
                 score_round[match.pairs[1][0]] = 0.5
         self.tournament.rounds[index_last_round].close_round()
         return score_round
+
+    def recover_couples_players_for_memorize(self):
+        """Récupération des couples de joueurs ayant déjà joué ensemble, aprés chargement
+        d'un tournoi depuis la BDD
+
+        Returns:
+            list -- liste de tupples (id_bb joueur1, id_bdd joueur 2)
+        """
+        for index in range(len(self.tournament.rounds)):
+            for match in self.tournament.rounds[index].matches:
+                self.round_controller.add_players_to_memo_match(match.pairs[0][0], match.pairs[1][0])
+                self.round_controller.add_players_to_memo_match(match.pairs[1][0], match.pairs[0][0])
