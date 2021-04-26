@@ -80,4 +80,3 @@ class TournamentController:
             for match in self.tournament.rounds[index].matches:
                 self.round_controller.add_players_to_memo_match(match.pairs[0][0], match.pairs[1][0])
                 self.round_controller.add_players_to_memo_match(match.pairs[1][0], match.pairs[0][0])
-

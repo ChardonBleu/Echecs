@@ -204,7 +204,7 @@ class PlayerManager:
         """
         db = TinyDB('db.json')
         number_players_bdd = len(db.table('players'))
-        return number_players_bdd        
+        return number_players_bdd
 
     def load_players_with_bdd_id_list(self, bdd_id_list):
         """Charge dans le player manager les 8 joueurs dont les id de la BDD sont dans la liste passée en arguments

@@ -102,14 +102,15 @@ class PlayerView:
         bdd_id_list = []
         for counter in range(1, 9):
             while True:
-                try:                    
+                try:
                     id_new_player = (int(input("id du joueur" + str(counter) + ": ")))
                     if id_new_player > number_players_bdd or id_new_player < 0:
                         raise ValueError
                     if id_new_player in bdd_id_list:
                         raise ArithmeticError
                 except ValueError:
-                    print("Il faut saisir un entier positif et infèrieur au nombre maxi de joueurs stockés: " + str(number_players_bdd) + " !")
+                    print("Il faut saisir un entier positif et infèrieur au nombre maxi de joueurs stockés: " +
+                          str(number_players_bdd) + " !")
                 except ArithmeticError:
                     print("Ce joueur est déjà dans la liste!")
                 else:

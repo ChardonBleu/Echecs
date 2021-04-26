@@ -16,7 +16,7 @@ class RoundController:
 
     def add_players_to_memo_match(self, id_player1, id_player2):
         """Ajoute un tupple d'id de players dans self.memo_match
-        
+
         Arguments;
             id_player1  (int)  --  id de la bdd d'un joueur
             id_player2  (int)  --  id de la bdd d'un autre joueur

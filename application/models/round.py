@@ -58,7 +58,6 @@ class Round:
         """
         return self.round_closed
 
-
     @property
     def len_matches_list(self):
         """Renvoie le nombre de matchs déjà créés

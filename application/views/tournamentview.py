@@ -128,7 +128,7 @@ class TournamentView:
         print()
         print(tournament)
         print()
-        
+
     def alert_no_tournament(self):
         """Afffiche un alerte en cas de demande d'affichage d'un tournoi vide
         """

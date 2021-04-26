@@ -34,7 +34,7 @@ class Menu:
         self.entries = {}
         self.autokey = 1
         self.title = title
-        
+
     def __str__(self):
         """Affiche le titre du menu
         """

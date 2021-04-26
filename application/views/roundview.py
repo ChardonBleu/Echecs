@@ -51,7 +51,7 @@ class RoundView:
             for match in tour.matches:
                 print(match)
             print()
-            
+
     def show_all_rounds_all_tournaments(self, all_tournaments):
         """Affiche les caractéristiques des rounds du tournoi courant passé en paramètre.
 
@@ -74,7 +74,7 @@ class RoundView:
         print("couples de joueurs ayant déjà joué ensemble")
         for match in memo_match:
             print(str(match))
-            
+
     def max_rounds_alert(self):
         """Alerte de fin de tournoi
         """
@@ -85,12 +85,12 @@ class RoundView:
         """Afffiche un alerte en cas de demande d'affichage d'un tournoi vide
         """
         print("Le permier round a déjà été créé !")
-        
+
     def alert_closed_round(self):
         """Afffiche un alerte au cas où on veiller rentrer les score d"'un round déjà fermé
         """
         print("Ce round est déjà fermé !")
-        
+
     def alert_non_closed_round(self):
         """Afffiche un alerte au cas où on veiller créer un nouveau round
         alors que les scores du précédent round ne sont pas encore saisis.
