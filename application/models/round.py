@@ -80,7 +80,8 @@ class Round:
             'round_name': self.round_name,
             'matches': serialized_match,
             'horodatage_begin': str(self.horodatage_begin),
-            'horodatage_end': str(self.horodatage_end)}
+            'horodatage_end': str(self.horodatage_end),
+            'round_closed': str(self.round_closed)}
         return serialized_round
 
     def deserialize_round(self, serialized_round):
@@ -92,6 +93,7 @@ class Round:
         self.round_name = serialized_round['round_name']
         self.horodatage_begin = serialized_round['horodatage_begin']
         self.horodatage_end = serialized_round['horodatage_end']
+        self.round_closed = bool(serialized_round['round_closed'])
         self.matches = []
         non_empty_matches = len(serialized_round['matches'])
         for index in range(non_empty_matches):
