@@ -25,19 +25,18 @@ class ApplicationController:
             2. Entrer manuellement 8 nouveaux joueurs puis les sauvegarder
             3. Retour
         2. Créer nouveau tournoi
-        3. Lier nouveau tournoi aux joueurs chargés puis afficher données
         4. Retour
 
     3. Rapports tournoi
-        1. Afficher liste de tous les tournois
+        1. Afficher liste simple de tous les tournois
         2. Afficher liste de tous les tournois avec rounds et matchs
         3. Afficher liste de tous les tours et match du tournoi courant
         4. Retour
 
     4. Gérer tournoi
         1. Démarer premier round (tri, affectation matchs, affichage)
-        2. Round suivant (tri, affectation matchs, affichage)
-        3. terminer round en cours (saisie scores, tri,  affichages résultats)
+        2. Terminer round en cours (saisie scores, tri,  affichages résultats)
+        3. Round suivant (tri, affectation matchs, affichage)
         4. Sauvegarder tournoi
         5. Retour
 

@@ -20,7 +20,7 @@ class GameController:
         et l'associe au tournoi courant en renseignant l'attribut self.players de la classe Tournament.
         Cette liste contient les id des joueurs dans la table players de la bdd.
         """
-        id_list = self.players_controller.players_manager.liste_id_players
+        id_list = self.players_controller.liste_id_players
         self.tournament_controller.tournament.tournament_players(id_list)
 
     def start_first_round(self):
@@ -89,8 +89,8 @@ class GameController:
             index_other_player (int) -- correspond à index de other_player dans liste_index_joueur
         """
         other_player = liste_index_joueur[index_other_player]
-        candidate_couple = (self.players_controller.players_manager.bdd_id[player_to_pair],
-                            self.players_controller.players_manager.bdd_id[other_player])
+        candidate_couple = (self.players_controller.bdd_id[player_to_pair],
+                            self.players_controller.bdd_id[other_player])
         if candidate_couple not in self.tournament_controller.round_controller.memo_match:
             self.add_match_and_memorise(player_to_pair, other_player)
         else:
@@ -108,8 +108,8 @@ class GameController:
             other_player (int) -- index permettant de récupérer l'id du joueur
         """
         self.tournament_controller.tournament.add_match_to_last_round(
-            self.players_controller.players_manager.bdd_id[player_to_pair],
-            self.players_controller.players_manager.bdd_id[other_player], 0, 0)
+            self.players_controller.bdd_id[player_to_pair],
+            self.players_controller.bdd_id[other_player], 0, 0)
         self.memorise_matches(player_to_pair, other_player)
 
     def memorise_matches(self, player_to_pair, other_player):
@@ -121,11 +121,11 @@ class GameController:
             other_player (int) -- index permettant de récupérer l'id du joueur
         """
         self.tournament_controller.round_controller.add_players_to_memo_match(
-            self.players_controller.players_manager.bdd_id[player_to_pair],
-            self.players_controller.players_manager.bdd_id[other_player])
+            self.players_controller.bdd_id[player_to_pair],
+            self.players_controller.bdd_id[other_player])
         self.tournament_controller.round_controller.add_players_to_memo_match(
-            self.players_controller.players_manager.bdd_id[other_player],
-            self.players_controller.players_manager.bdd_id[player_to_pair])
+            self.players_controller.bdd_id[other_player],
+            self.players_controller.bdd_id[player_to_pair])
 
     # **********************************************************************************
     # ***************** METHODES DE SEQUENCES DU MENU **********************************
@@ -145,16 +145,15 @@ class GameController:
         """
         last_tournament = self.tournament_controller.tournament_manager.load_last_saved_tournament()
         self.tournament_controller.tournament = last_tournament
-        self.players_controller.players_manager.load_players_with_bdd_id_list(
-            self.tournament_controller.tournament.liste_id_players)
+        self.players_controller = self.players_controller.players_manager.load_players_with_bdd_id_list(
+            self.tournament_controller.tournament.liste_id_players, self.players_controller)
         results_round = self.tournament_controller.tournament.recover_scores_for_loaded_tournament()
-        self.players_controller.players_manager.update_scores_players(results_round)
+        self.players_controller.update_scores_players(results_round)
         self.tournament_controller.recover_couples_players_for_memorize()
         self.tournament_controller.view.show_tournament(self.tournament_controller.tournament)
         self.tournament_controller.round_controller.view.show_all_rounds(self.tournament_controller.tournament)
-        self.players_controller.players_manager.sort_players_by_score_and_ranking(
-            self.players_controller.players_manager)
-        self.players_controller.show_players(self.players_controller.players_manager)
+        self.players_controller.sort_players_by_score_and_ranking(self.players_controller)
+        self.players_controller.show_players(self.players_controller)
         nb_rounds = len(self.tournament_controller.tournament.rounds)
         return nb_rounds
 
@@ -174,16 +173,15 @@ class GameController:
         bdd_id = self.tournament_controller.view.prompt_id_tournament()
         self.tournament_controller.tournament = self.tournament_controller.tournament_manager.load_tournament_by_id(
             bdd_id)
-        self.players_controller.players_manager.load_players_with_bdd_id_list(
-            self.tournament_controller.tournament.liste_id_players)
+        self.players_controller = self.players_controller.players_manager.load_players_with_bdd_id_list(
+            self.tournament_controller.tournament.liste_id_players, self.players_controller)
         results_round = self.tournament_controller.tournament.recover_scores_for_loaded_tournament()
-        self.players_controller.players_manager.update_scores_players(results_round)
+        self.players_controller.update_scores_players(results_round)
         self.tournament_controller.recover_couples_players_for_memorize()
         self.tournament_controller.view.show_tournament(self.tournament_controller.tournament)
         self.tournament_controller.round_controller.view.show_all_rounds(self.tournament_controller.tournament)
-        self.players_controller.players_manager.sort_players_by_score_and_ranking(
-            self.players_controller.players_manager)
-        self.players_controller.show_players(self.players_controller.players_manager)
+        self.players_controller.sort_players_by_score_and_ranking(self.players_controller)
+        self.players_controller.show_players(self.players_controller)
         nb_rounds = len(self.tournament_controller.tournament.rounds)
         return nb_rounds
 
@@ -195,8 +193,8 @@ class GameController:
         """
         number_players_bdd = self.players_controller.players_manager.evaluate_number_players_bdd()
         list_id_bdd = self.players_controller.view.prompt_list_id_bdd_players(number_players_bdd)
-        self.players_controller.players_manager.load_players_with_bdd_id_list(list_id_bdd)
-        self.players_controller.show_players(self.players_controller.players_manager)
+        self.players_controller = self.players_controller.players_manager.load_players_with_bdd_id_list(list_id_bdd, self.players_controller)
+        self.players_controller.show_players(self.players_controller)
         if self.tournament_controller.tournament:
             self.link_players_with_tournament()
             self.tournament_controller.view.show_tournament(self.tournament_controller.tournament)
@@ -210,8 +208,8 @@ class GameController:
         Affiche ces joueurs.
         """
         self.players_controller.add_8_players()
-        self.players_controller.players_manager.save_players_bdd()
-        self.players_controller.show_players(self.players_controller.players_manager)
+        self.players_controller.players_manager.save_players_bdd(self.players_controller)
+        self.players_controller.show_players(self.players_controller)
         if self.tournament_controller.tournament:
             self.link_players_with_tournament()
             self.tournament_controller.view.show_tournament(self.tournament_controller.tournament)
@@ -223,7 +221,7 @@ class GameController:
         Demande à l'utilisateur de saisir les données pour un nouveau tournoi.
         """
         self.tournament_controller.new_tournament()
-        if len(self.players_controller.players_manager.players) == 8:
+        if len(self.players_controller.players) == 8:
             self.link_players_with_tournament()
             self.tournament_controller.view.show_tournament(self.tournament_controller.tournament)
         else:
@@ -249,7 +247,7 @@ class GameController:
         """
         if self.tournament_controller.tournament:
             self.tournament_controller.view.show_tournament(self.tournament_controller.tournament)
-            self.players_controller.show_players(self.players_controller.players_manager)
+            self.players_controller.show_players(self.players_controller)
             self.tournament_controller.round_controller.view.show_all_rounds(self.tournament_controller.tournament)
         else:
             self.tournament_controller.view.alert_no_tournament()
@@ -264,9 +262,8 @@ class GameController:
             nb_rounds (int) -- Nombre de rounds ayant déjà été créé (ici nb_rounds = 1)
         """
         nb_rounds = 1
-        self.players_controller.players_manager.sort_players_by_score_and_ranking(
-            self.players_controller.players_manager)
-        self.players_controller.show_players(self.players_controller.players_manager)
+        self.players_controller.sort_players_by_score_and_ranking(self.players_controller)
+        self.players_controller.show_players(self.players_controller)
         self.start_first_round()
         self.tournament_controller.round_controller.view.show_rounds_with_matches(
             self.tournament_controller.tournament, nb_rounds)
@@ -280,10 +277,9 @@ class GameController:
         results_round = self.tournament_controller.close_last_round_with_scores()
         self.tournament_controller.round_controller.view.show_rounds_with_matches(
             self.tournament_controller.tournament, nb_rounds)
-        self.players_controller.players_manager.update_scores_players(results_round)
-        self.players_controller.players_manager.sort_players_by_score_and_ranking(
-            self.players_controller.players_manager)
-        self.players_controller.show_players(self.players_controller.players_manager)
+        self.players_controller.update_scores_players(results_round)
+        self.players_controller.sort_players_by_score_and_ranking(self.players_controller)
+        self.players_controller.show_players(self.players_controller)
         return nb_rounds
 
     def start_next_round_and_display(self, nb_rounds):
@@ -298,9 +294,8 @@ class GameController:
         """
         print(nb_rounds)
         if nb_rounds < self.tournament_controller.tournament.number_rounds:
-            self.players_controller.players_manager.sort_players_by_score_and_ranking(
-                self.players_controller.players_manager)
-            self.players_controller.show_players(self.players_controller.players_manager)
+            self.players_controller.sort_players_by_score_and_ranking(self.players_controller)
+            self.players_controller.show_players(self.players_controller)
             nb_rounds += 1
             self.new_round_with_control(nb_rounds)
             self.tournament_controller.round_controller.view.show_rounds_with_matches(
@@ -326,29 +321,28 @@ class GameController:
         """Séquence menu 5.2.1
         Affiche tous les joueurs triés par nom.
         """
-        all_players = self.players_controller.players_manager.load_all_players_from_bdd()
-        self.players_controller.players_manager.sort_players_by_name(all_players)
+        all_players = self.players_controller.players_manager.load_all_players_from_bdd(PlayerController())
+        self.players_controller.sort_players_by_name(all_players)
         self.players_controller.show_players(all_players)
 
     def display_all_players_by_ranking(self):
         """Séquence menu 5.2.2
         Affiche tous les joueurs triés par classement ELO décroissant.
         """
-        all_players = self.players_controller.players_manager.load_all_players_from_bdd()
-        self.players_controller.players_manager.sort_players_by_ranking(all_players)
+        all_players = self.players_controller.players_manager.load_all_players_from_bdd(PlayerController())
+        self.players_controller.sort_players_by_ranking(all_players)
         self.players_controller.show_players(all_players)
 
     def display_players_by_name(self):
         """Séquence menu 5.3.1
         Affiche les joueurs du tournoi courant triés par nom.
         """
-        self.players_controller.players_manager.sort_players_by_name(self.players_controller.players_manager)
-        self.players_controller.show_players(self.players_controller.players_manager)
+        self.players_controller.sort_players_by_name(self.players_controller)
+        self.players_controller.show_players(self.players_controller)
 
     def display_players_by_ranking(self):
         """Séquence menu 5.3.2
         Affiche les joueurs du tournoi courant triés par classement ELO décroissant.
         """
-        self.players_controller.players_manager.sort_players_by_ranking(
-            self.players_controller.players_manager)
-        self.players_controller.show_players(self.players_controller.players_manager)
+        self.players_controller.sort_players_by_ranking(self.players_controller)
+        self.players_controller.show_players(self.players_controller)
