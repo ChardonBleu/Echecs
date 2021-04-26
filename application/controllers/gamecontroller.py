@@ -21,12 +21,12 @@ class GameController:
         Cette liste contient les id des joueurs dans la table players de la bdd.
         """
         id_list = self.players_controller.liste_id_players
-        self.tournament_controller.tournament.tournament_players(id_list)
+        self.tournament_controller.tournaments[0].tournament_players(id_list)
 
     def start_first_round(self):
         """Crée le premier round
         """
-        self.tournament_controller.tournament.add_round()
+        self.tournament_controller.tournaments[0].add_round()
         player_to_pair = 0
         other_player = 4
         while player_to_pair < 4:
@@ -41,7 +41,7 @@ class GameController:
         Arguments:
             nb_rounds (int) -- transporté de méthode en méthode pour évaluer le nombre de matchs déjà créés.
         """
-        self.tournament_controller.tournament.add_round()
+        self.tournament_controller.tournaments[0].add_round()
         liste_index_joueur = [0, 1, 2, 3, 4, 5, 6, 7]  # Permet de décompter les joueurs disponibles pour appairage
         while len(liste_index_joueur) >= 2:
             liste_index_joueur = self.search_couple_for_first_player(liste_index_joueur, nb_rounds)
@@ -58,12 +58,12 @@ class GameController:
             liste_index_joueur {list} -- liste modifiée des index des joueurs disponibles pour appairage
         """
         player_to_pair = liste_index_joueur[0]
-        number_matches_before = self.tournament_controller.tournament.rounds[nb_rounds - 1].len_matches_list
+        number_matches_before = self.tournament_controller.tournaments[0].rounds[nb_rounds - 1].len_matches_list
         # On lance la méthode de recherche d'appairage et on récupère l'index du joueur sélectionné
         index_other_player = self.examine_other_players_as_candidate(liste_index_joueur, player_to_pair)
         other_player = liste_index_joueur[index_other_player]
         # si le saut mène au dernier joueur de la liste et qu'aucun match n'a été encore ajouté, on le rajoute
-        number_matches_after = self.tournament_controller.tournament.rounds[nb_rounds - 1].len_matches_list
+        number_matches_after = self.tournament_controller.tournaments[0].rounds[nb_rounds - 1].len_matches_list
         if index_other_player == len(liste_index_joueur) - 1 and number_matches_before == number_matches_after:
             self.add_match_and_memorise(player_to_pair, other_player)
         # On retire les joueurs mis en match de la liste des joueurs dispo pour appairage:
@@ -107,7 +107,7 @@ class GameController:
             player_to_pair (int) -- index permettant de récupérer l'id du joueur
             other_player (int) -- index permettant de récupérer l'id du joueur
         """
-        self.tournament_controller.tournament.add_match_to_last_round(
+        self.tournament_controller.tournaments[0].add_match_to_last_round(
             self.players_controller.bdd_id[player_to_pair],
             self.players_controller.bdd_id[other_player], 0, 0)
         self.memorise_matches(player_to_pair, other_player)
@@ -143,18 +143,18 @@ class GameController:
         Returns:
             nb_rounds (int) -- Nombre de rounds ayant déjà été créé
         """
-        last_tournament = self.tournament_controller.tournament_manager.load_last_saved_tournament()
-        self.tournament_controller.tournament = last_tournament
+        self.tournament_controller = self.tournament_controller.tournament_manager.load_last_saved_tournament(
+            self.tournament_controller)
         self.players_controller = self.players_controller.players_manager.load_players_with_bdd_id_list(
-            self.tournament_controller.tournament.liste_id_players, self.players_controller)
-        results_round = self.tournament_controller.tournament.recover_scores_for_loaded_tournament()
+            self.tournament_controller.tournaments[0].liste_id_players, self.players_controller)
+        results_round = self.tournament_controller.tournaments[0].recover_scores_for_loaded_tournament()
         self.players_controller.update_scores_players(results_round)
         self.tournament_controller.recover_couples_players_for_memorize()
-        self.tournament_controller.view.show_tournament(self.tournament_controller.tournament)
-        self.tournament_controller.round_controller.view.show_all_rounds(self.tournament_controller.tournament)
+        self.tournament_controller.view.show_tournament(self.tournament_controller.tournaments[0])
+        self.tournament_controller.round_controller.view.show_all_rounds(self.tournament_controller.tournaments[0])
         self.players_controller.sort_players_by_score_and_ranking(self.players_controller)
         self.players_controller.show_players(self.players_controller)
-        nb_rounds = len(self.tournament_controller.tournament.rounds)
+        nb_rounds = len(self.tournament_controller.tournaments[0].rounds)
         return nb_rounds
 
     def load_tournament_with_id_and_display(self):
@@ -171,18 +171,19 @@ class GameController:
             nb_rounds (int) -- Nombre de rounds ayant déjà été créé
         """
         bdd_id = self.tournament_controller.view.prompt_id_tournament()
-        self.tournament_controller.tournament = self.tournament_controller.tournament_manager.load_tournament_by_id(
-            bdd_id)
+        self.tournament_controller = self.tournament_controller.tournament_manager.load_tournament_by_id(
+            bdd_id, self.tournament_controller)
         self.players_controller = self.players_controller.players_manager.load_players_with_bdd_id_list(
-            self.tournament_controller.tournament.liste_id_players, self.players_controller)
-        results_round = self.tournament_controller.tournament.recover_scores_for_loaded_tournament()
+            self.tournament_controller.tournaments[0].liste_id_players, self.players_controller)
+        results_round = self.tournament_controller.tournaments[0].recover_scores_for_loaded_tournament()
         self.players_controller.update_scores_players(results_round)
         self.tournament_controller.recover_couples_players_for_memorize()
-        self.tournament_controller.view.show_tournament(self.tournament_controller.tournament)
-        self.tournament_controller.round_controller.view.show_all_rounds(self.tournament_controller.tournament)
+        self.tournament_controller.view.show_tournament(self.tournament_controller.tournaments[0])
+        self.tournament_controller.round_controller.view.show_all_rounds(self.tournament_controller.tournaments[0])
         self.players_controller.sort_players_by_score_and_ranking(self.players_controller)
         self.players_controller.show_players(self.players_controller)
-        nb_rounds = len(self.tournament_controller.tournament.rounds)
+        nb_rounds = len(self.tournament_controller.tournaments[0].rounds)
+        
         return nb_rounds
 
     def load_8_players_from_bdd_and_display(self):
@@ -193,11 +194,12 @@ class GameController:
         """
         number_players_bdd = self.players_controller.players_manager.evaluate_number_players_bdd()
         list_id_bdd = self.players_controller.view.prompt_list_id_bdd_players(number_players_bdd)
-        self.players_controller = self.players_controller.players_manager.load_players_with_bdd_id_list(list_id_bdd, self.players_controller)
+        self.players_controller = self.players_controller.players_manager.load_players_with_bdd_id_list(
+            list_id_bdd, self.players_controller)
         self.players_controller.show_players(self.players_controller)
-        if self.tournament_controller.tournament:
+        if len(self.tournament_controller.tournaments) == 1:
             self.link_players_with_tournament()
-            self.tournament_controller.view.show_tournament(self.tournament_controller.tournament)
+            self.tournament_controller.view.show_tournament(self.tournament_controller.tournaments[0])
         else:
             pass
 
@@ -207,12 +209,14 @@ class GameController:
         Sauvegarde ces joueurs dans la BDD.
         Affiche ces joueurs.
         """
+        self.players_controller.players = []
+        self.players_controller.bdd_id = []
         self.players_controller.add_8_players()
         self.players_controller.players_manager.save_players_bdd(self.players_controller)
         self.players_controller.show_players(self.players_controller)
-        if self.tournament_controller.tournament:
+        if self.tournament_controller.tournaments[0]:
             self.link_players_with_tournament()
-            self.tournament_controller.view.show_tournament(self.tournament_controller.tournament)
+            self.tournament_controller.view.show_tournament(self.tournament_controller.tournaments[0])
         else:
             pass
 
@@ -223,32 +227,46 @@ class GameController:
         self.tournament_controller.new_tournament()
         if len(self.players_controller.players) == 8:
             self.link_players_with_tournament()
-            self.tournament_controller.view.show_tournament(self.tournament_controller.tournament)
+            self.tournament_controller.view.show_tournament(self.tournament_controller.tournaments[0])
         else:
             pass
+
+    def erase_current_tournaments_and_players(self):
+        """Efface le tournoi courant et ses joueurs avant d'en charger un nouveau
+        """
+        if len(self.tournament_controller.tournaments) > 0:
+            self.tournament_controller.tournaments[0].players = []
+        self.tournament_controller.tournaments = []
+        self.tournament_controller.bdd_id = []
+        self.players_controller.players = []
+        self.players_controller.bdd_id = []
+        
 
     def display_all_tournaments_without_rounds(self):
         """Séquence menu 3.1
         Affiche tous les tournois de la BDD, sans les détails de rounds.
         """
-        all_tournaments = self.tournament_controller.tournament_manager.load_all_tournaments()
+        all_tournaments = TournamentController()
+        self.tournament_controller.tournament_manager.load_all_tournaments(all_tournaments)
         self.tournament_controller.view.show_tournament(all_tournaments)
 
     def display_all_tournaments_with_rounds(self):
         """Séquence menu 3.2
         Affiche tous les tournois de la BDD, avec les détails de rounds et matchs.
         """
-        all_tournaments = self.tournament_controller.tournament_manager.load_all_tournaments()
+        all_tournaments = TournamentController()
+        all_tournaments = self.tournament_controller.tournament_manager.load_all_tournaments(all_tournaments)
         self.tournament_controller.round_controller.view.show_all_rounds_all_tournaments(all_tournaments.tournaments)
 
     def display_tournaments_rounds_and_match(self):
         """Séquence menu 3.3
         Affiche les rounds et match du tournoi courant.
         """
-        if self.tournament_controller.tournament:
-            self.tournament_controller.view.show_tournament(self.tournament_controller.tournament)
+        if len(self.tournament_controller.tournaments) > 0:
+            self.tournament_controller.view.show_tournament(self.tournament_controller.tournaments[0])
             self.players_controller.show_players(self.players_controller)
-            self.tournament_controller.round_controller.view.show_all_rounds(self.tournament_controller.tournament)
+            self.tournament_controller.round_controller.view.show_all_rounds(
+                self.tournament_controller.tournaments[0])
         else:
             self.tournament_controller.view.alert_no_tournament()
 
@@ -266,7 +284,7 @@ class GameController:
         self.players_controller.show_players(self.players_controller)
         self.start_first_round()
         self.tournament_controller.round_controller.view.show_rounds_with_matches(
-            self.tournament_controller.tournament, nb_rounds)
+            self.tournament_controller.tournaments[0], nb_rounds)
         return nb_rounds
 
     def close_round_and_display(self, nb_rounds):
@@ -274,9 +292,9 @@ class GameController:
         Demande à l'utilisateur de saisir les scores et met à jour les scores totaux des joueurs.
         Affiche les joueurs.
         """
-        results_round = self.tournament_controller.close_last_round_with_scores()
+        results_round = self.tournament_controller.close_last_round_with_scores(self.players_controller)
         self.tournament_controller.round_controller.view.show_rounds_with_matches(
-            self.tournament_controller.tournament, nb_rounds)
+            self.tournament_controller.tournaments[0], nb_rounds)
         self.players_controller.update_scores_players(results_round)
         self.players_controller.sort_players_by_score_and_ranking(self.players_controller)
         self.players_controller.show_players(self.players_controller)
@@ -293,13 +311,13 @@ class GameController:
             nb_rounds (int) -- Nombre de rounds ayant déjà été créé
         """
         print(nb_rounds)
-        if nb_rounds < self.tournament_controller.tournament.number_rounds:
+        if nb_rounds < self.tournament_controller.tournaments[0].number_rounds:
             self.players_controller.sort_players_by_score_and_ranking(self.players_controller)
             self.players_controller.show_players(self.players_controller)
             nb_rounds += 1
             self.new_round_with_control(nb_rounds)
             self.tournament_controller.round_controller.view.show_rounds_with_matches(
-                self.tournament_controller.tournament, nb_rounds)
+                self.tournament_controller.tournaments[0], nb_rounds)
         else:
             self.tournament_controller.round_controller.view.max_rounds_alert()
         return nb_rounds
@@ -308,14 +326,14 @@ class GameController:
         """Séquence menu 4.4
         Sauvegarde le tournoi courant dans le BDD.
         """
-        self.tournament_controller.tournament_manager.save_tournaments_bdd(self.tournament_controller.tournament)
+        self.tournament_controller.tournament_manager.save_tournaments_bdd(self.tournament_controller)
 
     def update_players_ranking_and_save(self):
         """Séquence menu 5.1
         Demande à l'uitilisateur de saisir les nouveaux classements ELO.
         Met à jour les classement ELO dans la BDD.
         """
-        self.players_controller.update_ranking_players()
+        self.players_controller.update_ranking_players(self.players_controller)
 
     def display_all_players_by_name(self):
         """Séquence menu 5.2.1

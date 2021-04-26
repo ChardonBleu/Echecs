@@ -25,7 +25,7 @@ class PlayerManager:
         players_controller.bdd_id = players_table.insert_multiple(serialized_players)
         return players_controller
 
-    def update_ranking_players_bdd(self, index, new_ranking):
+    def update_ranking_players_bdd(self, index, new_ranking, player_controller):
         """Sauvegarde dans le bdd la mise à jour de classement Elo des joueurs,
         ces nouvelles valeurs du classement étant saisies par l'utilisateur en
         fin de tournoi.
@@ -36,7 +36,7 @@ class PlayerManager:
         """
         db = TinyDB('db.json')
         players_table = db.table('players')
-        players_table.update({'ranking': new_ranking}, doc_ids=[self.bdd_id[index]])
+        players_table.update({'ranking': new_ranking}, doc_ids=[player_controller.bdd_id[index]])
 
     def load_all_players_from_bdd(self, other_player_controller):
         """Charge des joueurs depuis la base de données puis transforme la liste

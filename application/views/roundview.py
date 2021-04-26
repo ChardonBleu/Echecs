@@ -3,7 +3,7 @@ class RoundView:
         Interface destinée à la gestion des rounds
     """
 
-    def prompt_score_match(self, match):
+    def prompt_score_match(self, match, player1, player2):
         """blabla
 
         Args:
@@ -17,9 +17,9 @@ class RoundView:
         while loop:
             try:
                 winner = input("Résultalt du match: j" +
-                               str(match.pairs[0][0]) +
+                               str(match.pairs[0][0]) + " (" + player1 + ") " +
                                " ou j" +
-                               str(match.pairs[1][0]) +
+                               str(match.pairs[1][0]) + " (" + player2 + ") " +
                                " ou = :  ")
                 if winner == "j" + str(match.pairs[0][0]) or winner == "j" + str(match.pairs[1][0]) or winner == "=":
                     loop = False

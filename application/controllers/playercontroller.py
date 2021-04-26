@@ -150,7 +150,7 @@ class PlayerController:
         """
         self.view.show_player(player_controller)
 
-    def update_ranking_players(self):
+    def update_ranking_players(self, player_controller):
         """Récupère le dico des {id_player: score} pour mettre à jour les scores
         des joueurs dans Player
 
@@ -161,7 +161,7 @@ class PlayerController:
             new_ranking = self.view.prompt_new_ranking_player(player)
             player.update_ranking(new_ranking)
             index = self.players.index(player)
-            self.players_manager.update_ranking_players_bdd(index, new_ranking)
+            self.players_manager.update_ranking_players_bdd(index, new_ranking, player_controller)
 
     def sort_players_by_name(self, player_controller):
         """Permet le tri des joueurs du tournoi courant selon leur nom complet : 'nom_de_famille prénom'
@@ -182,7 +182,7 @@ class PlayerController:
         """
         sorted_player_list = sorted(player_controller.couple_items(), key=lambda couple: couple[1].ranking,  reverse=True)
         player_controller.decouple_items(sorted_player_list)
-    
+
     def sort_players_by_score_and_ranking(self, player_controller):
         """Permet le tri des joueurs du tournoi courant selon leur classement ELO (ordre décroissant des rangs)
         et selon leur score au tournoi (ordre décroissant des rangs).

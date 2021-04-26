@@ -182,6 +182,7 @@ class LoadLastTournamentController:
         Returns:
             (objet GameController) -- controller général du jeu
         """
+        self.gamecontroller.erase_current_tournaments_and_players()
         self.nb_rounds = self.gamecontroller.load_last_tournament_and_display()
         return HomeMenuController(self.gamecontroller, self.nb_rounds)
 
@@ -211,6 +212,7 @@ class LoadTournamentIdController:
         Returns:
             (objet GameController) -- controller général du jeu
         """
+        self.gamecontroller.erase_current_tournaments_and_players()
         self.nb_rounds = self.gamecontroller.load_tournament_with_id_and_display()
         return HomeMenuController(self.gamecontroller, self.nb_rounds)
 
@@ -235,7 +237,7 @@ class CreateTournamentController:
             gamecontroller (instance de GameController) -- contrôleur général du tournoi. Permet d'accéder
                                                            à tous les objets et méthodes du tournoi courant.
         """
-        self.menu = Menu("Menu de crétion d'un nouveau tournoi:")
+        self.menu = Menu("Menu de création d'un nouveau tournoi:")
         self.view = MenuView(self.menu)
         self.gamecontroller = gamecontroller
 
@@ -246,12 +248,36 @@ class CreateTournamentController:
         Returns:
             (instance du controller choisi ) -- trnasporte en argument instance du controleur général du tournoi
         """
+        self.menu.add("auto", "Effacer joueurs et tournoi du tournoi courant", EraseTournamentController)
         self.menu.add("auto", "Ajouter des joueurs", AddPlayersController)
         self.menu.add("auto", "Créer nouveau tournoi", CreateNewTournamentController)
         self.menu.add("auto", "Retour Menu principal", HomeMenuController)
 
         user_choice = self.view.get_user_choice()
         return user_choice.handler(self.gamecontroller)
+
+
+
+class EraseTournamentController:
+
+    def __init__(self, gamecontroller):
+        """
+        Arguments:
+            gamecontroller (instance de GameController) -- contrôleur général du tournoi. Permet d'accéder
+                                                           à tous les objets et méthodes du tournoi courant.
+        """
+        self.gamecontroller = gamecontroller
+
+    def run(self, *args):
+        """Lance la séquence de menu 2.2
+        Demande à l'utilisateur de saisir les données pour un nouveau tournoi.
+
+        Returns:
+            (objet GameController) -- controller général du jeu
+        """
+        self.gamecontroller.erase_current_tournaments_and_players()
+        return CreateTournamentController(self.gamecontroller)
+
 
 
 class CreateNewTournamentController:
@@ -276,6 +302,7 @@ class CreateNewTournamentController:
 
 
 # **************** Menu tertiaire du 2.1. Ajouter des joueurs ****************
+
 class AddPlayersController:
 
     def __init__(self, gamecontroller):
@@ -541,7 +568,7 @@ class CloseRoundController:
         Returns:
             (objet GameController) -- controller général du jeu
         """
-        if not self.gamecontroller.tournament_controller.tournament.rounds[self.nb_rounds - 1].closed:
+        if not self.gamecontroller.tournament_controller.tournaments[0].rounds[self.nb_rounds - 1].closed:
             self.nb_rounds = self.gamecontroller.close_round_and_display(self.nb_rounds)
             return TournamentManagerController(self.gamecontroller, self.nb_rounds)
         else:
@@ -571,7 +598,7 @@ class NextRoundController:
         Returns:
             (objet GameController) -- controller général du jeu
         """
-        if self.gamecontroller.tournament_controller.tournament.rounds[self.nb_rounds - 1].closed:
+        if self.gamecontroller.tournament_controller.tournaments[0].rounds[self.nb_rounds - 1].closed:
             self.nb_rounds = self.gamecontroller.start_next_round_and_display(self.nb_rounds)
             return TournamentManagerController(self.gamecontroller, self.nb_rounds)
         else:
