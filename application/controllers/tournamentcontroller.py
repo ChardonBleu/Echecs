@@ -18,7 +18,7 @@ class TournamentController:
         self.round_controller (objet RoundController) -- instance de RoundController.  Permet d'accéder aux données
                                                          de rounds depuis une instance de TournamentController
         self.tournaments  (list) -- liste d'instances de Tournament. Le tournoi courant est dans self.tournament[0].
-                                    Peut acceuillir tous les tournois de la BDD dans une instance indépendante de 
+                                    Peut acceuillir tous les tournois de la BDD dans une instance indépendante de
                                     TournamentController
         self.bdd_id  (list)  --  liste de id des tournois dans la BDD
         self.tournament_manager (objet TournamentManager)  -- Pour sauvegarde ou chargement d'un tournoi dans la BDD
