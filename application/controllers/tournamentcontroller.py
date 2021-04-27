@@ -18,7 +18,8 @@ class TournamentController:
         self.round_controller (objet RoundController) -- instance de RoundController.  Permet d'accéder aux données
                                                          de rounds depuis une instance de TournamentController
         self.tournaments  (list) -- liste d'instances de Tournament. Le tournoi courant est dans self.tournament[0].
-                                    Peut acceuillir tous les tournois de la BDD dans une instance indépendante de TournamentController
+                                    Peut acceuillir tous les tournois de la BDD dans une instance indépendante de 
+                                    TournamentController
         self.bdd_id  (list)  --  liste de id des tournois dans la BDD
         self.tournament_manager (objet TournamentManager)  -- Pour sauvegarde ou chargement d'un tournoi dans la BDD
     """
@@ -58,12 +59,12 @@ class TournamentController:
         """
         self.tournaments = []
         self.tournaments.append(Tournament(self.view.prompt_name_tournament(),
-                                     self.view.prompt_site_tournament(),
-                                     self.view.prompt_date_begin_tournament(),
-                                     self.view.prompt_date_end_tournament(),
-                                     self.view.prompt_description_tournament(),
-                                     self.view.prompt_time_control(),
-                                     self.view.prompt_number_rounds()))
+                                           self.view.prompt_site_tournament(),
+                                           self.view.prompt_date_begin_tournament(),
+                                           self.view.prompt_date_end_tournament(),
+                                           self.view.prompt_description_tournament(),
+                                           self.view.prompt_time_control(),
+                                           self.view.prompt_number_rounds()))
 
     def close_last_round_with_scores(self, players_controller):
         """Ferme le dernier round créé avec saisie des scores des matchs et met à jour les scores dans Match.
@@ -72,7 +73,7 @@ class TournamentController:
         Returns:
             dict -- dictionnaire des scores de chaque joueur sous la forme {id_bdd: score}
         """
-        
+
         index_last_round = len(self.tournaments[0].rounds) - 1
         last_round_matches = self.tournaments[0].rounds[index_last_round].matches
         score_round = {}

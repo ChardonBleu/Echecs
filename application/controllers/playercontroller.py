@@ -45,9 +45,9 @@ class PlayerController:
                             self.view.prompt_sexe_player(),
                             self.view.prompt_ranking_player())
         return new_player
-    
+
     def __str__(self):
-        """Permet d'afficher la liste des joueurs        
+        """Permet d'afficher la liste des joueurs
 
         Returns:
             string -- joueur x : nom prénom, etc
@@ -59,7 +59,7 @@ class PlayerController:
 
     def __getitem__(self, key):
         """Renvoie la valeur de self.players[index] correspondant à la valeur de self.bdd_id[index] pour le même index
-        
+
         Arguments:
             (int) -- index du joueur
 
@@ -137,7 +137,7 @@ class PlayerController:
 
     def add_players(self, number_players=8):
         """Permet la saisie de nouveaux joueurs pour un nouveau tournoi.
-        
+
         Arguments:
             number_players  (int)  --  par défaut 8 joueurs
         """
@@ -182,7 +182,8 @@ class PlayerController:
         Args:
             player_controllerr (instance de PlayerController) -- Contient la liste des joueurs du tournoi courant
         """
-        sorted_player_list = sorted(player_controller.couple_items(), key=lambda couple: couple[1].ranking,  reverse=True)
+        sorted_player_list = sorted(player_controller.couple_items(),
+                                    key=lambda couple: couple[1].ranking,  reverse=True)
         player_controller.decouple_items(sorted_player_list)
 
     def sort_players_by_score_and_ranking(self, player_controller):
@@ -192,6 +193,7 @@ class PlayerController:
         Args:
             player_controllerr (instance de PlayerController) -- Contient la liste des joueurs du tournoi courant
         """
-        sorted_player_list = sorted(player_controller.couple_items(), key=lambda couple: couple[1].ranking,  reverse=True)
+        sorted_player_list = sorted(player_controller.couple_items(),
+                                    key=lambda couple: couple[1].ranking,  reverse=True)
         sorted_player_list = sorted(sorted_player_list, key=lambda couple: couple[1].tournament_score, reverse=True)
         player_controller.decouple_items(sorted_player_list)

@@ -41,9 +41,9 @@ class PlayerManager:
         """Charge des joueurs depuis la base de données puis transforme la liste
         de dictionnaires de joueurs en liste d'instances de joueurs.
         Peut servir pour affichage de tous les joueurs.
-        
+
         Attributs:
-            other_player_controller  (objet Player_controller)  -- instance différente de celle du tournoi courant   
+            other_player_controller  (objet Player_controller)  -- instance différente de celle du tournoi courant
 
         Returns:
             list -- nouvelle instance de PlayerManager contenant TOUS les joueurs de la BDD

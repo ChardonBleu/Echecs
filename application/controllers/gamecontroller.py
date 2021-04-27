@@ -183,7 +183,7 @@ class GameController:
         self.players_controller.sort_players_by_score_and_ranking(self.players_controller)
         self.players_controller.show_players(self.players_controller)
         nb_rounds = len(self.tournament_controller.tournaments[0].rounds)
-        
+
         return nb_rounds
 
     def erase_current_tournaments_and_players(self):

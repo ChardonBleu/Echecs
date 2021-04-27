@@ -282,7 +282,6 @@ class CreateTournamentController:
         return user_choice.handler(self.gamecontroller)
 
 
-
 class EraseTournamentController:
 
     def __init__(self, gamecontroller):
@@ -306,7 +305,6 @@ class EraseTournamentController:
         """
         self.gamecontroller.erase_current_tournaments_and_players()
         return CreateTournamentController(self.gamecontroller)
-
 
 
 class CreateNewTournamentController:
@@ -474,7 +472,7 @@ class DisplayAllTournamentsController:
         """
         self.gamecontroller = gamecontroller
 
-    def run(self,*args):
+    def run(self, *args):
         """Lance la séquence de menu 3.1
         Affiche tous les tournois de la BDD, sans les détails de rounds.
 

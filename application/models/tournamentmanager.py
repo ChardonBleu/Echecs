@@ -57,16 +57,17 @@ class TournamentManager:
         db = TinyDB('db.json')
         tournament_table = db.table('tournaments')
         id_last_tournament = len(tournament_table)
-        serialized_last_tournament = tournament_table.get(doc_id=id_last_tournament)    
+        serialized_last_tournament = tournament_table.get(doc_id=id_last_tournament)
         tournament_controller.bdd_id.append(id_last_tournament)
         tournament_controller.tournaments = [Tournament("", "", "", "", "", 1)]
-        tournament_controller.tournaments[0] = tournament_controller.tournaments[0].deserialize_tournament(serialized_last_tournament)
+        tournament_controller.tournaments[0] = tournament_controller.tournaments[0].deserialize_tournament(
+            serialized_last_tournament)
         return tournament_controller
 
     def load_tournament_by_id(self, id, tournament_controller):
         """charge dans le programme le dernier tournoi sauvegardé dans la BDD.
         Les rounds et les match déjà renseignés sont également chargés.
-        
+
         Arguments:
             id  (int) -- id du tournoi dans la BDD
             (objet TournamentController) -- instance du tournament controller pour le tournoi courant
@@ -82,7 +83,8 @@ class TournamentManager:
         serialized_tournament = tournament_table.get(doc_id=id)
         tournament_controller.bdd_id.append(id)
         tournament_controller.tournaments = [Tournament("", "", "", "", "", 1)]
-        tournament_controller.tournaments[0] = tournament_controller.tournaments[0].deserialize_tournament(serialized_tournament)
+        tournament_controller.tournaments[0] = tournament_controller.tournaments[0].deserialize_tournament(
+            serialized_tournament)
         return tournament_controller
 
     def load_all_tournaments(self, other_tournament_controller):
@@ -101,6 +103,6 @@ class TournamentManager:
         for index in range(len(serialized_tournaments)):
             other_tournament_controller.bdd_id = serialized_tournaments[index].doc_id
             other_tournament_controller.tournaments.append(Tournament("", "", "", "", "", 1))
-            other_tournament_controller.tournaments[index] = other_tournament_controller.tournaments[index].deserialize_tournament(
-                serialized_tournaments[index])
+            other_tournament_controller.tournaments[index] = other_tournament_controller.tournaments[index] \
+                .deserialize_tournament(serialized_tournaments[index])
         return other_tournament_controller
