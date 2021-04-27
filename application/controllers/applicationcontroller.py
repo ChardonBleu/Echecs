@@ -249,7 +249,7 @@ class CreateTournamentController:
             (instance du controller choisi ) -- trnasporte en argument instance du controleur général du tournoi
         """
         self.menu.add("auto", "Effacer joueurs et tournoi du tournoi courant", EraseTournamentController)
-        self.menu.add("auto", "Ajouter des joueurs", AddPlayersController)
+        self.menu.add("auto", "Ajouter des joueurs", AddNPlayersController)
         self.menu.add("auto", "Créer nouveau tournoi", CreateNewTournamentController)
         self.menu.add("auto", "Retour Menu principal", HomeMenuController)
 
@@ -303,7 +303,7 @@ class CreateNewTournamentController:
 
 # **************** Menu tertiaire du 2.1. Ajouter des joueurs ****************
 
-class AddPlayersController:
+class AddNPlayersController:
 
     def __init__(self, gamecontroller):
         """Construit le Menu de la classe et la vue pour ce menu
@@ -323,16 +323,16 @@ class AddPlayersController:
         Returns:
             (instance du controller choisi ) -- trnasporte en argument instance du controleur général du tournoi
         """
-        self.menu.add("auto", "Charger 8 joueurs de la BDD à partir de leur ID", Load8PlayersController)
+        self.menu.add("auto", "Charger 8 joueurs de la BDD à partir de leur ID", LoadPlayersController)
         self.menu.add("auto", "Entrer manuellement 8 nouveaux joueurs et les sauvegarder dans la BDD",
-                      Add8PlayersController)
+                      AddPlayersController)
         self.menu.add("auto", "Retour", CreateTournamentController)
 
         user_choice = self.view.get_user_choice()
         return user_choice.handler(self.gamecontroller)
 
 
-class Load8PlayersController:
+class LoadPlayersController:
 
     def __init__(self, gamecontroller):
         """
@@ -351,11 +351,11 @@ class Load8PlayersController:
         Returns:
             (objet GameController) -- controller général du jeu
         """
-        self.gamecontroller.load_8_players_from_bdd_and_display()
+        self.gamecontroller.load_players_from_bdd_and_display()
         return CreateTournamentController(self.gamecontroller)
 
 
-class Add8PlayersController:
+class AddPlayersController:
 
     def __init__(self, gamecontroller):
         """
@@ -374,7 +374,7 @@ class Add8PlayersController:
         Returns:
             (objet GameController) -- controller général du jeu
         """
-        self.gamecontroller.load_and_save_8_players_and_display()
+        self.gamecontroller.load_and_save_players_and_display()
         return CreateTournamentController(self.gamecontroller)
 
 
@@ -569,6 +569,7 @@ class CloseRoundController:
             (objet GameController) -- controller général du jeu
         """
         if not self.gamecontroller.tournament_controller.tournaments[0].rounds[self.nb_rounds - 1].closed:
+            print(self.gamecontroller.tournament_controller.tournaments[0].rounds[self.nb_rounds - 1].closed)
             self.nb_rounds = self.gamecontroller.close_round_and_display(self.nb_rounds)
             return TournamentManagerController(self.gamecontroller, self.nb_rounds)
         else:

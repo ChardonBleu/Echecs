@@ -186,7 +186,7 @@ class GameController:
         
         return nb_rounds
 
-    def load_8_players_from_bdd_and_display(self):
+    def load_players_from_bdd_and_display(self):
         """Séquence menu 2.1.1
         Demande à l'utilisateur les id des joueurs qu'il veut faire jouer.
         Charge ces 8 joueurs de la BDD dans le PlayerManager.
@@ -203,15 +203,15 @@ class GameController:
         else:
             pass
 
-    def load_and_save_8_players_and_display(self):
+    def load_and_save_players_and_display(self):
         """Séquence menu 2.1.2
-        Demande à l'utiliateur de saisir 8 nouveaux joueurs.
+        Demande à l'utiliateur de saisir (8 par défaut) nouveaux joueurs.
         Sauvegarde ces joueurs dans la BDD.
         Affiche ces joueurs.
         """
         self.players_controller.players = []
         self.players_controller.bdd_id = []
-        self.players_controller.add_8_players()
+        self.players_controller.add_players()
         self.players_controller.players_manager.save_players_bdd(self.players_controller)
         self.players_controller.show_players(self.players_controller)
         if self.tournament_controller.tournaments[0]:

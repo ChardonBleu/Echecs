@@ -47,7 +47,7 @@ class TournamentManager:
         db = TinyDB('db.json')
         tournament_table = db.table('tournaments')
         id_last_tournament = len(tournament_table)
-        serialized_last_tournament = tournament_table.get(doc_id=id_last_tournament)
+        serialized_last_tournament = tournament_table.get(doc_id=id_last_tournament)    
         tournament_controller.bdd_id.append(id_last_tournament)
         tournament_controller.tournaments = [Tournament("", "", "", "", "", 1)]
         tournament_controller.tournaments[0] = tournament_controller.tournaments[0].deserialize_tournament(serialized_last_tournament)

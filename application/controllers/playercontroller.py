@@ -136,10 +136,13 @@ class PlayerController:
             player = self[id_players]
             player.update_score(round_score)
 
-    def add_8_players(self):
+    def add_players(self, number_players=8):
         """Permet la saisie de huits nouveaux joueurs pour un nouveau tournoi.
+        
+        Attributs:
+            number_players  (int)  --  par défaut 8 joueurs
         """
-        for index in range(8):
+        for index in range(number_players):
             self.add_one_player(index + 1, self.new_player())
 
     def show_players(self, player_controller):

@@ -28,7 +28,7 @@ class Round:
     def __str__(self):
         """Pour affichage des données d'un round
         """
-        return("{}:\ndébut: {:10} - fin: {:10}".format(self.round_name, self.horodatage_begin, self.horodatage_end))
+        return("{}: \ndébut: {:10} - fin: {:10}".format(self.round_name, self.horodatage_begin, self.horodatage_end))
 
     def add_match(self, player1, player2, score1, score2):
         """Rajoute un match au round courant avec les joueurs et les scores passés en argument
@@ -81,7 +81,7 @@ class Round:
             'matches': serialized_match,
             'horodatage_begin': str(self.horodatage_begin),
             'horodatage_end': str(self.horodatage_end),
-            'round_closed': str(self.round_closed)}
+            'round_closed': str(self.round_closed).lower()}
         return serialized_round
 
     def deserialize_round(self, serialized_round):
@@ -93,7 +93,7 @@ class Round:
         self.round_name = serialized_round['round_name']
         self.horodatage_begin = serialized_round['horodatage_begin']
         self.horodatage_end = serialized_round['horodatage_end']
-        self.round_closed = bool(serialized_round['round_closed'])
+        self.round_closed = serialized_round['round_closed']
         self.matches = []
         non_empty_matches = len(serialized_round['matches'])
         for index in range(non_empty_matches):
