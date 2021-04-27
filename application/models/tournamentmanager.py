@@ -15,8 +15,8 @@ class TournamentManager:
     def save_tournaments_bdd(self, tournament_controller):
         """Sauvegarde le dictionnaire des tournois dans la table tournament de la base de données.
 
-        Returns:
-            list -- Liste des id des joueurs sauvegardés dans la base de données.
+        Arguments:
+            (objet TournamentController) -- instance du tournament controller pour le tournoi courant
         """
         if len(tournament_controller.bdd_id) == 0:
             serialized_tournaments = []
@@ -31,6 +31,9 @@ class TournamentManager:
         """
         Met à jour le dictionnaire des tournois dans la table tournament de la base de données
         pour le tournoi courant.
+
+        Arguments:
+            (objet TournamentController) -- instance du tournament controller pour le tournoi courant
         """
         serialized_tournaments = []
         serialized_tournaments.append(tournament_controller.tournaments[0].serialize_tournament())
@@ -40,7 +43,14 @@ class TournamentManager:
 
     def load_last_saved_tournament(self, tournament_controller):
         """charge dans le programme le dernier tournoi sauvegardé dans la bdd.
-        Les rounds et les match déjà rensignés sont également chargés.
+        Les rounds et les match déjà renseignés sont également chargés.
+
+        Arguments:
+            (objet TournamentController) -- instance du tournament controller pour le tournoi courant
+
+        Returns:
+            tournament_controller (objet TournamentController) -- instance de TournamentController
+                                                                  pour le tournoi courant
         """
         tournament_controller.tournaments = []
         tournament_controller.bdd_id = []
@@ -54,8 +64,16 @@ class TournamentManager:
         return tournament_controller
 
     def load_tournament_by_id(self, id, tournament_controller):
-        """charge dans le programme le dernier tournoi sauvegardé dans la bdd.
-        Les rounds et les match déjà rensignés sont également chargés.
+        """charge dans le programme le dernier tournoi sauvegardé dans la BDD.
+        Les rounds et les match déjà renseignés sont également chargés.
+        
+        Arguments:
+            id  (int) -- id du tournoi dans la BDD
+            (objet TournamentController) -- instance du tournament controller pour le tournoi courant
+
+        Returns:
+            tournament_controller (objet TournamentController) -- instance de TournamentController
+                                                                  pour le tournoi courant
         """
         tournament_controller.tournaments = []
         tournament_controller.bdd_id = []
@@ -68,11 +86,14 @@ class TournamentManager:
         return tournament_controller
 
     def load_all_tournaments(self, other_tournament_controller):
-        """charge dans le programme le dernier tournoi sauvegardé dans la bdd.
+        """charge  tous les tournois sauvegardé dans la bdd.
         Les rounds et les match déjà renseignés sont également chargés.
 
+        Arguments:
+            (objet TournamentController)  -- instance de TournamentController différente de celle du tournoi courant
+
         Returns:
-            list -- nouvelle instance de TournamentManager contenant TOUS les tournois de la BDD
+            other_tournament_controller (objet TournamentController) --  contient tous les tournois de la BDD
         """
         db = TinyDB('db.json')
         tournament_table = db.table('tournaments')

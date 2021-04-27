@@ -9,7 +9,7 @@ class ApplicationController:
         Est instancié dans le main.py de l'application.
         Instancie le GameController qui gère le comportement des modèles.
         Gère la navigation dans les menus de l'application:
-            self.controller reçoit un contrpoleur de menu différent en focntion du choix
+            self.controller reçoit un contröleur de menu différent en fonction du choix
             d'option de menu fait par l'utilisateur.
 
     Menu complet:
@@ -20,11 +20,12 @@ class ApplicationController:
         3. Retour
 
     2. Créer nouveau tournoi
-        1. Ajouter joueurs
+        1. Effacer joueurs et tournoi du tournoi courant
+        2. Ajouter joueurs
             1. Charger 8 joueurs à partir de leur id_bdd
             2. Entrer manuellement 8 nouveaux joueurs puis les sauvegarder
             3. Retour
-        2. Créer nouveau tournoi
+        3. Créer nouveau tournoi
         4. Retour
 
     3. Rapports tournoi
@@ -45,9 +46,11 @@ class ApplicationController:
         2. Afficher tous les joueurs
             1. par ordre alphabétique
             2. par clasement
+            3. Retour
         3. Afficher joueurs du tournoi courant
             1. par ordre alphabétique
             2. par classement
+            3. Retour
         4. Retour
 
     6. Quitter
@@ -66,8 +69,8 @@ class ApplicationController:
     def run(self, *args):
         """Orchestre la navigation dans le menu.
         Arguments:
-            *args :  permet de passe en arguments le nombre de rounds réalisés du tournois
-            courant losrque c'est necessaire
+            *args :  permet de passer en arguments le nombre de rounds réalisés du tournois
+            courant lorsque c'est necessaire
         """
         self.controller = HomeMenuController(self.gamecontroller)
         while self.controller:
@@ -91,7 +94,7 @@ class HomeMenuController:
     """
 
     def __init__(self, gamecontroller, nb_rounds=0):
-        """Construit le Menu de la classe et la vue pour ce menu
+        """Construit le Menu de la classe et la vue pour ce menu.
 
         Arguments:
             gamecontroller (instance de GameController) -- contrôleur général du tournoi. Permet d'accéder
@@ -106,6 +109,10 @@ class HomeMenuController:
         """Ajoute les entrées au menu de cette classe.
         Affiche le menu et demande à l'utilisateur de choisir une option
 
+        Arguments:
+            *args :  permet de passer en arguments le nombre de rounds réalisés du tournois
+            courant lorsque c'est necessaire
+
         Returns:
             (instance du controller choisi ) -- trnasporte en argument instance du controleur général du tournoi
         """
@@ -114,7 +121,7 @@ class HomeMenuController:
         self.menu.add("auto", "Rapports tournois", ReportsController(self.gamecontroller))
         self.menu.add("auto", "Gérer un tournoi", TournamentManagerController(self.gamecontroller, self.nb_rounds))
         self.menu.add("auto", "Gérer les joueurs", PlayersManagerController(self.gamecontroller))
-        self.menu.add("auto", "Quitter", LeavingController(self.gamecontroller))
+        self.menu.add("auto", "Quitter", LeavingController())
 
         user_choice = self.view.get_user_choice()
         return user_choice.handler
@@ -145,6 +152,10 @@ class LoadTournamentController:
         """Ajoute les entrées au menu de cette classe.
         Affiche le menu et demande à l'utilisateur de choisir une option
 
+        Arguments:
+            *args :  permet de passer en arguments le nombre de rounds réalisés du tournois
+            courant lorsque c'est necessaire
+
         Returns:
             (instance du controller choisi ) -- trnasporte en argument instance du controleur général du tournoi
         """
@@ -164,6 +175,7 @@ class LoadLastTournamentController:
     def __init__(self, gamecontroller, nb_rounds):
         """
         Arguments:
+            nb_rounds  (int) -- nombre de rounds déjà réalisés dans le tournoi
             gamecontroller (instance de GameController) -- contrôleur général du tournoi. Permet d'accéder
                                                            à tous les objets et méthodes du tournoi courant.
         """
@@ -179,6 +191,10 @@ class LoadLastTournamentController:
         Affiche le résumé des caractéristiques du tournoi, les rounds et match et les joueurs.
         Calcule le nombre de rounds déjà créés et le renvoie.
 
+        Arguments:
+            *args :  permet de passer en arguments le nombre de rounds réalisés du tournois
+            courant lorsque c'est necessaire
+
         Returns:
             (objet GameController) -- controller général du jeu
         """
@@ -192,6 +208,7 @@ class LoadTournamentIdController:
     def __init__(self, gamecontroller, nb_rounds):
         """
         Arguments:
+            nb_rounds  (int) -- nombre de rounds déjà réalisés dans le tournoi
             gamecontroller (instance de GameController) -- contrôleur général du tournoi. Permet d'accéder
                                                            à tous les objets et méthodes du tournoi courant.
         """
@@ -208,6 +225,10 @@ class LoadTournamentIdController:
         Récupère la liste des tupples des couples de joueurs ayant déjà joué ensemble.
         Affiche le résumé des caractéristiques du tournoi, les rounds et match et les joueurs.
         Calcule le nombre de rounds déjà créés et le renvoie.
+
+        Arguments:
+            *args :  permet de passer en arguments le nombre de rounds réalisés du tournois
+            courant lorsque c'est necessaire
 
         Returns:
             (objet GameController) -- controller général du jeu
@@ -245,6 +266,10 @@ class CreateTournamentController:
         """Ajoute les entrées au menu de cette classe.
         Affiche le menu et demande à l'utilisateur de choisir une option
 
+        Arguments:
+            *args :  permet de passer en arguments le nombre de rounds réalisés du tournois
+            courant lorsque c'est necessaire
+
         Returns:
             (instance du controller choisi ) -- trnasporte en argument instance du controleur général du tournoi
         """
@@ -272,6 +297,10 @@ class EraseTournamentController:
         """Lance la séquence de menu 2.2
         Demande à l'utilisateur de saisir les données pour un nouveau tournoi.
 
+        Arguments:
+            *args :  permet de passer en arguments le nombre de rounds réalisés du tournois
+            courant lorsque c'est necessaire
+
         Returns:
             (objet GameController) -- controller général du jeu
         """
@@ -293,6 +322,10 @@ class CreateNewTournamentController:
     def run(self, *args):
         """Lance la séquence de menu 2.2
         Demande à l'utilisateur de saisir les données pour un nouveau tournoi.
+
+        Arguments:
+            *args :  permet de passe en arguments le nombre de rounds réalisés du tournois
+            courant lorsque c'est necessaire
 
         Returns:
             (objet GameController) -- controller général du jeu
@@ -319,6 +352,10 @@ class AddNPlayersController:
     def run(self, *args):
         """Ajoute les entrées au menu de cette classe.
         Affiche le menu et demande à l'utilisateur de choisir une option
+
+        Arguments:
+            *args :  permet de passer en arguments le nombre de rounds réalisés du tournois
+            courant lorsque c'est necessaire
 
         Returns:
             (instance du controller choisi ) -- trnasporte en argument instance du controleur général du tournoi
@@ -348,6 +385,10 @@ class LoadPlayersController:
         Charge ces 8 joueurs de la BDD dans le PlayerManager.
         Affiche ces 8 joueurs.
 
+        Arguments:
+            *args :  permet de passer en arguments le nombre de rounds réalisés du tournois
+            courant lorsque c'est necessaire
+
         Returns:
             (objet GameController) -- controller général du jeu
         """
@@ -370,6 +411,10 @@ class AddPlayersController:
         Demande à l'utiliateur de saisir 8 nouveaux joueurs.
         Sauvegarde ces joueurs dans la BDD.
         Affiche ces joueurs.
+
+        Arguments:
+            *args :  permet de passer en arguments le nombre de rounds réalisés du tournois
+            courant lorsque c'est necessaire
 
         Returns:
             (objet GameController) -- controller général du jeu
@@ -403,6 +448,10 @@ class ReportsController:
         """Ajoute les entrées au menu de cette classe.
         Affiche le menu et demande à l'utilisateur de choisir une option
 
+        Arguments:
+            *args :  permet de passer en arguments le nombre de rounds réalisés du tournois
+            courant lorsque c'est necessaire
+
         Returns:
             (instance du controller choisi ) -- trnasporte en argument instance du controleur général du tournoi
         """
@@ -425,9 +474,13 @@ class DisplayAllTournamentsController:
         """
         self.gamecontroller = gamecontroller
 
-    def run(self, gamecontroller, *args):
+    def run(self,*args):
         """Lance la séquence de menu 3.1
         Affiche tous les tournois de la BDD, sans les détails de rounds.
+
+        Arguments:
+            *args :  permet de passer en arguments le nombre de rounds réalisés du tournois
+            courant lorsque c'est necessaire
 
         Returns:
             (objet GameController) -- controller général du jeu
@@ -446,9 +499,13 @@ class DisplayAllRoundsController:
         """
         self.gamecontroller = gamecontroller
 
-    def run(self, gamecontroller, *args):
+    def run(self, *args):
         """Lance la séquence de menu 3.2
         Affiche tous les tournois de la BDD, avec les détails de rounds et matchs.
+
+        Arguments:
+            *args :  permet de passer en arguments le nombre de rounds réalisés du tournois
+            courant lorsque c'est necessaire
 
         Returns:
             (objet GameController) -- controller général du jeu
@@ -467,9 +524,13 @@ class DisplayRoundsController:
         """
         self.gamecontroller = gamecontroller
 
-    def run(self, gamecontroller, *args):
+    def run(self, *args):
         """Lance la séquence de menu 3.3
         Affiche les rounds et match du tournoi courant.
+
+        Arguments:
+            *args :  permet de passer en arguments le nombre de rounds réalisés du tournois
+            courant lorsque c'est necessaire
 
         Returns:
             (objet GameController) -- controller général du jeu
@@ -505,6 +566,10 @@ class TournamentManagerController:
         """Ajoute les entrées au menu de cette classe.
         Affiche le menu et demande à l'utilisateur de choisir une option
 
+        Arguments:
+            *args :  permet de passer en arguments le nombre de rounds réalisés du tournois
+            courant lorsque c'est necessaire
+
         Returns:
             (instance du controller choisi ) -- transporte en argument instance du controleur général du tournoi
         """
@@ -525,6 +590,7 @@ class StarsFisrtRoundController:
     def __init__(self, gamecontroller, nb_rounds):
         """
         Arguments:
+            nb_rounds  (int) -- nombre de rounds déjà réalisés dans le tournoi
             gamecontroller (instance de GameController) -- contrôleur général du tournoi. Permet d'accéder
                                                            à tous les objets et méthodes du tournoi courant.
         """
@@ -536,6 +602,10 @@ class StarsFisrtRoundController:
         Trie les joueurs par scores et classement ELO décroissant.
         Affiche la liste triée.
         Ajoute un premier round avec les matchs et l'affiche.
+
+        Arguments:
+            *args :  permet de passer en arguments le nombre de rounds réalisés du tournois
+            courant lorsque c'est necessaire
 
         Returns:
             (objet GameController) -- controller général du jeu
@@ -564,6 +634,10 @@ class CloseRoundController:
         """Lance la séquence de menu 4.2
         Demande à l'utilisateur de saisir les scores et met à jour les scores totaux des joueurs.
         Affiche les joueurs.
+
+        Arguments:
+            *args :  permet de passer en arguments le nombre de rounds réalisés du tournois
+            courant lorsque c'est necessaire
 
         Returns:
             (objet GameController) -- controller général du jeu
@@ -596,6 +670,10 @@ class NextRoundController:
         round avec les matchs.
         Affiche le round créé.
 
+        Arguments:
+            *args :  permet de passer en arguments le nombre de rounds réalisés du tournois
+            courant lorsque c'est necessaire
+
         Returns:
             (objet GameController) -- controller général du jeu
         """
@@ -620,6 +698,10 @@ class SaveTournamentController:
     def run(self, *args):
         """Lance la séquence de menu 4.4
         Sauvegarde le tournoi courant dans le BDD.
+
+        Arguments:
+            *args :  permet de passer en arguments le nombre de rounds réalisés du tournois
+            courant lorsque c'est necessaire
 
         Returns:
             (objet GameController) -- controller général du jeu
@@ -657,6 +739,10 @@ class PlayersManagerController:
         """Ajoute les entrées au menu de cette classe.
         Affiche le menu et demande à l'utilisateur de choisir une option
 
+        Arguments:
+            *args :  permet de passer en arguments le nombre de rounds réalisés du tournois
+            courant lorsque c'est necessaire
+
         Returns:
             (instance du controller choisi ) -- trnasporte en argument instance du controleur général du tournoi
         """
@@ -684,6 +770,10 @@ class UpdateRankingController:
         Demande à l'uitilisateur de saisir les nouveaux classements ELO.
         Met à jour les classement ELO dans la BDD.
 
+        Arguments:
+            *args :  permet de passer en arguments le nombre de rounds réalisés du tournois
+            courant lorsque c'est necessaire
+
         Returns:
             (objet GameController) -- controller général du jeu
         """
@@ -708,6 +798,10 @@ class DisplayAllPlayersController:
     def run(self, *args):
         """Ajoute les entrées au menu de cette classe.
         Affiche le menu et demande à l'utilisateur de choisir une option
+
+        Arguments:
+            *args :  permet de passer en arguments le nombre de rounds réalisés du tournois
+            courant lorsque c'est necessaire
 
         Returns:
             (instance du controller choisi ) -- trnasporte en argument instance du controleur général du tournoi
@@ -735,6 +829,10 @@ class DislplayAllNameController:
         """Lance la séquence de menu 5.2.1
         Affiche tous les joueurs triés par nom.
 
+        Arguments:
+            *args :  permet de passer en arguments le nombre de rounds réalisés du tournois
+            courant lorsque c'est necessaire
+
         Returns:
             (objet GameController) -- controller général du jeu
         """
@@ -756,6 +854,11 @@ class DisplayAllRankingController:
 
         """Lance la séquence de menu 5.2.2
         Affiche tous les joueurs triés par classement ELO décroissant.
+
+        Arguments:
+            *args :  permet de passer en arguments le nombre de rounds réalisés du tournois
+            courant lorsque c'est necessaire
+
         Returns:
             (objet GameController) -- controller général du jeu
         """
@@ -780,6 +883,10 @@ class DispalyPlayersController:
     def run(self, *args):
         """Ajoute les entrées au menu de cette classe.
         Affiche le menu et demande à l'utilisateur de choisir une option
+
+        Arguments:
+            *args :  permet de passer en arguments le nombre de rounds réalisés du tournois
+            courant lorsque c'est necessaire
 
         Returns:
             (instance du controller choisi ) -- trnasporte en argument instance du controleur général du tournoi
@@ -806,6 +913,11 @@ class DislplayNameController:
 
         """Lance la séquence de menu 5.3.1
         Affiche les joueurs du tournoi courant triés par nom.
+
+        Arguments:
+            *args :  permet de passer en arguments le nombre de rounds réalisés du tournois
+            courant lorsque c'est necessaire
+
         Returns:
             (objet GameController) -- controller général du jeu
         """
@@ -827,6 +939,11 @@ class DisplayRankingController:
 
         """Lance la séquence de menu 5.3.2
         Affiche les joueurs du tournoi courant triés par classement ELO décroissant.
+
+        Arguments:
+            *args :  permet de passer en arguments le nombre de rounds réalisés du tournois
+            courant lorsque c'est necessaire
+
         Returns:
             (objet GameController) -- controller général du jeu
         """
@@ -837,13 +954,10 @@ class DisplayRankingController:
 # ****************** Sortie de l'application *****************
 class LeavingController:
 
-    def __init__(self, gamecontroller):
+    def run(self, *args):
         """
         Arguments:
-            gamecontroller (instance de GameController) -- contrôleur général du tournoi. Permet d'accéder
-                                                           à tous les objets et méthodes du tournoi courant.
+            *args :  permet de passer en arguments le nombre de rounds réalisés du tournois
+            courant lorsque c'est necessaire
         """
-        self.gamecontroller = gamecontroller
-
-    def run(self, *args):
         pass

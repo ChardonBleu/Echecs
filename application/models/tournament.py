@@ -64,7 +64,7 @@ class Tournament:
 
     @property
     def liste_id_players(self):
-        """Permet d"accéder à la liste de idd de la bdd des joueurs du tournoi courant
+        """Permet d"accéder à la liste de idd de la bdd des joueurs du tournoi courant.
 
         Returns:
             self.players (list)  --
@@ -72,7 +72,7 @@ class Tournament:
         return self.players
 
     def add_round(self):
-        """Rempli l'attribut self.rounds de Tournament avec autant d'instances.
+        """Rempli l'attribut self.rounds de Tournament avec autant d'instances
         vides de Round() qu'il y a de rounds indiqués par l'utilisateur.
         Puis renpli chaque round avec un match.
         """

@@ -1,8 +1,8 @@
 class Match:
     """Modélise un match d'un round du tournoi d'échecs.
-    Les données sont stockées sous la forme d'un tupple contenant deux listes [instance de Player, score]:
+    Les données sont stockées sous la forme d'un tupple contenant deux listes [id de Player, score]:
 
-        self.pairs  (tupple)  -- tupple contenant les deux listes [instance de Player, score]
+        self.pairs  (tupple)  -- tupple contenant les deux listes [id de Player, score]
     """
 
     def __init__(self, player1, player2, score1, score2):
@@ -27,8 +27,7 @@ class Match:
 
     @property
     def pair_of_players(self):
-        """Permet de n'afficher que les joueurs du match sans le score.
-        Utilisé au moment de la saisie des scores.
+        """Permet de n'afficher que les id des joueurs du match, sans le score.
         """
         return ("j{:2} / j{:2}".format(str(self.pairs[0][0]), str(self.pairs[1][0])))
 
@@ -48,8 +47,7 @@ class Match:
         Returns:
             dict -- Dictionnaire représentant un match.
         """
-        serialized_match = {
-            'pairs': self.pairs}
+        serialized_match = {'pairs': self.pairs}
         return serialized_match
 
     def deserialize_match(self, serialized_match):

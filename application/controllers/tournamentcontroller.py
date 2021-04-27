@@ -20,7 +20,7 @@ class TournamentController:
         self.tournaments  (list) -- liste d'instances de Tournament. Le tournoi courant est dans self.tournament[0].
                                     Peut acceuillir tous les tournois de la BDD dans une instance indépendante de TournamentController
         self.bdd_id  (list)  --  liste de id des tournois dans la BDD
-        self.tournament_manager (objet TournamentManager)  -- Pour sauvegarde ou chargement d'un tournoi
+        self.tournament_manager (objet TournamentManager)  -- Pour sauvegarde ou chargement d'un tournoi dans la BDD
     """
 
     def __init__(self):
@@ -34,7 +34,7 @@ class TournamentController:
         """Permet d'afficher la liste des tournois:
 
         Returns:
-            string --
+            string -- chaine de caractère contenant la liste de tous les tournois
         """
         liste_tournaments = ""
         for index in range(len(self.tournaments)):
@@ -66,9 +66,8 @@ class TournamentController:
                                      self.view.prompt_number_rounds()))
 
     def close_last_round_with_scores(self, players_controller):
-        """Ferme le dernier round créé avec saisie des scores des matchs
-        met à jour les scores dans Match.
-        Mémorise les scores de chaque joueur pour pouvoir mettre à jour ces scores dans Player
+        """Ferme le dernier round créé avec saisie des scores des matchs et met à jour les scores dans Match.
+        Mémorise les scores de chaque joueur pour pouvoir mettre à jour ces scores dans Player.
 
         Returns:
             dict -- dictionnaire des scores de chaque joueur sous la forme {id_bdd: score}
@@ -78,9 +77,9 @@ class TournamentController:
         last_round_matches = self.tournaments[0].rounds[index_last_round].matches
         score_round = {}
         for match in last_round_matches:
-            player1 = players_controller[match.pairs[0][0]].full_name
-            player2 = players_controller[match.pairs[1][0]].full_name
-            winner = self.round_controller.view.prompt_score_match(match, player1, player2)
+            name_player1 = players_controller[match.pairs[0][0]].full_name
+            name_player2 = players_controller[match.pairs[1][0]].full_name
+            winner = self.round_controller.view.prompt_score_match(match, name_player1, name_player2)
             if winner == "j" + str(match.pairs[0][0]):
                 match.update_score(1, 0)
                 score_round[match.pairs[0][0]] = 1
@@ -97,11 +96,7 @@ class TournamentController:
         return score_round
 
     def recover_couples_players_for_memorize(self):
-        """Récupération des couples de joueurs ayant déjà joué ensemble, aprés chargement
-        d'un tournoi depuis la BDD
-
-        Returns:
-            list -- liste de tupples (id_bb joueur1, id_bdd joueur 2)
+        """Récupération des couples de joueurs ayant déjà joué ensemble, aprés chargement d'un tournoi depuis la BDD
         """
         for index in range(len(self.tournaments[0].rounds)):
             for match in self.tournaments[0].rounds[index].matches:

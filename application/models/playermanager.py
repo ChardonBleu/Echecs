@@ -26,9 +26,8 @@ class PlayerManager:
         return players_controller
 
     def update_ranking_players_bdd(self, index, new_ranking, player_controller):
-        """Sauvegarde dans le bdd la mise à jour de classement Elo des joueurs,
-        ces nouvelles valeurs du classement étant saisies par l'utilisateur en
-        fin de tournoi.
+        """Sauvegarde dans la bdd la mise à jour du classement Elo des joueurs,
+        ces nouvelles valeurs du classement pouvant être saisies par l'utilisateur à tout moment.
 
         Arguments:
             last_name  (string)  -- nom de famille du joueur dont on met à jour le classement
@@ -42,6 +41,9 @@ class PlayerManager:
         """Charge des joueurs depuis la base de données puis transforme la liste
         de dictionnaires de joueurs en liste d'instances de joueurs.
         Peut servir pour affichage de tous les joueurs.
+        
+        Attributs:
+            other_player_controller  (objet Player_controller)  -- instance différente de celle du tournoi courant   
 
         Returns:
             list -- nouvelle instance de PlayerManager contenant TOUS les joueurs de la BDD
@@ -61,20 +63,16 @@ class PlayerManager:
         return list_all_players
 
     def evaluate_number_players_bdd(self):
-        """Chargement de 8 joueurs consécutifs de la bdd à partir du joueur dont l'id est passé en paramètre
-        pour test déroulement application.
-
-        Pour des joueurs non consécutifs passer en paramètre une liste d'id de joueurs
-        puis itérer sur cette liste:
-        for id in liste_id:
-        et récupérer le bon joueur à l'aide de .doc_id ...
+        """
+        Returns:
+            number_players_bdd  (int) -- nombre de joueurs enregistrés dans la base de donnée
         """
         db = TinyDB('db.json')
         number_players_bdd = len(db.table('players'))
         return number_players_bdd
 
     def load_players_with_bdd_id_list(self, bdd_id_list, players_controller):
-        """Charge dans le player manager les 8 joueurs dont les id de la BDD sont dans la liste passée en arguments
+        """Charge dans le player manager les joueurs dont les id de la BDD sont dans la liste passée en arguments
 
         Arguments:
             bdd_id_list (list) -- liste de id des joueurs dans la bdd
