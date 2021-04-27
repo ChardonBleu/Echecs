@@ -24,8 +24,7 @@ class PlayerController:
     Attributs:
         self.view  (objet PlayerView)  -- instance de PlayerView destinée à la saisie
                                           et l'affichage des données propres aux joueurs.
-        self.players_manager (objet PlayerManager)  -- instance de PlayerManager contenant
-                                                       les joueurs du tournoi courant
+        self.players_manager (objet PlayerManager)  -- dialogue avec la BDD
     """
 
     def __init__(self):
@@ -35,10 +34,10 @@ class PlayerController:
         self.players_manager = PlayerManager()
 
     def new_player(self):
-        """Crée instance de Player avec saisie utilisateur des caractéristique du joueur,
+        """Crée instance de Player avec saisie utilisateur des caractéristiques du joueur,
 
         Returns:
-            object Player
+            (object Player)
         """
         new_player = Player(self.view.prompt_first_name_player(),
                             self.view.prompt_last_name_player(),
@@ -46,13 +45,12 @@ class PlayerController:
                             self.view.prompt_sexe_player(),
                             self.view.prompt_ranking_player())
         return new_player
-    
+
     def __str__(self):
-        """Permet d'afficher la liste des joueurs sous la forme:
-        joueur x : nom prénom
+        """Permet d'afficher la liste des joueurs
 
         Returns:
-            string --
+            string -- joueur x : nom prénom, etc
         """
         liste_joueur = ""
         for index in range(len(self.players)):
@@ -60,8 +58,10 @@ class PlayerController:
         return liste_joueur
 
     def __getitem__(self, key):
-        """Renvoie la valeur de self.players[index] correspondant à la valeur de
-        self.bdd_id[index] pour le même index
+        """Renvoie la valeur de self.players[index] correspondant à la valeur de self.bdd_id[index] pour le même index
+
+        Arguments:
+            (int) -- index du joueur
 
         Returns:
             instance de Players
@@ -73,7 +73,7 @@ class PlayerController:
         """Permet d'ajouter ou de modifier la valeur d'un joueur
 
         Arguments:
-            key (string)         -- joueur x
+            key (int)         -- joueur x
             value (objet Player) -- instance de la classe Player
         """
         if key in self.bdd_id:
@@ -121,7 +121,6 @@ class PlayerController:
         Arguments;
             bdd_id  (string)        -- indice correspond à la valeur de self.bdd_id du joueur : joueur x
             player  (objet Player)  -- player correspond à une instance de Player avec ces attributs renseignés
-
         """
         self[bdd_id] = player
 
@@ -136,17 +135,20 @@ class PlayerController:
             player = self[id_players]
             player.update_score(round_score)
 
-    def add_8_players(self):
-        """Permet la saisie de huits nouveaux joueurs pour un nouveau tournoi.
+    def add_players(self, number_players=8):
+        """Permet la saisie de nouveaux joueurs pour un nouveau tournoi.
+
+        Arguments:
+            number_players  (int)  --  par défaut 8 joueurs
         """
-        for index in range(8):
+        for index in range(number_players):
             self.add_one_player(index + 1, self.new_player())
 
     def show_players(self, player_controller):
         """Appelle l'affichage des joueurs du tournoi courant.
 
-        Args:
-            player_manager (instance de PlayerManager) -- Contient la liste des 8 joueurs du tournoi courant
+        Arguments:
+            player_controllerr (instance de PlayerController) -- Contient la liste des joueurs du tournoi courant
         """
         self.view.show_player(player_controller)
 
@@ -154,8 +156,8 @@ class PlayerController:
         """Récupère le dico des {id_player: score} pour mettre à jour les scores
         des joueurs dans Player
 
-        Args:
-            results_round (dict) -- dico des {id_player: score}
+        Arguments:
+            player_controllerr (instance de PlayerController) -- Contient la liste des joueurs du tournoi courant
         """
         for player in self.players:
             new_ranking = self.view.prompt_new_ranking_player(player)
@@ -168,7 +170,7 @@ class PlayerController:
         (ordre alphabétique croissant - insensibilité à la casse).
 
         Args:
-            player_manager (instance de PlayerManager) -- Contient la liste des 8 joueurs du tournoi courant
+            player_controllerr (instance de PlayerController) -- Contient la liste des joueurs du tournoi courant
         """
         sorted_player_list = sorted(player_controller.couple_items(), key=lambda couple: couple[1].full_name.lower())
         player_controller.decouple_items(sorted_player_list)
@@ -178,9 +180,10 @@ class PlayerController:
         et selon leur score au tournoi (ordre décroissant des rangs).
 
         Args:
-            player_manager (instance de PlayerManager) -- Contient la liste des 8 joueurs du tournoi courant
+            player_controllerr (instance de PlayerController) -- Contient la liste des joueurs du tournoi courant
         """
-        sorted_player_list = sorted(player_controller.couple_items(), key=lambda couple: couple[1].ranking,  reverse=True)
+        sorted_player_list = sorted(player_controller.couple_items(),
+                                    key=lambda couple: couple[1].ranking,  reverse=True)
         player_controller.decouple_items(sorted_player_list)
 
     def sort_players_by_score_and_ranking(self, player_controller):
@@ -188,8 +191,9 @@ class PlayerController:
         et selon leur score au tournoi (ordre décroissant des rangs).
 
         Args:
-            player_manager (instance de PlayerManager) -- Contient la liste des 8 joueurs du tournoi courant
+            player_controllerr (instance de PlayerController) -- Contient la liste des joueurs du tournoi courant
         """
-        sorted_player_list = sorted(player_controller.couple_items(), key=lambda couple: couple[1].ranking,  reverse=True)
+        sorted_player_list = sorted(player_controller.couple_items(),
+                                    key=lambda couple: couple[1].ranking,  reverse=True)
         sorted_player_list = sorted(sorted_player_list, key=lambda couple: couple[1].tournament_score, reverse=True)
         player_controller.decouple_items(sorted_player_list)

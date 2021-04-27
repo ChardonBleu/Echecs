@@ -4,7 +4,7 @@ from .tournamentcontroller import TournamentController
 
 class GameController:
     """
-    Controleur général -- en chantier -- Permet de tester des séquences d'évènements
+    Controleur général du tournoi avec ses joueurs
 
     Attributs:
         self.tournament_controller  (objet TournamentController)  -- Contrôle le tournoi courant
@@ -24,7 +24,7 @@ class GameController:
         self.tournament_controller.tournaments[0].tournament_players(id_list)
 
     def start_first_round(self):
-        """Crée le premier round
+        """Crée le premier round.
         """
         self.tournament_controller.tournaments[0].add_round()
         player_to_pair = 0
@@ -183,11 +183,22 @@ class GameController:
         self.players_controller.sort_players_by_score_and_ranking(self.players_controller)
         self.players_controller.show_players(self.players_controller)
         nb_rounds = len(self.tournament_controller.tournaments[0].rounds)
-        
+
         return nb_rounds
 
-    def load_8_players_from_bdd_and_display(self):
-        """Séquence menu 2.1.1
+    def erase_current_tournaments_and_players(self):
+        """Séquence menu 2.1
+        Efface le tournoi courant et ses joueurs avant d'en charger un nouveau.
+        """
+        if len(self.tournament_controller.tournaments) > 0:
+            self.tournament_controller.tournaments[0].players = []
+        self.tournament_controller.tournaments = []
+        self.tournament_controller.bdd_id = []
+        self.players_controller.players = []
+        self.players_controller.bdd_id = []
+
+    def load_players_from_bdd_and_display(self):
+        """Séquence menu 2.2.1
         Demande à l'utilisateur les id des joueurs qu'il veut faire jouer.
         Charge ces 8 joueurs de la BDD dans le PlayerManager.
         Affiche ces 8 joueurs.
@@ -203,15 +214,15 @@ class GameController:
         else:
             pass
 
-    def load_and_save_8_players_and_display(self):
-        """Séquence menu 2.1.2
-        Demande à l'utiliateur de saisir 8 nouveaux joueurs.
+    def load_and_save_players_and_display(self):
+        """Séquence menu 2.2.2
+        Demande à l'utiliateur de saisir (8 par défaut) nouveaux joueurs.
         Sauvegarde ces joueurs dans la BDD.
         Affiche ces joueurs.
         """
         self.players_controller.players = []
         self.players_controller.bdd_id = []
-        self.players_controller.add_8_players()
+        self.players_controller.add_players()
         self.players_controller.players_manager.save_players_bdd(self.players_controller)
         self.players_controller.show_players(self.players_controller)
         if self.tournament_controller.tournaments[0]:
@@ -221,7 +232,7 @@ class GameController:
             pass
 
     def create_new_tournament(self):
-        """Séquence menu 2.2
+        """Séquence menu 2.3
         Demande à l'utilisateur de saisir les données pour un nouveau tournoi.
         """
         self.tournament_controller.new_tournament()
@@ -230,17 +241,6 @@ class GameController:
             self.tournament_controller.view.show_tournament(self.tournament_controller.tournaments[0])
         else:
             pass
-
-    def erase_current_tournaments_and_players(self):
-        """Efface le tournoi courant et ses joueurs avant d'en charger un nouveau
-        """
-        if len(self.tournament_controller.tournaments) > 0:
-            self.tournament_controller.tournaments[0].players = []
-        self.tournament_controller.tournaments = []
-        self.tournament_controller.bdd_id = []
-        self.players_controller.players = []
-        self.players_controller.bdd_id = []
-        
 
     def display_all_tournaments_without_rounds(self):
         """Séquence menu 3.1
