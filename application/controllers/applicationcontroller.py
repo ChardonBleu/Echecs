@@ -641,7 +641,6 @@ class CloseRoundController:
             (objet GameController) -- controller général du jeu
         """
         if not self.gamecontroller.tournament_controller.tournaments[0].rounds[self.nb_rounds - 1].closed:
-            print(self.gamecontroller.tournament_controller.tournaments[0].rounds[self.nb_rounds - 1].closed)
             self.nb_rounds = self.gamecontroller.close_round_and_display(self.nb_rounds)
             return TournamentManagerController(self.gamecontroller, self.nb_rounds)
         else:

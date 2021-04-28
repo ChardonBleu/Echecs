@@ -81,7 +81,7 @@ class Round:
             'matches': serialized_match,
             'horodatage_begin': str(self.horodatage_begin),
             'horodatage_end': str(self.horodatage_end),
-            'round_closed': str(self.round_closed).lower()}
+            'round_closed': self.round_closed}
         return serialized_round
 
     def deserialize_round(self, serialized_round):

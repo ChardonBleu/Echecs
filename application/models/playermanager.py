@@ -14,8 +14,8 @@ class PlayerManager:
     def save_players_bdd(self, players_controller):
         """Sauvegarde le dictionnaire des joueurs dans la table 'players' de la base de données.
 
-        Returns:
-            list -- liste des id des joueurs sauvegardés dans la base de données
+        Arguments:
+            players_controller (objet PlayerController)  -- contient la liste des instances des joueurs du tournoi
         """
         serialized_players = []
         for player in players_controller.players:
@@ -23,15 +23,15 @@ class PlayerManager:
         db = TinyDB('db.json')
         players_table = db.table('players')
         players_controller.bdd_id = players_table.insert_multiple(serialized_players)
-        return players_controller
 
     def update_ranking_players_bdd(self, index, new_ranking, player_controller):
         """Sauvegarde dans la bdd la mise à jour du classement Elo des joueurs,
         ces nouvelles valeurs du classement pouvant être saisies par l'utilisateur à tout moment.
 
         Arguments:
-            last_name  (string)  -- nom de famille du joueur dont on met à jour le classement
+            index (int) -- id du joueur dans la BDD
             new_ranking  (int)  --  nouvelle valeur du classement
+            players_controller (objet PlayerController)  -- contient la liste des instances des joueurs du tournoi
         """
         db = TinyDB('db.json')
         players_table = db.table('players')
@@ -76,6 +76,10 @@ class PlayerManager:
 
         Arguments:
             bdd_id_list (list) -- liste de id des joueurs dans la bdd
+            players_controller (objet PlayerController)  -- contient la liste des instances des joueurs du tournoi
+
+        Returns:
+            players_controller (objet PlayerController)  -- contient la liste des instances des joueurs du tournoi
         """
         db = TinyDB('db.json')
         players_table = db.table('players')

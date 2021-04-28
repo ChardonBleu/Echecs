@@ -225,7 +225,7 @@ class GameController:
         self.players_controller.add_players()
         self.players_controller.players_manager.save_players_bdd(self.players_controller)
         self.players_controller.show_players(self.players_controller)
-        if self.tournament_controller.tournaments[0]:
+        if len(self.tournament_controller.tournaments) == 1:
             self.link_players_with_tournament()
             self.tournament_controller.view.show_tournament(self.tournament_controller.tournaments[0])
         else:
@@ -310,7 +310,6 @@ class GameController:
         Returns:
             nb_rounds (int) -- Nombre de rounds ayant déjà été créé
         """
-        print(nb_rounds)
         if nb_rounds < self.tournament_controller.tournaments[0].number_rounds:
             self.players_controller.sort_players_by_score_and_ranking(self.players_controller)
             self.players_controller.show_players(self.players_controller)

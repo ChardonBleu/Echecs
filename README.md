@@ -86,6 +86,16 @@ Se mettre dans le répertoire contenant le dossier application et taper dans la 
 python -m application
 ```
 
+Générer un rapport flake-8 html
+---
+
+Se mettre dans le répertoire application
+Dans la console excécuter:
+```bash 
+flake8 --format=html --htmldir=flake-report
+```
+Un nouveau rapport flake8 est généré. aller dans le répertoire flake-report et ouvrir le fichier index.html dans un navigateur web.
+
 Ressources utilisées
 ---
 
@@ -104,6 +114,6 @@ Ressources web:
 Remerciements
 ---
 
-Un grand merci à Aurélien Massé pour tous ses conseils et retours de qualité,
-à Thierry Chappuis et à tous les apprenants du parcours DA Pyhton
+Un très grand merci à Aurélien Massé et à Thierry Chappuis pour tous leurs précieux conseils et retours,
+et à tous les apprenants du Discord DA Pyhton.
 http://discord.pythonclassmates.org/
