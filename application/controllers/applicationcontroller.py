@@ -118,9 +118,9 @@ class HomeMenuController:
         """
         self.menu.add("auto", "Charger tournoi passé", LoadTournamentController(self.gamecontroller))
         self.menu.add("auto", "Créer nouveau tournoi", CreateTournamentController(self.gamecontroller))
-        self.menu.add("auto", "Rapports tournois", ReportsController(self.gamecontroller))
+        self.menu.add("auto", "Rapports tournois", ReportsController(self.gamecontroller, self.nb_rounds))
         self.menu.add("auto", "Gérer un tournoi", TournamentManagerController(self.gamecontroller, self.nb_rounds))
-        self.menu.add("auto", "Gérer les joueurs", PlayersManagerController(self.gamecontroller))
+        self.menu.add("auto", "Gérer les joueurs", PlayersManagerController(self.gamecontroller, self.nb_rounds))
         self.menu.add("auto", "Quitter", LeavingController())
 
         user_choice = self.view.get_user_choice()
@@ -431,7 +431,7 @@ class ReportsController:
         4. Retour
     """
 
-    def __init__(self, gamecontroller):
+    def __init__(self, gamecontroller, nb_rounds):
         """Construit le Menu de la classe et la vue pour ce menu
 
         Arguments:
@@ -441,6 +441,7 @@ class ReportsController:
         self.menu = Menu("Menu d'affichage des rapports de tournois:")
         self.view = MenuView(self.menu)
         self.gamecontroller = gamecontroller
+        self.nb_rounds = nb_rounds
 
     def run(self, *args):
         """Ajoute les entrées au menu de cette classe.
@@ -459,18 +460,19 @@ class ReportsController:
         self.menu.add("auto", "Retour Menu principal", HomeMenuController)
 
         user_choice = self.view.get_user_choice()
-        return user_choice.handler(self.gamecontroller)
+        return user_choice.handler(self.gamecontroller, self.nb_rounds)
 
 
 class DisplayAllTournamentsController:
 
-    def __init__(self, gamecontroller):
+    def __init__(self, gamecontroller, nb_rounds):
         """
         Arguments:
             gamecontroller (instance de GameController) -- contrôleur général du tournoi. Permet d'accéder
                                                            à tous les objets et méthodes du tournoi courant.
         """
         self.gamecontroller = gamecontroller
+        self.nb_rounds = nb_rounds
 
     def run(self, *args):
         """Lance la séquence de menu 3.1
@@ -484,18 +486,19 @@ class DisplayAllTournamentsController:
             (objet GameController) -- controller général du jeu
         """
         self.gamecontroller.display_all_tournaments_without_rounds()
-        return HomeMenuController(self.gamecontroller)
+        return HomeMenuController(self.gamecontroller, self.nb_rounds)
 
 
 class DisplayAllRoundsController:
 
-    def __init__(self, gamecontroller):
+    def __init__(self, gamecontroller, nb_rounds):
         """
         Arguments:
             gamecontroller (instance de GameController) -- contrôleur général du tournoi. Permet d'accéder
                                                            à tous les objets et méthodes du tournoi courant.
         """
         self.gamecontroller = gamecontroller
+        self.nb_rounds = nb_rounds
 
     def run(self, *args):
         """Lance la séquence de menu 3.2
@@ -509,18 +512,19 @@ class DisplayAllRoundsController:
             (objet GameController) -- controller général du jeu
         """
         self.gamecontroller.display_all_tournaments_with_rounds()
-        return HomeMenuController(self.gamecontroller)
+        return HomeMenuController(self.gamecontroller, self.nb_rounds)
 
 
 class DisplayRoundsController:
 
-    def __init__(self, gamecontroller):
+    def __init__(self, gamecontroller, nb_rounds):
         """
         Arguments:
             gamecontroller (instance de GameController) -- contrôleur général du tournoi. Permet d'accéder
                                                            à tous les objets et méthodes du tournoi courant.
         """
         self.gamecontroller = gamecontroller
+        self.nb_rounds = nb_rounds
 
     def run(self, *args):
         """Lance la séquence de menu 3.3
@@ -534,7 +538,7 @@ class DisplayRoundsController:
             (objet GameController) -- controller général du jeu
         """
         self.gamecontroller.display_tournaments_rounds_and_match()
-        return HomeMenuController(self.gamecontroller)
+        return HomeMenuController(self.gamecontroller, self.nb_rounds)
 
 
 # **************** Menu secondaire du 4. Gérer tournoi ****************
@@ -547,7 +551,7 @@ class TournamentManagerController:
         5. Retour
     """
 
-    def __init__(self, gamecontroller, nb_rounds=1):
+    def __init__(self, gamecontroller, nb_rounds):
         """Construit le Menu de la classe et la vue pour ce menu
 
         Arguments:
@@ -576,8 +580,8 @@ class TournamentManagerController:
         self.menu.add("auto", "Saisir scores et clore round en cours", CloseRoundController(
             self.gamecontroller, self.nb_rounds))
         self.menu.add("auto", "Lancer Round suivant", NextRoundController(self.gamecontroller, self.nb_rounds))
-        self.menu.add("auto", "Sauvegarder tournoi", SaveTournamentController(self.gamecontroller))
-        self.menu.add("auto", "Retour Menu principal", HomeMenuController(self.gamecontroller))
+        self.menu.add("auto", "Sauvegarder tournoi", SaveTournamentController(self.gamecontroller, self.nb_rounds))
+        self.menu.add("auto", "Retour Menu principal", HomeMenuController(self.gamecontroller, self.nb_rounds))
 
         user_choice = self.view.get_user_choice()
         return user_choice.handler
@@ -684,13 +688,14 @@ class NextRoundController:
 
 class SaveTournamentController:
 
-    def __init__(self, gamecontroller):
+    def __init__(self, gamecontroller, nb_rounds):
         """
         Arguments:
             gamecontroller (instance de GameController) -- contrôleur général du tournoi. Permet d'accéder
                                                            à tous les objets et méthodes du tournoi courant.
         """
         self.gamecontroller = gamecontroller
+        self.nb_rounds = nb_rounds
 
     def run(self, *args):
         """Lance la séquence de menu 4.4
@@ -704,7 +709,7 @@ class SaveTournamentController:
             (objet GameController) -- controller général du jeu
         """
         self.gamecontroller.save_tournament()
-        return TournamentManagerController(self.gamecontroller)
+        return TournamentManagerController(self.gamecontroller, self.nb_rounds)
 
 
 # **************** Menu secondaire du 5.Gérer joueurs ****************
@@ -721,7 +726,7 @@ class PlayersManagerController:
         4. Retour
     """
 
-    def __init__(self, gamecontroller):
+    def __init__(self, gamecontroller, nb_rounds):
         """Construit le Menu de la classe et la vue pour ce menu
 
         Arguments:
@@ -731,6 +736,7 @@ class PlayersManagerController:
         self.menu = Menu("Menu de gestion des joueurs:")
         self.view = MenuView(self.menu)
         self.gamecontroller = gamecontroller
+        self.nb_rounds = nb_rounds
 
     def run(self, *args):
         """Ajoute les entrées au menu de cette classe.
@@ -749,18 +755,19 @@ class PlayersManagerController:
         self.menu.add("auto", "Retour Menu principal", HomeMenuController)
 
         user_choice = self.view.get_user_choice()
-        return user_choice.handler(self.gamecontroller)
+        return user_choice.handler(self.gamecontroller, self.nb_rounds )
 
 
 class UpdateRankingController:
 
-    def __init__(self, gamecontroller):
+    def __init__(self, gamecontroller, nb_rounds):
         """
         Arguments:
             gamecontroller (instance de GameController) -- contrôleur général du tournoi. Permet d'accéder
                                                            à tous les objets et méthodes du tournoi courant.
         """
         self.gamecontroller = gamecontroller
+        self.nb_rounds = nb_rounds
 
     def run(self, *args):
         """Lance la séquence de menu 5.1
@@ -775,13 +782,13 @@ class UpdateRankingController:
             (objet GameController) -- controller général du jeu
         """
         self.gamecontroller.update_players_ranking_and_save()
-        return HomeMenuController(self.gamecontroller)
+        return HomeMenuController(self.gamecontroller, self.nb_rounds)
 
 
 # **************** Menu tertiaire du 5.2. Ajouter des joueurs ****************
 class DisplayAllPlayersController:
 
-    def __init__(self, gamecontroller):
+    def __init__(self, gamecontroller, nb_rounds):
         """Construit le Menu de la classe et la vue pour ce menu
 
         Arguments:
@@ -791,6 +798,7 @@ class DisplayAllPlayersController:
         self.menu = Menu("Menu de rapports des joueurs de la base de données:")
         self.view = MenuView(self.menu)
         self.gamecontroller = gamecontroller
+        self.nb_rounds = nb_rounds
 
     def run(self, *args):
         """Ajoute les entrées au menu de cette classe.
@@ -808,18 +816,19 @@ class DisplayAllPlayersController:
         self.menu.add("auto", "Retour", PlayersManagerController)
 
         user_choice = self.view.get_user_choice()
-        return user_choice.handler(self.gamecontroller)
+        return user_choice.handler(self.gamecontroller, self.nb_rounds)
 
 
 class DislplayAllNameController:
 
-    def __init__(self, gamecontroller):
+    def __init__(self, gamecontroller, nb_rounds):
         """
         Arguments:
             gamecontroller (instance de GameController) -- contrôleur général du tournoi. Permet d'accéder
                                                            à tous les objets et méthodes du tournoi courant.
         """
         self.gamecontroller = gamecontroller
+        self.nb_rounds = nb_rounds
 
     def run(self, *args):
 
@@ -834,18 +843,19 @@ class DislplayAllNameController:
             (objet GameController) -- controller général du jeu
         """
         self.gamecontroller.display_all_players_by_name()
-        return PlayersManagerController(self.gamecontroller)
+        return PlayersManagerController(self.gamecontroller, self.nb_rounds)
 
 
 class DisplayAllRankingController:
 
-    def __init__(self, gamecontroller):
+    def __init__(self, gamecontroller, nb_rounds):
         """
         Arguments:
             gamecontroller (instance de GameController) -- contrôleur général du tournoi. Permet d'accéder
                                                            à tous les objets et méthodes du tournoi courant.
         """
         self.gamecontroller = gamecontroller
+        self.nb_rounds = nb_rounds
 
     def run(self, *args):
 
@@ -860,13 +870,13 @@ class DisplayAllRankingController:
             (objet GameController) -- controller général du jeu
         """
         self.gamecontroller.display_all_players_by_ranking()
-        return PlayersManagerController(self.gamecontroller)
+        return PlayersManagerController(self.gamecontroller, self.nb_rounds)
 
 
 # **************** Menu tertiaire du 5.3. Ajouter des joueurs ****************
 class DispalyPlayersController:
 
-    def __init__(self, gamecontroller):
+    def __init__(self, gamecontroller, nb_rounds):
         """Construit le Menu de la classe et la vue pour ce menu
 
         Arguments:
@@ -876,6 +886,7 @@ class DispalyPlayersController:
         self.menu = Menu("Menu de rapport des joueurs du tournoi courant:")
         self.view = MenuView(self.menu)
         self.gamecontroller = gamecontroller
+        self.nb_rounds = nb_rounds
 
     def run(self, *args):
         """Ajoute les entrées au menu de cette classe.
@@ -893,18 +904,19 @@ class DispalyPlayersController:
         self.menu.add("auto", "Retour", PlayersManagerController)
 
         user_choice = self.view.get_user_choice()
-        return user_choice.handler(self.gamecontroller)
+        return user_choice.handler(self.gamecontroller, self.nb_rounds)
 
 
 class DislplayNameController:
 
-    def __init__(self, gamecontroller):
+    def __init__(self, gamecontroller, nb_rounds):
         """
         Arguments:
             gamecontroller (instance de GameController) -- contrôleur général du tournoi. Permet d'accéder
                                                            à tous les objets et méthodes du tournoi courant.
         """
         self.gamecontroller = gamecontroller
+        self.nb_rounds = nb_rounds
 
     def run(self, *args):
 
@@ -919,18 +931,19 @@ class DislplayNameController:
             (objet GameController) -- controller général du jeu
         """
         self.gamecontroller.display_players_by_name()
-        return PlayersManagerController(self.gamecontroller)
+        return PlayersManagerController(self.gamecontroller, self.nb_rounds)
 
 
 class DisplayRankingController:
 
-    def __init__(self, gamecontroller):
+    def __init__(self, gamecontroller, nb_rounds):
         """
         Arguments:
             gamecontroller (instance de GameController) -- contrôleur général du tournoi. Permet d'accéder
                                                            à tous les objets et méthodes du tournoi courant.
         """
         self.gamecontroller = gamecontroller
+        self.nb_rounds = nb_rounds
 
     def run(self, *args):
 
@@ -945,7 +958,7 @@ class DisplayRankingController:
             (objet GameController) -- controller général du jeu
         """
         self.gamecontroller.display_players_by_ranking()
-        return PlayersManagerController(self.gamecontroller)
+        return PlayersManagerController(self.gamecontroller, self.nb_rounds)
 
 
 # ****************** Sortie de l'application *****************
