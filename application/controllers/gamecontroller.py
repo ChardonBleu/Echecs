@@ -203,6 +203,8 @@ class GameController:
         Charge ces 8 joueurs de la BDD dans le PlayerManager.
         Affiche ces 8 joueurs.
         """
+        self.players_controller.players = []
+        self.players_controller.bdd_id = []
         number_players_bdd = self.players_controller.players_manager.evaluate_number_players_bdd()
         list_id_bdd = self.players_controller.view.prompt_list_id_bdd_players(number_players_bdd)
         self.players_controller = self.players_controller.players_manager.load_players_with_bdd_id_list(
@@ -211,8 +213,6 @@ class GameController:
         if len(self.tournament_controller.tournaments) == 1:
             self.link_players_with_tournament()
             self.tournament_controller.view.show_tournament(self.tournament_controller.tournaments[0])
-        else:
-            pass
 
     def load_and_save_players_and_display(self):
         """Séquence menu 2.2.2
@@ -228,8 +228,6 @@ class GameController:
         if len(self.tournament_controller.tournaments) == 1:
             self.link_players_with_tournament()
             self.tournament_controller.view.show_tournament(self.tournament_controller.tournaments[0])
-        else:
-            pass
 
     def create_new_tournament(self):
         """Séquence menu 2.3
@@ -239,8 +237,6 @@ class GameController:
         if len(self.players_controller.players) == 8:
             self.link_players_with_tournament()
             self.tournament_controller.view.show_tournament(self.tournament_controller.tournaments[0])
-        else:
-            pass
 
     def display_all_tournaments_without_rounds(self):
         """Séquence menu 3.1
@@ -279,13 +275,17 @@ class GameController:
         Returns:
             nb_rounds (int) -- Nombre de rounds ayant déjà été créé (ici nb_rounds = 1)
         """
-        nb_rounds = 1
-        self.players_controller.sort_players_by_score_and_ranking(self.players_controller)
-        self.players_controller.show_players(self.players_controller)
-        self.start_first_round()
-        self.tournament_controller.round_controller.view.show_rounds_with_matches(
-            self.tournament_controller.tournaments[0], nb_rounds)
-        return nb_rounds
+        if len(self.tournament_controller.tournaments) > 0:
+            nb_rounds = 1
+            self.players_controller.sort_players_by_score_and_ranking(self.players_controller)
+            self.players_controller.show_players(self.players_controller)
+            self.start_first_round()
+            self.tournament_controller.round_controller.view.show_rounds_with_matches(
+                self.tournament_controller.tournaments[0], nb_rounds)
+        else:
+            self.tournament_controller.view.alert_no_tournament()
+            nb_rounds = 0
+        return nb_rounds  
 
     def close_round_and_display(self, nb_rounds):
         """Séquence menu 4.2

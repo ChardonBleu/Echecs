@@ -614,10 +614,9 @@ class StarsFisrtRoundController:
         """
         if self.nb_rounds == 0:
             self.nb_rounds = self.gamecontroller.start_first_round_and_display()
-            return TournamentManagerController(self.gamecontroller, self.nb_rounds)
         else:
             self.gamecontroller.tournament_controller.round_controller.view.alert_control_first_round()
-            return TournamentManagerController(self.gamecontroller, self.nb_rounds)
+        return TournamentManagerController(self.gamecontroller, self.nb_rounds)
 
 
 class CloseRoundController:
@@ -644,12 +643,14 @@ class CloseRoundController:
         Returns:
             (objet GameController) -- controller général du jeu
         """
-        if not self.gamecontroller.tournament_controller.tournaments[0].rounds[self.nb_rounds - 1].closed:
-            self.nb_rounds = self.gamecontroller.close_round_and_display(self.nb_rounds)
-            return TournamentManagerController(self.gamecontroller, self.nb_rounds)
+        if len(self.gamecontroller.tournament_controller.tournaments) > 0:
+            if not self.gamecontroller.tournament_controller.tournaments[0].rounds[self.nb_rounds - 1].closed:
+                self.nb_rounds = self.gamecontroller.close_round_and_display(self.nb_rounds)
+            else:
+                self.gamecontroller.tournament_controller.round_controller.view.alert_closed_round()
         else:
-            self.gamecontroller.tournament_controller.round_controller.view.alert_closed_round()
-            return TournamentManagerController(self.gamecontroller, self.nb_rounds)
+            self.gamecontroller.tournament_controller.view.alert_no_tournament()
+        return TournamentManagerController(self.gamecontroller, self.nb_rounds)
 
 
 class NextRoundController:
@@ -678,12 +679,14 @@ class NextRoundController:
         Returns:
             (objet GameController) -- controller général du jeu
         """
-        if self.gamecontroller.tournament_controller.tournaments[0].rounds[self.nb_rounds - 1].closed:
-            self.nb_rounds = self.gamecontroller.start_next_round_and_display(self.nb_rounds)
-            return TournamentManagerController(self.gamecontroller, self.nb_rounds)
+        if len(self.gamecontroller.tournament_controller.tournaments) > 0:
+            if self.gamecontroller.tournament_controller.tournaments[0].rounds[self.nb_rounds - 1].closed:
+                self.nb_rounds = self.gamecontroller.start_next_round_and_display(self.nb_rounds)
+            else:
+                self.gamecontroller.tournament_controller.round_controller.view.alert_non_closed_round()
         else:
-            self.gamecontroller.tournament_controller.round_controller.view.alert_non_closed_round()
-            return TournamentManagerController(self.gamecontroller, self.nb_rounds)
+            self.gamecontroller.tournament_controller.view.alert_no_tournament()
+        return TournamentManagerController(self.gamecontroller, self.nb_rounds)
 
 
 class SaveTournamentController:
@@ -708,7 +711,10 @@ class SaveTournamentController:
         Returns:
             (objet GameController) -- controller général du jeu
         """
-        self.gamecontroller.save_tournament()
+        if len(self.gamecontroller.tournament_controller.tournaments) > 0:
+            self.gamecontroller.save_tournament()
+        else:
+            self.gamecontroller.tournament_controller.view.alert_no_tournament()
         return TournamentManagerController(self.gamecontroller, self.nb_rounds)
 
 
