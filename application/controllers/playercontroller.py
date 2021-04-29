@@ -1,3 +1,5 @@
+from ..utils.constants import NUMBER_PLAYERS
+
 from ..models.player import Player
 from ..models.playermanager import PlayerManager
 from ..views.playerview import PlayerView
@@ -135,7 +137,7 @@ class PlayerController:
             player = self[id_players]
             player.update_score(round_score)
 
-    def add_players(self, number_players=8):
+    def add_players(self, number_players=NUMBER_PLAYERS):
         """Permet la saisie de nouveaux joueurs pour un nouveau tournoi.
 
         Arguments:

@@ -1,3 +1,5 @@
+from ..utils.constants import NUMBER_PLAYERS
+
 from .playercontroller import PlayerController
 from .tournamentcontroller import TournamentController
 
@@ -234,7 +236,7 @@ class GameController:
         Demande à l'utilisateur de saisir les données pour un nouveau tournoi.
         """
         self.tournament_controller.new_tournament()
-        if len(self.players_controller.players) == 8:
+        if len(self.players_controller.players) == NUMBER_PLAYERS:
             self.link_players_with_tournament()
             self.tournament_controller.view.show_tournament(self.tournament_controller.tournaments[0])
 
