@@ -5,6 +5,7 @@ Projet 4 de la formation DA python d'Openclassrooms.
 Application permettant la gestion de tournois d'échecs( joueurs , rounds et matchs, scores)
 
 Menu:
+
     1. Charger tournoi passé
         1. Charger dernier tournoi sauvegardé et affiche les données
         2. Charger un tournoi à partir de son id_bdd et affiche les données
@@ -104,10 +105,13 @@ Livres:
     Python crash courses - Eric Matthes - no starch press
 
 Ressources web:
+
     Write Maintainable Pyhton Code - Daniel Timms
+
     https://openclassrooms.com/fr/courses/6900866-write-maintainable-python-code
 
     Webinaires MVC jeu du Pendu parties 1 et 2 - Thierry Chappuis
+
     https://www.notion.so/Webinaires-Pythonclassmates-Cafes-Zoom-8223a18f53a8457d94d96887c326c652
 
 
@@ -116,4 +120,5 @@ Remerciements
 
 Un très grand merci à Aurélien Massé et à Thierry Chappuis pour tous leurs précieux conseils et retours,
 et à tous les apprenants du Discord DA Pyhton.
+
 http://discord.pythonclassmates.org/
