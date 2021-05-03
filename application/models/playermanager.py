@@ -52,14 +52,14 @@ class PlayerManager:
         players_table = db.table('players')
         serialized_players = players_table.all()
         list_all_players = other_player_controller
-        for index in range(len(serialized_players)):
-            first_name = serialized_players[index]['first_name']
-            last_name = serialized_players[index]['last_name']
-            birth_date = serialized_players[index]['birth_date']
-            sexe = serialized_players[index]['sexe']
-            ranking = serialized_players[index]['ranking']
+        for player in serialized_players:
+            first_name = player['first_name']
+            last_name = player['last_name']
+            birth_date = player['birth_date']
+            sexe = player['sexe']
+            ranking = player['ranking']
             list_all_players.players.append(Player(first_name, last_name, birth_date, sexe, ranking))
-            list_all_players.bdd_id.append(serialized_players[index].doc_id)
+            list_all_players.bdd_id.append(player.doc_id)
         return list_all_players
 
     def evaluate_number_players_bdd(self):

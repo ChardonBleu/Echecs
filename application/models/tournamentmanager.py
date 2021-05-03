@@ -101,7 +101,7 @@ class TournamentManager:
         tournament_table = db.table('tournaments')
         serialized_tournaments = tournament_table.all()
         for index in range(len(serialized_tournaments)):
-            other_tournament_controller.bdd_id = serialized_tournaments[index].doc_id
+            other_tournament_controller.bdd_id.append(serialized_tournaments[index].doc_id)
             other_tournament_controller.tournaments.append(Tournament("", "", "", "", "", 1))
             other_tournament_controller.tournaments[index] = other_tournament_controller.tournaments[index] \
                 .deserialize_tournament(serialized_tournaments[index])

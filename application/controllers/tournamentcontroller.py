@@ -39,7 +39,7 @@ class TournamentController:
         """
         liste_tournaments = ""
         for index in range(len(self.tournaments)):
-            liste_tournaments += "tournoi " + str(index + 1) + ":\n" + str(self.tournaments[index]) + "\n"
+            liste_tournaments += "tournoi " + str(self.bdd_id[index]) + ":\n" + str(self.tournaments[index]) + "\n"
         return liste_tournaments
 
     def add_tournament(self, tournament):
@@ -99,7 +99,7 @@ class TournamentController:
     def recover_couples_players_for_memorize(self):
         """Récupération des couples de joueurs ayant déjà joué ensemble, aprés chargement d'un tournoi depuis la BDD
         """
-        for index in range(len(self.tournaments[0].rounds)):
-            for match in self.tournaments[0].rounds[index].matches:
+        for one_round in self.tournaments[0].rounds:
+            for match in one_round.matches:
                 self.round_controller.add_players_to_memo_match(match.pairs[0][0], match.pairs[1][0])
                 self.round_controller.add_players_to_memo_match(match.pairs[1][0], match.pairs[0][0])

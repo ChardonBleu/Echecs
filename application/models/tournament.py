@@ -141,12 +141,12 @@ class Tournament:
             dict -- dictionnaire des scores de chaque joueur sous la forme {id_bdd: score}
         """
         score_round = {}
-        for index in range(len(self.rounds)):
-            for match in self.rounds[index].matches:
+        for one_round in self.rounds:
+            for match in one_round.matches:
                 score_round[match.pairs[0][0]] = 0
                 score_round[match.pairs[1][0]] = 0
-        for index in range(len(self.rounds)):
-            for match in self.rounds[index].matches:
+        for one_round in self.rounds:
+            for match in one_round.matches:
                 score_round[match.pairs[0][0]] += match.pairs[0][1]
                 score_round[match.pairs[1][0]] += match.pairs[1][1]
         return score_round
