@@ -287,7 +287,7 @@ class GameController:
         else:
             self.tournament_controller.view.alert_no_tournament()
             nb_rounds = 0
-        return nb_rounds  
+        return nb_rounds
 
     def close_round_and_display(self, nb_rounds):
         """Séquence menu 4.2

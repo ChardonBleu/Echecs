@@ -90,7 +90,8 @@ python -m application
 Générer un rapport flake-8 html
 ---
 
-Se mettre dans le répertoire application
+Se mettre dans le répertoire application.
+
 Dans la console excécuter:
 ```bash 
 flake8 --format=html --htmldir=flake-report
@@ -102,6 +103,7 @@ Ressources utilisées
 
 Livres:
     Apprenez à programmer en Python - Vincent Le Goff - Eyrolles
+    
     Python crash courses - Eric Matthes - no starch press
 
 Ressources web:

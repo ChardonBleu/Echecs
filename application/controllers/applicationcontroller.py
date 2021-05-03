@@ -761,7 +761,7 @@ class PlayersManagerController:
         self.menu.add("auto", "Retour Menu principal", HomeMenuController)
 
         user_choice = self.view.get_user_choice()
-        return user_choice.handler(self.gamecontroller, self.nb_rounds )
+        return user_choice.handler(self.gamecontroller, self.nb_rounds)
 
 
 class UpdateRankingController:
